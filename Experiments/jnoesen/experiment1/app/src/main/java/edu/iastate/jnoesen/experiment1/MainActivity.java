@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
-        TextView textView = (TextView) findViewById(R.id.textView2);
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
+        TextView textView = findViewById(R.id.textView2);
+        RelativeLayout relativeLayout = findViewById(R.id.relativeLayout);
         //get widget objects
 
         toggleButton.setOnClickListener(v -> {
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
-                textView.setText("Tap to switch to light mode");
+                textView.setText("Tap to switch to dark mode");
             } else {
                 dark = true;
                 new Thread(() -> {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
-                textView.setText("Tap to switch to dark mode");
+                textView.setText("Tap to switch to light mode");
             }
         });
     }
