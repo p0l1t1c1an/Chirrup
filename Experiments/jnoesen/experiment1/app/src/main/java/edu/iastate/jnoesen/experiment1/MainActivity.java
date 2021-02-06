@@ -10,8 +10,16 @@ import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * current status of activity color
+     */
     private boolean dark;
 
+    /**
+     * initialize the main activity with its widgets and listener
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
         ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
         TextView textView = (TextView) findViewById(R.id.textView2);
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        //get widget objects
 
         toggleButton.setOnClickListener(v -> {
-
             if (dark) {
                 dark = false;
                 new Thread(() -> {
-                    for (int i = 1; i <= 255; i++) {
+                    for (int i = 1; i <= 255; i++) { //fade to light mode
                         if (!dark) {
                             int buttonBG = Math.max(Math.min((int) (i * 0.8), 205), 50);
                             toggleButton.setBackgroundColor(Color.rgb(buttonBG, buttonBG, buttonBG));
@@ -45,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 dark = true;
                 new Thread(() -> {
-                    for (int i = 255; i >= 1; i--) {
+                    for (int i = 255; i >= 1; i--) { //fade to dark mode
                         if (dark) {
                             int buttonBG = Math.min(Math.max((int) (i * 0.8), 50),205);
                             toggleButton.setBackgroundColor(Color.rgb(buttonBG, buttonBG, buttonBG));
