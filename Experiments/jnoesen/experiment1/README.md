@@ -1,0 +1,2 @@
+# experiment1: Light/Dark Toggle
+For my first experiment, which is also my first time making any sort of UI with android, I made a simple application with a toggle button that toggles the activity between a light and dark theme. Tapping the button will cause all elements on screen to fade to white or black smoothly.
