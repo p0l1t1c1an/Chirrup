@@ -1,4 +1,4 @@
-package coms309.serverspeople;
+package coms309.serverpeople;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

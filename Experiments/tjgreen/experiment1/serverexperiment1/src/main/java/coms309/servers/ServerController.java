@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import coms309.people.PeopleRepository;
-import coms309.serverspeople.ServerPeople;
+import coms309.serverpeople.ServerPeople;
 
 import java.util.List;
 import java.util.Optional;

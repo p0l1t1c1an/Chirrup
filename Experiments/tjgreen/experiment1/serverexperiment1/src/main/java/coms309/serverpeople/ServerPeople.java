@@ -1,4 +1,4 @@
-package coms309.serverspeople;
+package coms309.serverpeople;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
