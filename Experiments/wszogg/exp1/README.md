@@ -1,4 +1,4 @@
-****Experiment 1:
+****Experiment 1:****
 - Learned how to use Git
 - First time using Android Studio, so I took a while to look around the 
 interface and figure out how everything worked
