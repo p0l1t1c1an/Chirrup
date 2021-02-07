@@ -1,4 +1,4 @@
-package coms309.servers;
+package coms309.server;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

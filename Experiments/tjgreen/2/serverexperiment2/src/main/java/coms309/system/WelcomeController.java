@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Simple Hello World Controller to display the string returned
  *
- * @author Vivek Bengre
+ * @author Vivek Bengre, edits made by Tyler Green
  */
 
 @RestController
