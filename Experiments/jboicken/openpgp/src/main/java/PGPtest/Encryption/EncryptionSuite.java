@@ -1,7 +1,5 @@
 package PGPtest.Encryption;
 
-import java.util.Arrays;
-import java.util.Base64;
 
 import java.security.Key;
 import java.security.PublicKey;
@@ -21,24 +19,23 @@ import java.security.SecureRandom;
 
 
 /**
- * Some simple methods to for RSA and AES keys
+ * Some simple functions to for RSA and AES keys
  *
  * @author Jacob Boicken
  */
 
 
 public class EncryptionSuite {
-	
+
+	static final SecureRandom srand = new SecureRandom();
 
 	public static IvParameterSpec genIvSpec() {
-		SecureRandom srand = new SecureRandom();
 		byte[] ivspec = new byte[16];
 		srand.nextBytes(ivspec);	
 		return new IvParameterSpec(ivspec);
 	}
 
 	public static SecretKey genSecret(int len) throws Exception{
-		SecureRandom srand = new SecureRandom();
 		KeyGenerator keySecGen = KeyGenerator.getInstance("AES");
 		keySecGen.init(len, srand);
 		return keySecGen.generateKey();      
@@ -46,31 +43,36 @@ public class EncryptionSuite {
 
 	public static KeyPair genKeyPair(int len) throws Exception{
 		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
-		keyPairGen.initialize(len);
+		keyPairGen.initialize(len, srand);
 		return keyPairGen.generateKeyPair();      
 	}
 	
-	public static byte[] encrypt(Key k, IvParameterSpec iv, byte[] plaintext) throws Exception{
-		//Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding"); 
+	public static byte[] encryptAES(Key k, IvParameterSpec iv, byte[] plaintext) throws Exception{
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
-		//Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding"); 
 		cipher.init(Cipher.ENCRYPT_MODE, k, iv);
 	  
-		cipher.update(plaintext);
-		byte[] encryptedText = cipher.doFinal();	 
-		
-		return Base64.getEncoder().encode(encryptedText);
+		return cipher.doFinal(plaintext);
 	}
 
-	public static byte[] decrypt(Key k, IvParameterSpec iv, byte[] encryptedText) throws Exception{
-		//Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding"); 
+	public static byte[] decryptAES(Key k, IvParameterSpec iv, byte[] encryptedText) throws Exception{
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
-		//Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding"); 
 		cipher.init(Cipher.DECRYPT_MODE, k, iv);
 		
-		cipher.update(Base64.getDecoder().decode(encryptedText));
-		byte[] decryptedText = cipher.doFinal();	 
-		          	
-		return decryptedText;
+		return cipher.doFinal(encryptedText);
 	}
+
+	public static byte[] encryptRSA(PublicKey k, byte[] plaintext) throws Exception{
+		Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding "); 
+		cipher.init(Cipher.ENCRYPT_MODE, k);
+	  
+		return cipher.doFinal(plaintext);
+	}
+
+	public static byte[] decryptRSA(PrivateKey k, byte[] encryptedText) throws Exception{
+		Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding "); 
+		cipher.init(Cipher.DECRYPT_MODE, k);
+		
+		return cipher.doFinal(encryptedText);
+	}
+
 }

@@ -1,0 +1,10 @@
+*.iml
+.gradle
+/bin
+/build
+local.properties
+gradle.properties
+/.settings
+.classpath
+.project
+
