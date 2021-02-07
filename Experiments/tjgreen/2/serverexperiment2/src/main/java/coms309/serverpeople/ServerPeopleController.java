@@ -23,16 +23,24 @@ public class ServerPeopleController {
     ServerPeopleRepository serverPeopleRepository;
 
     // gets the server by the id specified in the request URL and returns the people within that server
-    @RequestMapping(method = RequestMethod.GET, path = "/server/{serverID}/people")
-    public Optional<ServerPeople> findServerMembers(@PathVariable("serverID") int serverId) {
+    @RequestMapping(method = RequestMethod.GET, path = "/servers/{serverID}/people")
+    public List<ServerPeople> findServerMembers(@PathVariable("serverID") int serverId) {
 
         List<ServerPeople> found = serverPeopleRepository.findByServerId(serverId);
-        return null;
+        return found;
     }
 
-    // gets a JSON request parses it into a person object and enters it into the database
+    // gets all the serverpeople in the database and returns it in the form of a JSON
+    @RequestMapping(method = RequestMethod.GET, path = "/serverpeople")
+    public List<ServerPeople> getAllPerson() {
+        
+        List<ServerPeople> results = serverPeopleRepository.findAll();
+        return results;
+    }
+
+    // gets a JSON request parses it into a serverperson object and enters it into the database
     @RequestMapping(method = RequestMethod.POST, path = "/servers/add")
-    public String addMemberToServer(ServerPeople serverPeople) {
+    public String saveserverperson(ServerPeople serverPeople) {
         serverPeopleRepository.save(serverPeople);
         return "New person added. ID = " + serverPeople.getPersonId();
     }
