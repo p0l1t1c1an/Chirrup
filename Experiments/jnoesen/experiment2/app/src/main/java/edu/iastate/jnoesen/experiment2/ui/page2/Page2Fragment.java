@@ -12,6 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
 import edu.iastate.jnoesen.experiment2.R;
 
 public class Page2Fragment extends Fragment {
@@ -19,6 +23,18 @@ public class Page2Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_page2, container, false);
+        final TextView textView = root.findViewById(R.id.text_p2);
+
+        new Thread(() -> {
+            while(this.isVisible()) {
+                textView.setText(Calendar.getInstance().getTime().toString());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
         return root;
     }
