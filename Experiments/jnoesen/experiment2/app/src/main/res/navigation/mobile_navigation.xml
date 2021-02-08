@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_p1">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="edu.iastate.jnoesen.experiment2.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_p1"
+        android:name="edu.iastate.jnoesen.experiment2.ui.page1.Page1Fragment"
+        android:label="Page 1"
+        tools:layout="@layout/fragment_page1" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="edu.iastate.jnoesen.experiment2.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_p2"
+        android:name="edu.iastate.jnoesen.experiment2.ui.page2.Page2Fragment"
+        android:label="Page 2"
+        tools:layout="@layout/fragment_page2" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="edu.iastate.jnoesen.experiment2.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_p3"
+        android:name="edu.iastate.jnoesen.experiment2.ui.page3.Page3Fragment"
+        android:label="Page 3"
+        tools:layout="@layout/fragment_page3" />
 </navigation>

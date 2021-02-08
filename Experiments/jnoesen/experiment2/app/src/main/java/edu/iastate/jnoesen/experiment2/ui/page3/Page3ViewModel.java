@@ -1,16 +1,16 @@
-package edu.iastate.jnoesen.experiment2.ui.home;
+package edu.iastate.jnoesen.experiment2.ui.page3;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class Page3ViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public Page3ViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is the third page of this 👀");
     }
 
     public LiveData<String> getText() {

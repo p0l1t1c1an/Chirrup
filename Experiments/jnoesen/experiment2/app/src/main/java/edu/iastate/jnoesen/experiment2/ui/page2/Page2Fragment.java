@@ -1,4 +1,4 @@
-package edu.iastate.jnoesen.experiment2.ui.gallery;
+package edu.iastate.jnoesen.experiment2.ui.page2;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import edu.iastate.jnoesen.experiment2.R;
 
-public class GalleryFragment extends Fragment {
+public class Page2Fragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private Page2ViewModel page2ViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        page2ViewModel =
+                new ViewModelProvider(this).get(Page2ViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_page2, container, false);
+        final TextView textView = root.findViewById(R.id.text_p2);
+        page2ViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

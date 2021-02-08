@@ -1,4 +1,4 @@
-package edu.iastate.jnoesen.experiment2.ui.slideshow;
+package edu.iastate.jnoesen.experiment2.ui.page1;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import edu.iastate.jnoesen.experiment2.R;
 
-public class SlideshowFragment extends Fragment {
+public class Page1Fragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private Page1ViewModel page1ViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        page1ViewModel =
+                new ViewModelProvider(this).get(Page1ViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_page1, container, false);
+        final TextView textView = root.findViewById(R.id.text_p1);
+        page1ViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
