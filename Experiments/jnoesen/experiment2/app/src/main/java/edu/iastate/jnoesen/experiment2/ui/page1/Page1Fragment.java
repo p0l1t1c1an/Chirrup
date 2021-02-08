@@ -16,20 +16,11 @@ import edu.iastate.jnoesen.experiment2.R;
 
 public class Page1Fragment extends Fragment {
 
-    private Page1ViewModel page1ViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        page1ViewModel =
-                new ViewModelProvider(this).get(Page1ViewModel.class);
         View root = inflater.inflate(R.layout.fragment_page1, container, false);
         final TextView textView = root.findViewById(R.id.text_p1);
-        page1ViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 }

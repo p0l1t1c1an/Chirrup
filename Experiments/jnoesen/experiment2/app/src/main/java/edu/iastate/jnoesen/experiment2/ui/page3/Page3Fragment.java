@@ -17,16 +17,12 @@ import edu.iastate.jnoesen.experiment2.R;
 
 public class Page3Fragment extends Fragment {
 
-    private Page3ViewModel page3ViewModel;
-
     private int count = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        page3ViewModel = new ViewModelProvider(this).get(Page3ViewModel.class);
         View root = inflater.inflate(R.layout.fragment_page3, container, false);
         TextView text = root.findViewById(R.id.text_p3);
-        page3ViewModel.getText().observe(getViewLifecycleOwner(), s -> text.setText(s));
         Button button = root.findViewById(R.id.button);
         float textSize = text.getTextSize();
         button.setOnClickListener((v) -> {
