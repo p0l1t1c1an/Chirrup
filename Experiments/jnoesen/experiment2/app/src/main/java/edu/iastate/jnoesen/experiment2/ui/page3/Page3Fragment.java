@@ -15,10 +15,26 @@ import androidx.lifecycle.ViewModelProvider;
 
 import edu.iastate.jnoesen.experiment2.R;
 
+/**
+ * fragment for the third page, has a counter on it
+ *
+ * @author Jeremy Noesen
+ */
 public class Page3Fragment extends Fragment {
 
+    /**
+     * current value on the counter
+     */
     private int count = 0;
 
+    /**
+     * add counter to the page when it is created
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view with counter
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_page3, container, false);
@@ -27,6 +43,7 @@ public class Page3Fragment extends Fragment {
         float textSize = text.getTextSize();
         button.setOnClickListener((v) -> {
             count++;
+            if (count >= 100) count = 1;
             text.setText(Integer.toString(count));
             text.setTextSize(textSize + count);
 

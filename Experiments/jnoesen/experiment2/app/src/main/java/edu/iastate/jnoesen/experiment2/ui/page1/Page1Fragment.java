@@ -14,13 +14,23 @@ import androidx.lifecycle.ViewModelProvider;
 
 import edu.iastate.jnoesen.experiment2.R;
 
+/**
+ * fragment for the first page, just a text box
+ *
+ * @author Jeremy Noesen
+ */
 public class Page1Fragment extends Fragment {
 
+    /**
+     * inflate the layout into a view on view creation
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return inflated view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_page1, container, false);
-        final TextView textView = root.findViewById(R.id.text_p1);
-
-        return root;
+        return inflater.inflate(R.layout.fragment_page1, container, false);
     }
 }
