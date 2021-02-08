@@ -1,4 +1,4 @@
-package coms309.system;
+package passwordtest.system;
 
 
 import org.springframework.web.bind.annotation.GetMapping;

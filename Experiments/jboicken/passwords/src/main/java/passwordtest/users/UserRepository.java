@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 /**
  * This provides the interface for Create, Read, Update and Delete of the Person class(people table)
  *
- * @author Vivek Bengre, change for Users by Jacob Boicken
+ * @author Vivek Bengre, change for User Class by Jacob Boicken
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {

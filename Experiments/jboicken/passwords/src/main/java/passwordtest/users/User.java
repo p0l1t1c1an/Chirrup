@@ -11,10 +11,12 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 
+import passwordtest.password.PasswordUtil;
+
 /**
- * Provides the Definition/Structure for the people table
+ * Provides the Definition/Structure for the users table
  *
- * @author Vivek Bengre, edited further by Tyler Green
+ * @author Jacob Boicken, modified version Vivek Bengre's person class
  */
 
 @Entity
@@ -35,20 +37,21 @@ public class User {
     @Column(name = "hash")
     @NotFound(action = NotFoundAction.IGNORE)
     private byte[] hash;
+    
 
-    @Column(name = "salt")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private byte[] salt;
-
-    public Person(){
+	public User(){
         
     }
 
-    public Person(int id, String accName, byte[] hash, byte[] salt){
+	public User(int id, String accName){
+		this.id = id;
+		this.accName = accName;
+	}
+
+    public User(int id, String accName, byte[] hash){
         this.id = id;
         this.accName = accName;
         this.hash = hash.clone();
-        this.salt = salt.clone();
     }
 
     public Integer getId() {
@@ -75,12 +78,8 @@ public class User {
         return this.hash.clone();
     }
 
-    public byte[] getSalt() {
-        return this.salt.clone();
-    }
-
-	public void changePasswd(String passwd){
-
+	public void changePasswd(String passwd) throws Exception{
+		this.hash = PasswordUtil.hash(passwd);
 	}
 
     @Override
@@ -89,9 +88,8 @@ public class User {
 
                 .append("id", this.getId())
                 .append("new", this.isNew())
-                .append("lastName", this.getAccName())
-                .append("firstName", this.getHash())
-                .append("address", this.getSalt())
+                .append("accName", this.getAccName())
+                .append("hash", this.getHash())
                 .toString();
     }
 }

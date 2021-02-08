@@ -1,4 +1,4 @@
-package coms309.system;
+package passwordtest.system;
 
 /**
  * Controller used to showcase what happens when an exception is thrown
