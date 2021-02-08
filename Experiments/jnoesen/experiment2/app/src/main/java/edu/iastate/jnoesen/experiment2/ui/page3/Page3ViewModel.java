@@ -10,7 +10,7 @@ public class Page3ViewModel extends ViewModel {
 
     public Page3ViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is the third page of this 👀");
+        mText.setValue("This is the third page, hit the button 👀");
     }
 
     public LiveData<String> getText() {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,17 +19,21 @@ public class Page3Fragment extends Fragment {
 
     private Page3ViewModel page3ViewModel;
 
+    private int count = 0;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        page3ViewModel =
-                new ViewModelProvider(this).get(Page3ViewModel.class);
+        page3ViewModel = new ViewModelProvider(this).get(Page3ViewModel.class);
         View root = inflater.inflate(R.layout.fragment_page3, container, false);
-        final TextView textView = root.findViewById(R.id.text_p3);
-        page3ViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
+        TextView text = root.findViewById(R.id.text_p3);
+        page3ViewModel.getText().observe(getViewLifecycleOwner(), s -> text.setText(s));
+        Button button = root.findViewById(R.id.button);
+        float textSize = text.getTextSize();
+        button.setOnClickListener((v) -> {
+            count++;
+            text.setText(Integer.toString(count));
+            text.setTextSize(textSize + count);
+
         });
         return root;
     }
