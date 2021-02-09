@@ -8,6 +8,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+/**
+ * Main and only activity in the app. The app opens to this page. There is just a button that will
+ * change colors of things on screen and change some text boxes.
+ *
+ * @author Jeremy Noesen
+ */
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -55,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 new Thread(() -> {
                     for (int i = 255; i >= 1; i--) { //fade to dark mode
                         if (dark) {
-                            int buttonBG = Math.min(Math.max((int) (i * 0.8), 50),205);
+                            int buttonBG = Math.min(Math.max((int) (i * 0.8), 50), 205);
                             toggleButton.setBackgroundColor(Color.rgb(buttonBG, buttonBG, buttonBG));
                             relativeLayout.setBackgroundColor(Color.rgb(i, i, i));
                             toggleButton.setTextColor(Color.rgb(255 - i, 255 - i, 255 - i));
