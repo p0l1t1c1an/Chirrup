@@ -43,6 +43,7 @@ public class ScrollingActivity extends AppCompatActivity {
     private void addMessage() {
         TextView textView = new TextView(this);
         textView.setText("This is a new message " + count + "\n");
+        textView.setPadding(32, 0, 32, 0);
 
         LinearLayout linearLayout = findViewById(R.id.linear_layout);
         linearLayout.addView(textView);
