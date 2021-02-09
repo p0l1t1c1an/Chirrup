@@ -2,18 +2,15 @@ package edu.iastate.jnoesen.experiment3;
 
 import android.os.Bundle;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class ScrollingActivity extends AppCompatActivity {
+
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +19,21 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+        for(int i = 0; i < 100; i++) {
+            addMessage();
+        }
+    }
+
+    /**
+     * add a new message to the scrolling layout
+     */
+    private void addMessage() {
+        TextView textView = new TextView(this);
+        textView.setText("This is a new message " + count + "\n");
+
+        LinearLayout linearLayout = findViewById(R.id.linear_layout);
+        linearLayout.addView(textView);
+
+        count++;
     }
 }
