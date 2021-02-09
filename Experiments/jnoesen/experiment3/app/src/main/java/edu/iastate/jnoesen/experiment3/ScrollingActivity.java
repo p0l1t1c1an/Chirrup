@@ -8,10 +8,23 @@ import androidx.appcompat.widget.Toolbar;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * Scrolling activity, for like a message app
+ *
+ * @author Jeremy Noesen
+ */
 public class ScrollingActivity extends AppCompatActivity {
 
+    /**
+     * number of messages created
+     */
     private int count;
 
+    /**
+     * initialize the scrolling layout, populating it with 100 messages
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
