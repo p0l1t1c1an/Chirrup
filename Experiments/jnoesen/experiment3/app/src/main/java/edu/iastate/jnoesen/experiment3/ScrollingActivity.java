@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -22,11 +22,6 @@ import java.util.Calendar;
 public class ScrollingActivity extends AppCompatActivity {
 
     /**
-     * number of messages created
-     */
-    private int count;
-
-    /**
      * initialize the scrolling layout, populating it with 100 messages
      *
      * @param savedInstanceState
@@ -37,8 +32,7 @@ public class ScrollingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = findViewById(R.id.toolbar_layout);
-        toolBarLayout.setTitle(getTitle());
+        toolbar.setTitle(getTitle());
         findViewById(R.id.send).setOnClickListener((v) -> {
             TextInputEditText textInput = findViewById(R.id.message_box);
             if (!textInput.getText().toString().equals("")) {
@@ -56,7 +50,7 @@ public class ScrollingActivity extends AppCompatActivity {
     private void addMessage(String message) {
         TextView header = new TextView(this);
         header.setText("You at " + Calendar.getInstance().getTime().getHours() + ":" +
-                        Calendar.getInstance().getTime().getMinutes());
+                Calendar.getInstance().getTime().getMinutes());
         header.setPadding(32, 32, 32, 0);
         header.setTextColor(Color.GRAY);
         header.setTextSize(12);
@@ -70,7 +64,9 @@ public class ScrollingActivity extends AppCompatActivity {
         LinearLayout linearLayout = findViewById(R.id.linear_layout);
         linearLayout.addView(header);
         linearLayout.addView(text);
-
-        count++;
+        NestedScrollView nestedScrollView = (NestedScrollView) linearLayout.getParent();
+        nestedScrollView.postDelayed(() -> {
+            nestedScrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
+        }, 100L);
     }
 }

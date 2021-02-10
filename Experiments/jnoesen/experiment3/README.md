@@ -5,4 +5,5 @@ For my third experiment, I made a quick app that generates messages that get put
 - How to add text views to a layout within the Java code
 - How to manage scrolling and vertical layouts
 - How to use a text input box
+- How to auto scroll a view
 - How to essentially make a simple messaging interface
