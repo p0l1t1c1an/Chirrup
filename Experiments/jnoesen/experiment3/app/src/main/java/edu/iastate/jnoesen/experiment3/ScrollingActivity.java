@@ -5,8 +5,14 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Calendar;
 
 /**
  * Scrolling activity, for like a message app
@@ -29,20 +35,29 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-        for(int i = 0; i < 100; i++) {
-            addMessage();
-        }
+        findViewById(R.id.send).setOnClickListener((v) -> {
+            TextInputEditText textInput = findViewById(R.id.message_box);
+            if (!textInput.getText().toString().equals("")) {
+                addMessage(textInput.getText().toString());
+                textInput.getText().clear();
+            }
+        });
     }
 
     /**
      * add a new message to the scrolling layout
+     *
+     * @param message message to add
      */
-    private void addMessage() {
+    private void addMessage(String message) {
         TextView textView = new TextView(this);
-        textView.setText("This is a new message " + count + "\n");
+        textView.setText("You wrote:\n" +
+                message + "\n" +
+                Calendar.getInstance().getTime().getHours() + ":" +
+                Calendar.getInstance().getTime().getMinutes() + "\n");
         textView.setPadding(32, 0, 32, 0);
 
         LinearLayout linearLayout = findViewById(R.id.linear_layout);

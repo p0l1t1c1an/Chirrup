@@ -35,4 +35,27 @@
 
     <include layout="@layout/content_scrolling" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/message_box"
+        android:layout_width="283dp"
+        android:layout_height="48dp"
+        android:background="#FFFFFF"
+        android:hint="Type your message..."
+        android:translationX="8dp"
+        android:translationY="690dp" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:translationX="300dp"
+        android:translationY="690dp" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
