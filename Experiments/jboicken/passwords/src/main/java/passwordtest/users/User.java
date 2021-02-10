@@ -47,6 +47,12 @@ public class User {
 		this.id = id;
 		this.accName = accName;
 	}
+	
+	public User(int id, String accName, String passwd) throws Exception{
+        this.id = id;
+        this.accName = accName;
+        this.hash = PasswordUtil.hash(passwd);
+    }
 
     public User(int id, String accName, byte[] hash){
         this.id = id;
