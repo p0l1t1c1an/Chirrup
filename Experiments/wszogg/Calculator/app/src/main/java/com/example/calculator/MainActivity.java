@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,131 +16,141 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    protected void ZeroButPress(View view) {
+    public void ZeroButPress(View view) {
+        updateDisplay("0");
+    }
+
+    public void OneButPress(View view) {
+        updateDisplay("1");
+    }
+
+    public void TwoButPress(View view) {
+        updateDisplay("2");
+    }
+
+    public void ThreeButPress(View view) {
+        updateDisplay("3");
+    }
+
+    public void FourButPress(View view) {
+        updateDisplay("4");
+    }
+
+    public void FiveButPress(View view) {
+        updateDisplay("5");
+    }
+
+    public void SixButPress(View view) {
+        updateDisplay("6");
+    }
+
+    public void SevenButPress(View view) {
+        updateDisplay("7");
+    }
+
+    public void EightButPress(View view) {
+        updateDisplay("8");
+    }
+
+    public void NineButPress(View view) {
+        updateDisplay("9");
+    }
+
+    public void DecButPress(View view) {
+        updateDisplay(".");
+    }
+
+    public void EnterButPress(View view) {
 
     }
 
-    protected void OneButPress(View view) {
-
+    public void ClearButPress(View view) {
+        StringVals.displayMessage = "";
+        updateDisplay("");
     }
 
-    protected void TwoButPress(View view) {
-
+    public void ModButPress(View view) {
+        updateDisplay("%");
     }
 
-    protected void ThreeButPress(View view) {
-
+    public void AddButPress(View view) {
+        updateDisplay("+");
     }
 
-    protected void FourButPress(View view) {
-
+    public void SubButPress(View view) {
+        updateDisplay("-");
     }
 
-    protected void FiveButPress(View view) {
-
+    public void DivButPress(View view) {
+        updateDisplay("/");
     }
 
-    protected void SixButPress(View view) {
-
+    public void MultButPress(View view) {
+        updateDisplay("x");
     }
 
-    protected void SevenButPress(View view) {
-
+    public void ExpButPress(View view) {
+        updateDisplay("^");
     }
 
-    protected void EightButPress(View view) {
-
+    public void BackButPress(View view) {
+        if (StringVals.displayMessage.length() != 0) {
+            StringVals.displayMessage = StringVals.displayMessage.subSequence(0, StringVals.displayMessage.length() - 1).toString();
+        }
+        updateDisplay("");
     }
 
-    protected void NineButPress(View view) {
-
+    public void eButPress(View view) {
+        updateDisplay("e");
     }
 
-    protected void DecButPress(View view) {
-
+    public void LnButPress(View view) {
+        updateDisplay("ln");
     }
 
-    protected void EnterButPress(View view) {
-
+    public void LeftParButPress(View view) {
+        updateDisplay("(");
     }
 
-    protected void ClearButPress(View view) {
-
+    public void RightParButPress(View view) {
+        updateDisplay(")");
     }
 
-    protected void ModButPress(View view) {
-
+    public void LogButPress(View view) {
+        updateDisplay("log");
     }
 
-    protected void AddButPress(View view) {
-
+    public void InverseButPress(View view) {
+        updateDisplay("^(-1)");
     }
 
-    protected void SubButPress(View view) {
-
+    public void CosButPress(View view) {
+        updateDisplay("cos");
     }
 
-    protected void DivButPress(View view) {
-
+    public void SinButPress(View view) {
+        updateDisplay("sin");
     }
 
-    protected void MultButPress(View view) {
-
+    public void TanButPress(View view) {
+        updateDisplay("tan");
     }
 
-    protected void ExpButPress(View view) {
-
+    public void ArcCosButPress(View view) {
+        updateDisplay("acos");
     }
 
-    protected void BackButPress(View view) {
-
+    public void ArcSinButPress(View view) {
+        updateDisplay("asin");
     }
 
-    protected void eButPress(View view) {
-
+    public void ArcTanButPress(View view) {
+        updateDisplay("atan");
     }
 
-    protected void LnButPress(View view) {
-
-    }
-
-    protected void LeftParButPress(View view) {
-
-    }
-
-    protected void RightParButPress(View view) {
-
-    }
-
-    protected void LogButPress(View view) {
-
-    }
-
-    protected void InverseButPress(View view) {
-
-    }
-
-    protected void CosButPress(View view) {
-
-    }
-
-    protected void ZeroButPress(View view) {
-
-    }
-
-    protected void ZeroButPress(View view) {
-
-    }
-
-    protected void ZeroButPress(View view) {
-
-    }
-
-    protected void ZeroButPress(View view) {
-
-    }
-
-    protected void ZeroButPress(View view) {
-
+    protected void updateDisplay(String toAdd) {
+        TextView display = (TextView) findViewById(R.id.ResultDisplay);
+        StringVals.displayMessage += toAdd;
+        display.setText(StringVals.displayMessage);
     }
 }
