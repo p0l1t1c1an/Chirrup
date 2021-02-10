@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/ArcSinBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:text="Sin-1"
+        android:textSize="10dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tanBut"
+        app:layout_constraintEnd_toStartOf="@+id/cosBut" />
+
+    <Button
+        android:id="@+id/InverseBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="^-1"
+        android:textSize="20dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/lnBut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ArcCosBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="Cos-1"
+        android:textSize="10dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/sinBut"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/ArcTanBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="15dp"
+        android:text="Tan-1"
+        android:textSize="10dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/logBut"
+        app:layout_constraintEnd_toStartOf="@+id/ExponentialBut"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/DivideBut" />
+
+    <Button
+        android:id="@+id/tanBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:text="Tan"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/eBut"
+        app:layout_constraintEnd_toStartOf="@+id/cosBut" />
+
+    <Button
+        android:id="@+id/sinBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="Sin"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/cosBut"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/lnBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="Ln"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/LeftParenBut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/logBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="15dp"
+        android:text="Log"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/RightParenBut"
+        app:layout_constraintEnd_toStartOf="@+id/ExponentialBut"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/DivideBut" />
+
+    <Button
+        android:id="@+id/eBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:text="e"
+        android:textSize="20dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/ExponentialBut"
+        app:layout_constraintEnd_toStartOf="@+id/cosBut" />
+
+    <Button
+        android:id="@+id/cosBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="Cos"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/BackBut"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/RightParenBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="15dp"
+        android:text=")"
+        android:textSize="20dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/MultiplyBut"
+        app:layout_constraintEnd_toStartOf="@+id/ExponentialBut"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/DivideBut" />
+
+    <Button
+        android:id="@+id/LeftParenBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="("
+        android:textSize="20dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/DivideBut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ExponentialBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:text="^"
+        android:textSize="25dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/ModBut"
+        app:layout_constraintEnd_toStartOf="@+id/BackBut" />
+
+    <Button
+        android:id="@+id/DivideBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="/"
+        android:textSize="25dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/SubBut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/BackBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="Back"
+        android:textSize="10dp"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/ClearBut"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/MultiplyBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="15dp"
+        android:text="X"
+        android:textSize="20dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/AddBut"
+        app:layout_constraintEnd_toStartOf="@+id/ExponentialBut"
+        app:layout_constraintStart_toEndOf="@+id/DivideBut" />
+
+    <Button
+        android:id="@+id/ModBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:text="%"
+        android:textSize="25dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/NineBut"
+        app:layout_constraintEnd_toStartOf="@+id/ClearBut" />
+
+    <Button
+        android:id="@+id/EnterBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="Enter"
+        android:textSize="10dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/DecBut"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/AddBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="15dp"
+        android:text="+"
+        android:textSize="25dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/EightBut"
+        app:layout_constraintEnd_toStartOf="@+id/ModBut"
+        app:layout_constraintStart_toEndOf="@+id/SubBut" />
+
+    <Button
+        android:id="@+id/SevenBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="7"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/FourBut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/SubBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="-"
+        android:textSize="25dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/SevenBut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/NineBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:text="9"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/SixBut"
+        app:layout_constraintEnd_toStartOf="@+id/EnterBut" />
+
+    <Button
+        android:id="@+id/ClearBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="Clear"
+        android:textSize="10dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/EnterBut"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/EightBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="15dp"
+        android:text="8"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/FiveBut"
+        app:layout_constraintEnd_toStartOf="@+id/NineBut"
+        app:layout_constraintStart_toEndOf="@+id/SevenBut" />
+
+    <Button
+        android:id="@+id/FiveBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="15dp"
+        android:text="5"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/TwoBut"
+        app:layout_constraintEnd_toStartOf="@+id/ThreeBut"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/OneBut" />
+
+    <Button
+        android:id="@+id/DecBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="."
+        android:textSize="24dp"
+        android:backgroundTint="@color/EnterRed"
+        app:layout_constraintBottom_toTopOf="@+id/ZeroBut"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/FourBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="15dp"
+        android:text="4"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/OneBut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/SixBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="15dp"
+        android:text="6"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/ThreeBut"
+        app:layout_constraintEnd_toStartOf="@+id/DecBut" />
+
+    <TextView
+        android:id="@+id/ResultDisplay"
+        android:layout_width="321dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="702dp"
+        android:text="0"
+        android:textStyle="bold"
+        android:textSize="20pt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/OneBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="90dp"
+        android:text="1"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ZeroBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="90dp"
+        android:text="0"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/TwoBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="90dp"
+        android:text="2"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ThreeBut"
+        app:layout_constraintStart_toEndOf="@+id/OneBut" />
+
+    <Button
+        android:id="@+id/ThreeBut"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="90dp"
+        android:text="3"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ZeroBut" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="321dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="36dp"
+        android:text="_______________________________________________________"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ResultDisplay" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
