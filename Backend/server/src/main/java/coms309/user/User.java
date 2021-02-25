@@ -1,57 +1,44 @@
 package coms309.user;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 
-import javax.persistence.Column;
+import coms309.profile.Profile;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@Table(name = "user")
 public class User {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    @NotFound(action = NotFoundAction.IGNORE)
+    @GeneratedValue
     private int id;
 
-    @Column(name = "email")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String email;
 
-    @Column(name = "password")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String password;
 
-    @Column(name = "username")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String username;
 
-    @Column(name = "firstname")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String firstname;
 
-    @Column(name = "lastname")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String lastname;
 
-    @Column(name = "role")
-    @NotFound(action = NotFoundAction.IGNORE)
     private int role;
 
-    @Column(name = "telephone")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String telephone;
 
-    @Column(name = "birthday")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String birthday;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Profile profile;
 
     public User(){
         
@@ -67,9 +54,10 @@ public class User {
         this.role = user.role;
         this.telephone = user.telephone;
         this.birthday = user.birthday;
+        this.profile = user.profile;
     }
 
-    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone,String birthday){
+    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Profile profile) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -79,6 +67,7 @@ public class User {
         this.role = role;
         this.telephone = telephone;
         this.birthday = birthday;
+        this.profile = profile;
     }
 
     //id
@@ -136,11 +125,11 @@ public class User {
     }
 
     //role
-    public Integer getRole() {
-        return role;
+    public int getRole() {
+        return this.role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(int role) {
         this.role = role;
     }
 
@@ -160,6 +149,15 @@ public class User {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    //profile
+    // public int getProfile() {
+    //     return this.profile.getId();
+    // }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     @Override

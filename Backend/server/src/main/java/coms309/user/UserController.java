@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import coms309.profile.Profile;
+
 //creating RestController  
 @RequestMapping("/api")
 @RestController
@@ -36,6 +38,7 @@ public class UserController {
     // creating post mapping that post the student detail in the database
     @PostMapping("/user")
     private int saveUser(@RequestBody User user) {
+        user.setProfile(new Profile(user));
         userService.saveOrUpdate(user);
         return user.getId();
     }
