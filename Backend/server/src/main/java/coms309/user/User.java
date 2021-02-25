@@ -1,4 +1,4 @@
-package sr_2.chirrup.server.user;
+package coms309.user;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;

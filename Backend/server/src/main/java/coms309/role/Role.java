@@ -1,4 +1,4 @@
-package sr_2.chirrup.server.role;
+package coms309.role;
 
 import org.springframework.core.style.ToStringCreator;
 
