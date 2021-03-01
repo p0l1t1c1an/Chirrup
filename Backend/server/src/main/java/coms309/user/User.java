@@ -4,12 +4,17 @@ import org.springframework.core.style.ToStringCreator;
 
 import coms309.profile.Profile;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -39,6 +44,12 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Profile profile;
+
+    @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL)
+    private Set<User> followers = new HashSet<User>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<User> following = new HashSet<User>();
 
     public User(){
         
@@ -160,6 +171,10 @@ public class User {
         this.profile = profile;
     }
 
+	public void addFollowing(User follow) {
+        this.following.add(follow);
+	}
+
     @Override
     public String toString() {
         return new ToStringCreator(this)
@@ -174,4 +189,6 @@ public class User {
                 .append("birthday", this.getBirthday())
                 .toString();
     }
+
+
 }

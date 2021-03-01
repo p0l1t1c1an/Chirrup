@@ -42,4 +42,14 @@ public class UserController {
         userService.saveOrUpdate(user);
         return user.getId();
     }
+
+    // creating post mapping that follows a user
+    @PostMapping("/user/{id}/followers/{following}")
+    private int followUser(@PathVariable("id") int id, @PathVariable("following") int follow) {
+        User follower = userService.getUserById(id);
+        User following = userService.getUserById(follow);
+        follower.addFollowing(following);
+        userService.saveOrUpdate(follower);
+        return following.getId();
+    }
 }
