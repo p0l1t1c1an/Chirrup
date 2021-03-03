@@ -22,7 +22,7 @@ public class ProfileFragment extends Fragment {
      * @return profile page view
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.activity_profile, container, false);
+        View root =  inflater.inflate(R.layout.fragment_profile, container, false);
 
         //stuff here
 

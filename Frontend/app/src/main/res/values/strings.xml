@@ -6,6 +6,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="button_followers">Followers</string>
+    <string name="button_following">Following</string>
 
     <string name="menu_profile">Profile</string>
 </resources>
