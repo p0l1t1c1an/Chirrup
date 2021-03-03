@@ -6,68 +6,57 @@ import role.Role;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.Table;
+//import javax.persistence.Table;
 import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
 
 
 /**
-* This is a standard settings class that is used
-* to config appearance and notification settings. 
+* This is a child settings class that is used
+* to config a permissions and limits of the acc. 
 *
 * @author  Jacob Boicken
 */
 
 
-@Inheritance
 @Entity
-@Table(name = "settings")
-public class ChildSettings extends Settings {
+//@Table(name = "settings")
+public class ChildSettings extends StandardSettings {
 
-    @Column(name = "locked")
-    @NotFound(action = NotFoundAction.IGNORE)
     private boolean locked;
-
-    @Column(name = "timeLimit")
-    @NotFound(action = NotFoundAction.IGNORE)
     private int timeLimit;
 
     @OneToMany
-    private List<User> parents;
-
-    @OneToMany
-    private List<Role> roleWhitelist;
+    private List<Role> roleWhitelist = new ArrayList<Role>();
 
     public ChildSettings(){
         super();
-        parents = new ArrayList<User>();
-        roleWhitelist = new ArrayList<Role>();
     }
 
-    public ChildSettings(int i, boolean l, int t){
-        this.setId(i);
+    public ChildSettings(ChildSettings c){
+       super(c);
+       locked = c.locked;
+       timeLimit = c.timeLimit;
+    }
+
+    public ChildSettings(User u){
+        super(u);
+        locked = false;
+        timeLimit = -1;
+    }
+
+    public ChildSettings(User u, boolean l, int t){
+        super(u);
         locked = l;
         timeLimit = t;
-        parents = new ArrayList<User>();
-        roleWhitelist = new ArrayList<Role>();
     }
 
-    public ChildSettings(int i, boolean d, int u, int text, boolean l, int time){
-        super(i, d, u, text);
+    public ChildSettings(User user, boolean d, int up, int text, boolean l, int time){
+        super(user, d, up, text);
         locked = l;
         timeLimit = time;
-        parents = new ArrayList<User>();
-        roleWhitelist = new ArrayList<Role>();
     }
 
 
@@ -88,20 +77,7 @@ public class ChildSettings extends Settings {
     public void setTimeLimit(Integer t) {
         timeLimit = t;
     } 
-
-    
-    public List<User> getParents() {
-        return parents;
-    }
-
-    public void setParents(List<User> p) {
-        parents = p;
-    }
-
-    public void addParent(User p){
-        parents.add(p);
-    }
-
+ 
     public List<Role> getWhitelist() {
         return roleWhitelist;
     }
@@ -121,6 +97,8 @@ public class ChildSettings extends Settings {
                 .append("darkMode", this.getDarkMode())
                 .append("updateTime", this.getUpdateTime())
                 .append("textSize", this.getTextSize())
+                .append("locked", this.getLocked())
+                .append("timeLimit", this.getTimeLimit())
                 .toString();
     }
 }

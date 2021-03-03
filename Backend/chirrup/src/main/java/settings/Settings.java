@@ -1,15 +1,18 @@
 package settings;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import user.User;
+
 import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+
 
 /**
 * This is a standard settings class that is used
@@ -18,38 +21,32 @@ import javax.persistence.Table;
 * @author  Jacob Boicken
 */
 
-
+@Inheritance
 @Entity
 @Table(name = "settings")
-public class Settings {
+public abstract class Settings {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    @NotFound(action = NotFoundAction.IGNORE)
+    @Column(name = "user_id")
     private int id;
 
-    @Column(name = "darkMode")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private boolean darkMode;
-
-    @Column(name = "updateTime")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private int updateTime;
-
-    @Column(name = "textSize")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private int textSize;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Settings(){
         
     }
 
-    public Settings(int i, boolean d, int u, int t){
-        id = i;
-        darkMode = d;
-        updateTime = u;
-        textSize = t;
+    public Settings(Settings s){
+        id = s.id;
+        user = s.user;
+    }
+
+    public Settings(User u){
+        id = u.getId();
+        user = u;
     }
 
     //id
@@ -57,44 +54,21 @@ public class Settings {
         return id;
     }
 
+    /*
     public void setId(Integer id) {
         this.id = id;
     }
+    */
 
-    //Dark Mode
-    public Boolean getDarkMode() {
-        return darkMode;
+    public void setUser(User u){
+        id = u.getId();
+        user = u;
     }
 
-    public void setDarkMode(Boolean d) {
-        darkMode = d;
-    }
-
-    //Update Time
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer u) {
-        updateTime = u;
-    } 
-
-    //Text Size
-    public Integer getTextSize() {
-        return textSize;
-    }
-
-    public void setTextSize(Integer t) {
-        textSize = t;
-    }
-    
     @Override
     public String toString() {
         return new ToStringCreator(this)
                 .append("id", this.getId())
-                .append("darkMode", this.getDarkMode())
-                .append("updateTime", this.getUpdateTime())
-                .append("textSize", this.getTextSize())
                 .toString();
     }
 }
