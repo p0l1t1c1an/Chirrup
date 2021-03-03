@@ -13,20 +13,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        try {
-            JSONObject obj = new JSONObject();
-            obj.put("username", "William");
-            obj.put("email", )
-            sendRequest(obj);
-        } catch (JSONException e) {
-
-        }
-
     }
 
-    void sendRequest(JSONObject obj) {
-        RequestQueue
+    void sendPerson(JSONObject obj) throws JSONException {
+        obj.put("username", currentUserData.currUser.getUserName());
+        obj.put("firstname", currentUserData.currUser.getFirstName());
+        obj.put("lastname", currentUserData.currUser.getLastName());
+        obj.put("bio", currentUserData.currUser.getBio());
+
+        RequestQueue queue = Volley.newRequestQueue(this);
     }
 
 }

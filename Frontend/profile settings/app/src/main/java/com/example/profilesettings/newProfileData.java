@@ -29,8 +29,4 @@ public class newProfileData {
     public String getBio() {
         return this.bio;
     }
-
-    public void sendNewProfileData(newProfileData toSend) {
-
-    }
 }
