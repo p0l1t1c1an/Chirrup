@@ -35,6 +35,15 @@ public class UserController {
         userService.delete(id);
     }
 
+    // creating post mapping that post the student details in the database
+    @PostMapping("/user/{id}")
+    private int saveUser(@PathVariable("id") int id, @RequestBody User user) {
+        User found = userService.getUserById(id);
+        found.updateInfo(user);
+        userService.saveOrUpdate(found);
+        return found.getId();
+    }
+
     // creating post mapping that post the student detail in the database
     @PostMapping("/user")
     private int saveUser(@RequestBody User user) {

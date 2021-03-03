@@ -4,13 +4,10 @@ import org.springframework.core.style.ToStringCreator;
 
 import coms309.profile.Profile;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -175,6 +172,19 @@ public class User {
         this.following.add(follow);
 	}
 
+    void updateInfo(User user) {
+        this.id = user.id;
+        this.email = user.email;
+        this.password = user.password;
+        this.username = user.username;
+        this.firstname = user.firstname;
+        this.lastname = user.lastname;
+        this.role = user.role;
+        this.telephone = user.telephone;
+        this.birthday = user.birthday;
+        this.profile = user.profile;
+    }
+    
     @Override
     public String toString() {
         return new ToStringCreator(this)
