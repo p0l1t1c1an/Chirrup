@@ -2,29 +2,29 @@ package coms309.role;
 
 import org.springframework.core.style.ToStringCreator;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import coms309.user.User;
 
-import javax.persistence.Column;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
-@Table(name = "role")
 public class Role {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    @NotFound(action = NotFoundAction.IGNORE)
+    @GeneratedValue
     private int id;
 
-    @Column(name = "role")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String role;
+    
+    // @OneToMany(targetEntity = Role.class, cascade = CascadeType.ALL)
+    // @JoinColumn(name="ur_fk", referencedColumnName = "id")
+    // private List<User> users;
 
     public Role(){
         
