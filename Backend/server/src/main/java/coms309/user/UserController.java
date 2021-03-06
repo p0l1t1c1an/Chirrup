@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import coms309.profile.Profile;
 import coms309.settings.StandardSettings;
+import coms309.settings.ChildSettings;
+import coms309.settings.ParentSettings;
 
 //creating RestController  
 @RequestMapping("/api")
@@ -49,7 +51,17 @@ public class UserController {
     @PostMapping("/user")
     private int saveUser(@RequestBody User user) {
         user.setProfile(new Profile(user));
-        user.setSettings(new StandardSettings(user));
+        switch (user.getRole()) {
+            case 2: 
+                user.setSettings(new ChildSettings(user));
+                break;
+            case 3:
+                user.setSettings(new ParentSettings(user));
+                break; 
+            default:
+                user.setSettings(new StandardSettings(user));
+                break;
+        }
         userService.saveOrUpdate(user);
         return user.getId();
     }

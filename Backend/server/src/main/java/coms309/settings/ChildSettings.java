@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 //import javax.persistence.Table;
 import javax.persistence.OneToMany;
 
@@ -29,6 +30,7 @@ public class ChildSettings extends StandardSettings {
     private int timeLimit;
 
     @OneToMany
+    @JoinColumn(name="whitelist", referencedColumnName = "id")
     private List<Role> roleWhitelist = new ArrayList<Role>();
 
     public ChildSettings(){

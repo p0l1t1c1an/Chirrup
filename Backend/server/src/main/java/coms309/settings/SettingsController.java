@@ -41,5 +41,11 @@ public class SettingsController {
         settingsService.saveStandard(update);
         return update.getId();
     }
+
+    @PostMapping("/settings")
+    private int saveSettings(@RequestBody StandardSettings s) {
+        settingsService.saveStandard(s);
+        return s.getId();
+    }
 }
 
