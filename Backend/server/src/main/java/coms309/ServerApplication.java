@@ -16,17 +16,4 @@ public class ServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ServerApplication.class, args);
 	}
-
-    @Bean
-    CommandLineRunner initUser(UserRepository userRepository, SettingsService settingsService) {
-        return args -> {
-            User user1 = new User(1, "jboicken@somemail.com", "passwd", "jboicken", "Jacob", "Boicken", 1, "309", "01/01/2001");
-            StandardSettings settings1 = new StandardSettings(user1);
-
-            userRepository.insertUser(user1);
-            settingsService.saveStandard(settings1);
-            
-        };
-    }
-
 }
