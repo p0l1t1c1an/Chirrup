@@ -20,15 +20,12 @@ public class ServerApplication {
     @Bean
     CommandLineRunner initUser(UserRepository userRepository, SettingsService settingsService) {
         return args -> {
-            User user1 = new User("John", "john@somemail.com");
-            
-            user1.setLaptop(laptop1);
-            user2.setLaptop(laptop2);
-            user3.setLaptop(laptop3);            
-            userRepository.save(user1);
-            userRepository.save(user2);
-            userRepository.save(user3);
+            User user1 = new User(1, "jboicken@somemail.com", "passwd", "jboicken", "Jacob", "Boicken", 1, "309", "01/01/2001");
+            StandardSettings settings1 = new StandardSettings(user1);
 
+            userRepository.insertUser(user1);
+            settingsService.saveStandard(settings1);
+            
         };
     }
 

@@ -1,4 +1,4 @@
-package sr_2.chirrup.server;
+package coms309;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
