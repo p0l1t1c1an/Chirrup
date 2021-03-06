@@ -68,9 +68,10 @@ public class User {
         this.telephone = user.telephone;
         this.birthday = user.birthday;
         this.profile = user.profile;
+        this.settings = user.settings;
     }
 
-    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Profile profile) {
+    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Profile profile, Settings settings) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -81,6 +82,7 @@ public class User {
         this.telephone = telephone;
         this.birthday = birthday;
         this.profile = profile;
+        this.settings = settings;
     }
 
     //id
@@ -173,6 +175,10 @@ public class User {
         this.profile = profile;
     }
 
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
+
 	public void addFollowing(User follow) {
         this.following.add(follow);
 	}
@@ -188,6 +194,7 @@ public class User {
         this.telephone = user.telephone;
         this.birthday = user.birthday;
         this.profile = user.profile;
+        this.settings = user.settings;
     }
     
     @Override

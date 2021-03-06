@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import coms309.profile.Profile;
+import coms309.settings.StandardSettings;
 
 //creating RestController  
 @RequestMapping("/api")
@@ -48,6 +49,7 @@ public class UserController {
     @PostMapping("/user")
     private int saveUser(@RequestBody User user) {
         user.setProfile(new Profile(user));
+        user.setSettings(new StandardSettings(user));
         userService.saveOrUpdate(user);
         return user.getId();
     }
