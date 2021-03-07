@@ -14,8 +14,8 @@ import javax.persistence.OneToMany;
 
 
 /**
-* This is a child settings class that is used
-* to config a permissions and limits of the acc. 
+* This is a parent's settings class that is used
+* to config what children they have. 
 *
 * @author  Jacob Boicken
 */
@@ -51,6 +51,11 @@ public class ParentSettings extends StandardSettings {
 
     public void addChild(ChildSettings c){
         children.add(c);
+    }
+
+    public void updateSettings(ParentSettings p) {
+        super.updateSettings(p);
+        children = p.children;
     }
 
     @Override

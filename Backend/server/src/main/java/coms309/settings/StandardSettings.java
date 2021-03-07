@@ -4,15 +4,7 @@ import coms309.user.User;
 
 import org.springframework.core.style.ToStringCreator;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.Table;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-
 
 /**
 * This is a standard settings class that is used
@@ -82,7 +74,14 @@ public class StandardSettings extends Settings {
     public void setTextSize(Integer t) {
         textSize = t;
     }
-    
+
+    public void updateSettings(StandardSettings s){
+        this.setUser(s.getUser());
+        darkMode = s.darkMode;
+        updateTime = s.updateTime;
+        textSize = s.textSize;
+    }
+
     @Override
     public String toString() {
         return new ToStringCreator(this)

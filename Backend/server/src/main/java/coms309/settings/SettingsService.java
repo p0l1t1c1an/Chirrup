@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 @Service  
 public class SettingsService {
    
- //   @Autowired
-//    SettingsRepository<Settings> settingsRepository;
-
     @Autowired  
     SettingsRepository<StandardSettings> standardRepository; 
 
@@ -19,12 +16,6 @@ public class SettingsService {
     @Autowired  
     SettingsRepository<ParentSettings> parentRepository; 
 
-/*    public List<Settings> getAllSettings() {  
-        List<Settings> settings = new ArrayList<Settings>();  
-        settingsRepository.findAll().forEach(s -> settings.add(s));  
-        return settings;  
-    }  
-*/
     public List<StandardSettings> getAllStandard() {  
         List<StandardSettings> standard = new ArrayList<StandardSettings>();  
         standardRepository.findAll().forEach(s -> standard.add(s));  

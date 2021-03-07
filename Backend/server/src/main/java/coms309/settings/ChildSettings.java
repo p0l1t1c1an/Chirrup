@@ -8,10 +8,10 @@ import java.util.List;
 
 import org.springframework.core.style.ToStringCreator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-//import javax.persistence.Table;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 
 /**
@@ -23,15 +23,14 @@ import javax.persistence.OneToMany;
 
 
 @Entity
-//@Table(name = "settings")
 public class ChildSettings extends StandardSettings {
 
     private boolean locked;
     private int timeLimit;
 
-    @OneToMany
-    @JoinColumn(name="whitelist", referencedColumnName = "id")
-    private List<Role> roleWhitelist = new ArrayList<Role>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name="whitelist", referencedColumnName = "id")
+//    private List<Role> roleWhitelist = new ArrayList<Role>(); 
 
     public ChildSettings(){
         super();
@@ -80,16 +79,23 @@ public class ChildSettings extends StandardSettings {
         timeLimit = t;
     } 
  
-    public List<Role> getWhitelist() {
-        return roleWhitelist;
-    }
+//    public List<Role> getWhitelist() {
+//        return roleWhitelist;
+//    }
+//
+//    public void setWhitelist(List<Role> w) {
+//        roleWhitelist = w;
+//    }
+//
+//    public void addRoleToWhitelist(Role r){
+//        roleWhitelist.add(r);
+//    }
 
-    public void setWhitelist(List<Role> w) {
-        roleWhitelist = w;
-    }
-
-    public void addRoleToWhitelist(Role r){
-        roleWhitelist.add(r);
+    public void updateSettings(ChildSettings c) {
+        super.updateSettings(c);
+        locked = c.locked;
+        timeLimit = c.timeLimit;
+//        roleWhitelist = c.roleWhitelist;
     }
 
     @Override

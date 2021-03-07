@@ -54,11 +54,15 @@ public abstract class Settings {
         return id;
     }
 
-    /*
+    
     public void setId(Integer id) {
         this.id = id;
     }
-    */
+    
+
+    public User getUser() {
+        return user;
+    }
 
     public void setUser(User u){
         id = u.getId();
