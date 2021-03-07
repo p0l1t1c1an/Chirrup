@@ -17,7 +17,7 @@
         android:adjustViewBounds="false"
         android:contentDescription="@string/placeholder"
         android:cropToPadding="true"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/bio"
         app:layout_constraintEnd_toStartOf="@+id/username"

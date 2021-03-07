@@ -11,8 +11,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
@@ -26,7 +38,7 @@ public class ProfileFragment extends Fragment {
     /**
      * identification number representing user
      */
-    private int userID;
+    private int userID = 6;
 
     /**
      * avatar image view
@@ -61,8 +73,9 @@ public class ProfileFragment extends Fragment {
         name = root.findViewById(R.id.name);
         bio = root.findViewById(R.id.bio);
 
-        //stuff here
-
+//        getUsername();
+//        getName();
+        getBio();
         getAvatar();
 
         return root;
@@ -94,31 +107,32 @@ public class ProfileFragment extends Fragment {
 
     }
 
-//    /**
-//     * get the user's username from the database
-//     *
-//     * @return user's username
-//     */
-//    private String getUsername() {
-//
-//    }
-//
-//    /**
-//     * get the user's name from the database
-//     *
-//     * @return user's name
-//     */
-//    private String getName() {
-//
-//    }
-//
-//    /**
-//     * get the user's bio from the database
-//     *
-//     * @return user's bio
-//     */
-//    private String getBio() {
-//
-//    }
+    /**
+     * get the user's username and name from the database
+     */
+    private void getNameAndUsername() {
+
+    }
+
+
+    /**
+     * get the user's bio from the database
+     */
+    private void getBio() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                "http://coms-309-016.cs.iastate.edu:8080/api/profile/" + userID, null,
+                (Response.Listener<JSONObject>) response -> {
+                    try {
+                        bio.setText(response.getString("biography"));
+                    } catch (JSONException e) {
+                        Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }, (Response.ErrorListener) error ->
+                VolleyLog.d(ProfileFragment.class.getSimpleName(), "Error: " + error.getMessage()));
+
+
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
+    }
 
 }
