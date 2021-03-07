@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 */
 
 @Entity
-//@Table(name = "settings")
 public class StandardSettings extends Settings {
 
     private boolean darkMode;

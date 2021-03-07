@@ -9,7 +9,6 @@ import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-//import javax.persistence.Table;
 import javax.persistence.OneToMany;
 
 
@@ -22,7 +21,6 @@ import javax.persistence.OneToMany;
 
 
 @Entity
-//@Table(name = "settings")
 public class ParentSettings extends StandardSettings {
 
     @OneToMany

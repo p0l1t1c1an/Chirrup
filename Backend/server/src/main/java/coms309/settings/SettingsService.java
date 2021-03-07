@@ -1,20 +1,23 @@
 package coms309.settings;  
+
 import java.util.ArrayList;  
 import java.util.List;  
+
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;  
 
+
 @Service  
 public class SettingsService {
-   
+  
     @Autowired  
-    SettingsRepository<StandardSettings> standardRepository; 
+    StandardRepository standardRepository; 
 
     @Autowired  
-    SettingsRepository<ChildSettings> childRepository; 
+    ChildRepository childRepository; 
 
     @Autowired  
-    SettingsRepository<ParentSettings> parentRepository; 
+    ParentRepository parentRepository; 
 
     public List<StandardSettings> getAllStandard() {  
         List<StandardSettings> standard = new ArrayList<StandardSettings>();  
