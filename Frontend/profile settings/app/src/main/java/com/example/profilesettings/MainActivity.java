@@ -2,6 +2,7 @@ package com.example.profilesettings;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -14,7 +15,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -31,20 +31,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        JSONObject blank = new JSONObject();
-        try {
-//            blank.put("username", currentUserData.currUser.getUserName());
-//            blank.put("firstname", currentUserData.currUser.getFirstName());
-//            blank.put("lastname", currentUserData.currUser.getLastName());
-//            blank.put("biography", currentUserData.currUser.getBio());
-            getPerson(6);
-        }
-        catch (JSONException e) {
+        //set text fields to current user data
+        TextView username = findViewById(R.id.usernameField);
+        TextView firstname = findViewById(R.id.firstNameField);
+        TextView lastname = findViewById(R.id.lastNameField);
+        TextView bio = findViewById(R.id.bioField);
+        username.setHint(currentUserData.currUser.getUserName());
+        firstname.setHint(currentUserData.currUser.getFirstName());
+        lastname.setHint(currentUserData.currUser.getLastName());
+        bio.setHint(currentUserData.currUser.getBio());
 
-        }
+        //
+        getUser(6);
     }
 
-    void getPerson(int userId) throws JSONException {
+    public void readyUserToUpdate(View view) {
+
+    }
+
+    public void getUser(int userId) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         String baseUrl = getResources().getString(R.string.base_url);
@@ -66,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
                     TextView view = findViewById(R.id.textView);
+
+                    try {
+                        JSONObject res = new JSONObject(responseBody);
+                        view.setText(res.get("firstname").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }
@@ -75,13 +87,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void sendPerson(JsonObject obj) throws JSONException {
+    public void sendUser(JSONObject user) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String URL = "http://...";
+        final String requestBody = user.toString();
 
-        String baseUrl = getResources().getString(R.string.base_url);
-        String url = baseUrl + userId;
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
             }
@@ -90,14 +101,26 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         }) {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    return null;
+                }
+            }
+
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String responseString = "";
                 if (response != null) {
-                    String responseBody = new String(response.data, StandardCharsets.UTF_8);
-                    TextView view = findViewById(R.id.textView);
-                    JSONObject response = responseBody.
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
                 }
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }

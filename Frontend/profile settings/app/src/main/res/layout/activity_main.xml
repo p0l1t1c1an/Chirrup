@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/bio"
+        android:id="@+id/bioField"
         android:layout_width="345dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -16,10 +16,10 @@
         android:hint="Bio"
         android:inputType="phone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastName" />
+        app:layout_constraintTop_toBottomOf="@+id/lastNameField" />
 
     <EditText
-        android:id="@+id/lastName"
+        android:id="@+id/lastNameField"
         android:layout_width="263dp"
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
@@ -27,10 +27,10 @@
         android:hint="Last Name"
         android:inputType="phone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstName" />
+        app:layout_constraintTop_toBottomOf="@+id/firstNameField" />
 
     <EditText
-        android:id="@+id/firstName"
+        android:id="@+id/firstNameField"
         android:layout_width="263dp"
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
@@ -38,7 +38,7 @@
         android:hint="First Name"
         android:inputType="phone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameField" />
 
     <ImageView
         android:id="@+id/avatar"
@@ -51,7 +51,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/usernameField"
         android:layout_width="263dp"
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
@@ -80,6 +80,7 @@
         android:layout_marginBottom="25dp"
         android:text="Save"
         android:textSize="4pt"
+        android:onClick="readyUserToUpdate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -102,6 +103,6 @@
         android:layout_marginTop="96dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bio" />
+        app:layout_constraintTop_toBottomOf="@+id/bioField" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
