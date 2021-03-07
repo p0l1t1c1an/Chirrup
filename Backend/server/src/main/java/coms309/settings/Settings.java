@@ -53,20 +53,20 @@ public abstract class Settings {
     public Integer getId() {
         return id;
     }
-
-    
+ 
     public void setId(Integer id) {
         this.id = id;
     }
     
 
-    public User getUser() {
-        return user;
-    }
-
     public void setUser(User u){
         id = u.getId();
         user = u;
+    }
+
+    public void updateSettings(Settings s) {
+        id = s.id;
+        user = s.user;
     }
 
     @Override

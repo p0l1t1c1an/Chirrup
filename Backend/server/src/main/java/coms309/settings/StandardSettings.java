@@ -75,7 +75,7 @@ public class StandardSettings extends Settings {
     }
 
     public void updateSettings(StandardSettings s){
-        this.setUser(s.getUser());
+        super.updateSettings(s);
         darkMode = s.darkMode;
         updateTime = s.updateTime;
         textSize = s.textSize;
