@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,6 +57,8 @@ public class ProfileFragment extends Fragment {
     private TextView bio;
 
     /**
+     * retrieve the profile data to fill in the text fields and avatar
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -71,6 +74,17 @@ public class ProfileFragment extends Fragment {
         getNameAndUsername();
         getBio();
         getAvatar();
+
+        Button followers = root.findViewById(R.id.followers);
+        Button following = root.findViewById(R.id.following);
+
+        followers.setOnClickListener(v -> {
+            //show followers list
+        });
+
+        following.setOnClickListener(v -> {
+            //show following list
+        });
 
         return root;
     }
@@ -106,11 +120,12 @@ public class ProfileFragment extends Fragment {
      */
     private void getNameAndUsername() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                "http://coms-309-016.cs.iastate.edu:8080/api/user/" + userID, null,
+                getString(R.string.base_url) + "user/" + userID, null,
                 (Response.Listener<JSONObject>) response -> {
                     try {
                         username.setText(response.getString("username"));
-                        name.setText(response.getString("firstname") + " " + response.getString("lastname"));
+                        name.setText(response.getString("firstname") + " " +
+                                response.getString("lastname"));
                     } catch (JSONException e) {
                         Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
                         e.printStackTrace();
@@ -128,7 +143,7 @@ public class ProfileFragment extends Fragment {
      */
     private void getBio() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                "http://coms-309-016.cs.iastate.edu:8080/api/profile/" + userID, null,
+                getString(R.string.base_url) + "profile/" + userID, null,
                 (Response.Listener<JSONObject>) response -> {
                     try {
                         bio.setText(response.getString("biography"));
