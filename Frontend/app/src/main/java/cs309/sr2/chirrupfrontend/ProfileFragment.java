@@ -11,20 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
@@ -73,8 +68,7 @@ public class ProfileFragment extends Fragment {
         name = root.findViewById(R.id.name);
         bio = root.findViewById(R.id.bio);
 
-//        getUsername();
-//        getName();
+        getNameAndUsername();
         getBio();
         getAvatar();
 
@@ -111,7 +105,21 @@ public class ProfileFragment extends Fragment {
      * get the user's username and name from the database
      */
     private void getNameAndUsername() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                "http://coms-309-016.cs.iastate.edu:8080/api/user/" + userID, null,
+                (Response.Listener<JSONObject>) response -> {
+                    try {
+                        username.setText(response.getString("username"));
+                        name.setText(response.getString("firstname") + " " + response.getString("lastname"));
+                    } catch (JSONException e) {
+                        Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }, (Response.ErrorListener) error ->
+                VolleyLog.d(ProfileFragment.class.getSimpleName(), "Error: " + error.getMessage()));
 
+
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
 
