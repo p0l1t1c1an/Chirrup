@@ -44,20 +44,48 @@ public class MainActivity extends AppCompatActivity {
         bio.setHint(currentUserData.currUser.getBio());
     }
 
+    public void clearUserText(View view) {
+        TextView username = findViewById(R.id.usernameField);
+        TextView firstname = findViewById(R.id.firstNameField);
+        TextView lastname = findViewById(R.id.lastNameField);
+        TextView bio = findViewById(R.id.bioField);
+        username.setText("");
+        firstname.setText("");
+        lastname.setText("");
+        bio.setText("");
+    }
+
     public void readyUserToUpdate(View view) throws JSONException {
         //create Json to send to the server
         JSONObject toSend = new JSONObject();
-        toSend.put("username", currentUserData.currUser.getUserName());
-        toSend.put("firstname", currentUserData.currUser.getFirstName());
-        toSend.put("lastname", currentUserData.currUser.getLastName());
-        String jsonString = toSend.toString();
 
-        //for debugging
-        //getUser(7);
+        TextView username = findViewById(R.id.usernameField);
+        TextView firstname = findViewById(R.id.firstNameField);
+        TextView lastname = findViewById(R.id.lastNameField);
+        TextView bio = findViewById(R.id.bioField);
+
+        toSend.put("email", currentUserData.currUser.getEmail());
+        toSend.put("username", username.getText().toString());
+        toSend.put("firstname", firstname.getText().toString());
+        toSend.put("lastname", lastname.getText().toString());
+        toSend.put("password", currentUserData.currUser.getPassword());
+        toSend.put("telephone", currentUserData.currUser.getTelephone());
+        toSend.put("role", currentUserData.currUser.getRole());
+        toSend.put("birthday", currentUserData.currUser.getBirthday());
+        String jsonString = toSend.toString();
 
         //send to Server
         final TextView testView = (TextView) findViewById(R.id.testView);
         sendUser(jsonString, currentUserData.currUser.getID());
+
+        //update user
+        float currTime = System.nanoTime() / 1000000;
+        while ((System.nanoTime() / 1000000) - currTime < 50) {}
+        getUser(currentUserData.currUser.getID());
+        username.setText("");
+        firstname.setText("");
+        lastname.setText("");
+        bio.setText("");
     }
 
     public void getUser(int userId) {
@@ -82,10 +110,25 @@ public class MainActivity extends AppCompatActivity {
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
                     TextView view = findViewById(R.id.testView);
-
                     try {
+                        TextView username = findViewById(R.id.usernameField);
+                        TextView firstname = findViewById(R.id.firstNameField);
+                        TextView lastname = findViewById(R.id.lastNameField);
+                        TextView bio = findViewById(R.id.bioField);
                         JSONObject res = new JSONObject(responseBody);
-                        view.setText(res.get("lastname").toString());
+                        username.setHint(res.getString("username"));
+                        firstname.setHint(res.getString("firstname"));
+                        lastname.setHint(res.getString("lastname"));
+                        bio.setHint(res.getString("bio"));
+
+                        currentUserData.currUser.setUserName(res.getString("username"));
+                        currentUserData.currUser.setFirstName(res.getString("firstname"));
+                        currentUserData.currUser.setLastName(res.getString("lastname"));
+                        currentUserData.currUser.setBirthday(res.getString("birthday"));
+                        currentUserData.currUser.setEmail(res.getString("email"));
+                        currentUserData.currUser.setPassword(res.getString("password"));
+                        currentUserData.currUser.setID(res.getInt("id"));
+                        currentUserData.currUser.setRole(res.get("role").toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -167,9 +210,7 @@ public class MainActivity extends AppCompatActivity {
         String url = baseUrl + "/user/" + userID;
         final String requestBody = user;
         final TextView textView = (TextView) findViewById(R.id.testView);
-
-
-
+        
         StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -200,13 +241,10 @@ public class MainActivity extends AppCompatActivity {
                 String responseString = "";
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
-                    textView.setText(responseBody);
+                    textView.setText("Upload Successful");
                 }
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }
-
-
-
 //        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
 //            @Override
 //            public void onResponse(String response) {
