@@ -6,12 +6,14 @@ public class newProfileData {
     private String firstName;
     private String lastName;
     private String bio;
+    private int userID;
 
-    public newProfileData(String userName, String firstName, String lastName, String bio) {
+    public newProfileData(String userName, String firstName, String lastName, String bio, int userID) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.bio = bio;
+        this.userID = userID;
     }
 
     public String getUserName() {
@@ -29,4 +31,6 @@ public class newProfileData {
     public String getBio() {
         return this.bio;
     }
+
+    public int getID() {return this.userID;}
 }

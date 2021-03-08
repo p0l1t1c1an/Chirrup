@@ -42,11 +42,19 @@ public class MainActivity extends AppCompatActivity {
         bio.setHint(currentUserData.currUser.getBio());
 
         //
-        getUser(6);
+        //getUser(6);
     }
 
-    public void readyUserToUpdate(View view) {
+    public void readyUserToUpdate(View view) throws JSONException {
+        //create Json to send to the server
+        JSONObject toSend = new JSONObject();
+        toSend.put("username", currentUserData.currUser.getUserName());
+        toSend.put("firstname", currentUserData.currUser.getFirstName());
+        toSend.put("lastname", currentUserData.currUser.getLastName());
+        toSend.put("bio", currentUserData.currUser.getBio());
 
+        //send to Server
+        sendUser(toSend, currentUserData.currUser.getID());
     }
 
     public void getUser(int userId) {
@@ -87,12 +95,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void sendUser(JSONObject user) {
+    public void sendUser(JSONObject user, int userID) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String URL = "http://...";
+//        String URL = "http://...";
+        String baseUrl = getResources().getString(R.string.base_url);
+        String url = baseUrl + "/user/" + userID;
         final String requestBody = user.toString();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
             }
