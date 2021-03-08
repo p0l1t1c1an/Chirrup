@@ -8,6 +8,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+/**
+ * this class is from https://git.linux.iastate.edu/cs309/tutorials/blob/android_unit2_1_volley/AndroidVolley/app/src/main/java/com/example/sumon/androidvolley/app/AppController.java
+ * and acts as a controller for request queues and image loading from the backend
+ */
 public class AppController extends Application {
 
     public static final String TAG = AppController.class.getSimpleName();
