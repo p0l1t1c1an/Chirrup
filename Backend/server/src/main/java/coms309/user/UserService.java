@@ -39,4 +39,15 @@ UserRepository userRepository;
         }
         return followingIds;
     }
+
+    public List<Integer> getFollowersById(int id) {
+        List<Integer> followerIds = new ArrayList<Integer>();
+        User current = this.getUserById(id);
+        for (User user : userRepository.findAll()) {
+            if(current.getFollowers().contains(user)) {
+                followerIds.add(user.getId());
+            }
+        }
+        return followerIds;
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.core.style.ToStringCreator;
 import coms309.profile.Profile;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -166,6 +167,11 @@ public class User {
         return this.following;
     }
 
+    //get followers
+    public Set<User> getFollowers() {
+        return this.followers;
+    }
+
     void updateInfo(User user) {
         this.email = user.email;
         this.password = user.password;
@@ -192,4 +198,5 @@ public class User {
                 .append("birthday", this.getBirthday())
                 .toString();
     }
+
 }
