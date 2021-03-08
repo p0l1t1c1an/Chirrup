@@ -28,4 +28,15 @@ UserRepository userRepository;
     {  
         userRepository.deleteById(id);  
     }
+
+    public List<Integer> getFollowingById(int id) {
+        List<Integer> followingIds = new ArrayList<Integer>();
+        User current = this.getUserById(id);
+        for (User user : userRepository.findAll()) {
+            if(current.getFollowing().contains(user)) {
+                followingIds.add(user.getId());
+            }
+        }
+        return followingIds;
+    }
 }

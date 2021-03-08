@@ -2,30 +2,20 @@ package coms309.role;
 
 import org.springframework.core.style.ToStringCreator;
 
-import coms309.user.User;
-
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Role {
     
+    //Role properties
     @Id
     @GeneratedValue
     private int id;
-
     private String role;
-    
-    // @OneToMany(targetEntity = Role.class, cascade = CascadeType.ALL)
-    // @JoinColumn(name="ur_fk", referencedColumnName = "id")
-    // private List<User> users;
 
+    //constructors
     public Role(){
         
     }

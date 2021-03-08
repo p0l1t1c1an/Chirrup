@@ -16,10 +16,10 @@ import javax.persistence.Table;
 @Table(name = "profile")
 public class Profile {
     
+    //properties
     @Id
     @Column(name = "user_id")
     private int id;
-
     private String biography;
 
     @OneToOne
@@ -27,6 +27,7 @@ public class Profile {
     @JoinColumn(name = "user_id")
     private User user;
 
+    //constructors
     public Profile(){
         
     }
@@ -51,12 +52,6 @@ public class Profile {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    //userid
-    // public 
-    // int getUser() {
-    //     return this.user.getId();
-    // }
 
     public void setUser(User user) {
         this.user = user;

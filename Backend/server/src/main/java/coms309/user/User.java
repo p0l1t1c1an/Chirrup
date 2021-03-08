@@ -18,36 +18,28 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Entity
 public class User {
     
+    //User properties
     @Id
     @GeneratedValue
     private int id;
-
     private String email;
-
     private String password;
-
     private String username;
-
     private String firstname;
-
     private String lastname;
-
     private int role;
-
     private String telephone;
-
     private String birthday;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Profile profile;
-
     @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL)
     private Set<User> followers = new HashSet<User>();
-
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<User> following = new HashSet<User>();
 
+    //constructors
     public User(){
         
     }
@@ -160,20 +152,21 @@ public class User {
     }
 
     //profile
-    // public int getProfile() {
-    //     return this.profile.getId();
-    // }
-
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
+    //add someone to this users following list
 	public void addFollowing(User follow) {
         this.following.add(follow);
 	}
 
+    //get following
+    public Set<User> getFollowing() {
+        return this.following;
+    }
+
     void updateInfo(User user) {
-        this.id = user.id;
         this.email = user.email;
         this.password = user.password;
         this.username = user.username;
@@ -199,6 +192,4 @@ public class User {
                 .append("birthday", this.getBirthday())
                 .toString();
     }
-
-
 }
