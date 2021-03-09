@@ -1,4 +1,4 @@
-package com.example.profilesettings;
+package cs309.sr2.chirrupfrontend;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -26,22 +26,22 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
-public class MainActivity extends AppCompatActivity {
+public class ProfileSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profilesettings);
 
         //set text fields to current user data
         TextView username = findViewById(R.id.usernameField);
         TextView firstname = findViewById(R.id.firstNameField);
         TextView lastname = findViewById(R.id.lastNameField);
         TextView bio = findViewById(R.id.bioField);
-        username.setHint(currentUserData.currUser.getUserName());
-        firstname.setHint(currentUserData.currUser.getFirstName());
-        lastname.setHint(currentUserData.currUser.getLastName());
-        bio.setHint(currentUserData.currUser.getBio());
+        username.setHint(CurrentUserData.currUser.getUserName());
+        firstname.setHint(CurrentUserData.currUser.getFirstName());
+        lastname.setHint(CurrentUserData.currUser.getLastName());
+        bio.setHint(CurrentUserData.currUser.getBio());
     }
 
     public void clearUserText(View view) {
@@ -64,24 +64,24 @@ public class MainActivity extends AppCompatActivity {
         TextView lastname = findViewById(R.id.lastNameField);
         TextView bio = findViewById(R.id.bioField);
 
-        toSend.put("email", currentUserData.currUser.getEmail());
+        toSend.put("email", CurrentUserData.currUser.getEmail());
         toSend.put("username", username.getText().toString());
         toSend.put("firstname", firstname.getText().toString());
         toSend.put("lastname", lastname.getText().toString());
-        toSend.put("password", currentUserData.currUser.getPassword());
-        toSend.put("telephone", currentUserData.currUser.getTelephone());
-        toSend.put("role", currentUserData.currUser.getRole());
-        toSend.put("birthday", currentUserData.currUser.getBirthday());
+        toSend.put("password", CurrentUserData.currUser.getPassword());
+        toSend.put("telephone", CurrentUserData.currUser.getTelephone());
+        toSend.put("role", CurrentUserData.currUser.getRole());
+        toSend.put("birthday", CurrentUserData.currUser.getBirthday());
         String jsonString = toSend.toString();
 
         //send to Server
         final TextView testView = (TextView) findViewById(R.id.testView);
-        sendUser(jsonString, currentUserData.currUser.getID());
+        sendUser(jsonString, CurrentUserData.currUser.getID());
 
         //update user
         float currTime = System.nanoTime() / 1000000;
         while ((System.nanoTime() / 1000000) - currTime < 50) {}
-        getUser(currentUserData.currUser.getID());
+        getUser(CurrentUserData.currUser.getID());
         username.setText("");
         firstname.setText("");
         lastname.setText("");
@@ -121,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
                         lastname.setHint(res.getString("lastname"));
                         bio.setHint(res.getString("bio"));
 
-                        currentUserData.currUser.setUserName(res.getString("username"));
-                        currentUserData.currUser.setFirstName(res.getString("firstname"));
-                        currentUserData.currUser.setLastName(res.getString("lastname"));
-                        currentUserData.currUser.setBirthday(res.getString("birthday"));
-                        currentUserData.currUser.setEmail(res.getString("email"));
-                        currentUserData.currUser.setPassword(res.getString("password"));
-                        currentUserData.currUser.setID(res.getInt("id"));
-                        currentUserData.currUser.setRole(res.get("role").toString());
+                        CurrentUserData.currUser.setUserName(res.getString("username"));
+                        CurrentUserData.currUser.setFirstName(res.getString("firstname"));
+                        CurrentUserData.currUser.setLastName(res.getString("lastname"));
+                        CurrentUserData.currUser.setBirthday(res.getString("birthday"));
+                        CurrentUserData.currUser.setEmail(res.getString("email"));
+                        CurrentUserData.currUser.setPassword(res.getString("password"));
+                        CurrentUserData.currUser.setID(res.getInt("id"));
+                        CurrentUserData.currUser.setRole(res.get("role").toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

@@ -1,6 +1,6 @@
-package com.example.profilesettings;
+package cs309.sr2.chirrupfrontend;
 
-public class newProfileData {
+public class NewProfileData {
 
     private String email;
     private String password;
@@ -13,7 +13,7 @@ public class newProfileData {
     private String bio;
     private int userID;
 
-    public newProfileData(String email, String password, String userName, String firstName,
+    public NewProfileData(String email, String password, String userName, String firstName,
                           String lastName, String role, String telephone, String bio,
                           String birthday, int userID) {
 
