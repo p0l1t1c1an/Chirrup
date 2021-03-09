@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,9 +50,19 @@ public class UserController {
         return "User deleted: " + id;
     }
 
+    // // creating post mapping that edits an existing user
+    // @PatchMapping("/user/{id}")
+    // private String saveUser(@PathVariable("id") int id, @RequestBody User user) {
+    //     logger.info("edited user");
+    //     User found = userService.getUserById(id);
+    //     found.updateInfo(user);
+    //     userService.saveOrUpdate(found);
+    //     return "User edited: " + found.getUsername();
+    // }
+
     // creating post mapping that edits an existing user
-    @PatchMapping("/user/{id}")
-    private String saveUser(@PathVariable("id") int id, @RequestBody User user) {
+    @PutMapping("/user/{id}")
+    private String editUser(@PathVariable("id") int id, @RequestBody User user) {
         logger.info("edited user");
         User found = userService.getUserById(id);
         found.updateInfo(user);
@@ -59,6 +70,15 @@ public class UserController {
         return "User edited: " + found.getUsername();
     }
 
+    // creating post mapping that partially edits an existing user
+    @PatchMapping("/user/{id}")
+    private String editPartialUser(@PathVariable("id") int id, @RequestBody User user) {
+        logger.info("edited user");
+        User found = userService.getUserById(id);
+        found.updatePatrialInfo(user);
+        userService.saveOrUpdate(found);
+        return "User edited: " + found.getUsername();
+    }
 
     // creating get mapping that returns who a user is following
     @GetMapping("/user/following/{id}")

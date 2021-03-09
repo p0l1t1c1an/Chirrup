@@ -187,8 +187,8 @@ public class User {
         return this.followers;
     }
 
+    //changes all fields of a user, for put requests
     void updateInfo(User user) {
-        this.id = user.id;
         this.email = user.email;
         this.password = user.password;
         this.username = user.username;
@@ -197,8 +197,20 @@ public class User {
         this.role = user.role;
         this.telephone = user.telephone;
         this.birthday = user.birthday;
-        this.settings = user.settings;
         this.biography = user.biography;
+    }
+
+    //only changes things which aren't null, useful for patch requests
+    void updatePatrialInfo(User user) {
+        this.email = user.email == null ? this.email : user.email;
+        this.password = user.password == null ? this.password : user.password;
+        this.username = user.username == null ? this.username : user.username;
+        this.firstname = user.firstname == null ? this.firstname : user.firstname;
+        this.lastname = user.lastname == null ? this.lastname : user.lastname;
+        this.role = user.role == 0 ? this.role : user.role;
+        this.telephone = user.telephone == null ? this.telephone : user.telephone;
+        this.birthday = user.birthday == null ? this.birthday : user.birthday;
+        this.biography = user.biography == null ? this.biography : user.biography;
     }
     
     @Override
