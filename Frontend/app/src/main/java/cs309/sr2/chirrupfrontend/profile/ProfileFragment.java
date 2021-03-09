@@ -121,7 +121,7 @@ public class ProfileFragment extends Fragment {
     private void getTexts() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 getString(R.string.base_url) + "user/" + userID, null,
-                (Response.Listener<JSONObject>) response -> {
+                response -> {
                     try {
                         bio.setText(response.getString("biography"));
                         username.setText(response.getString("username"));
@@ -131,7 +131,7 @@ public class ProfileFragment extends Fragment {
                         Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
                         e.printStackTrace();
                     }
-                }, (Response.ErrorListener) error ->
+                }, error ->
                 VolleyLog.d(ProfileFragment.class.getSimpleName(), "Error: " + error.getMessage()));
 
 

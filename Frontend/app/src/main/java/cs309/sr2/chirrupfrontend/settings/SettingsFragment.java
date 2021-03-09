@@ -52,7 +52,7 @@ public class SettingsFragment extends Fragment {
         lastname.setHint(CurrentUserData.currUser.getLastName());
         bio.setHint(CurrentUserData.currUser.getBio());
 
-        ((Button) root.findViewById(R.id.sendButton)).setOnClickListener((v) -> {
+        root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
             try {
                 readyUserToUpdate();
             } catch (JSONException e) {
@@ -60,7 +60,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        ((Button) root.findViewById(R.id.cancelButton)).setOnClickListener((v) -> {
+        root.findViewById(R.id.cancelButton).setOnClickListener((v) -> {
             clearUserText();
         });
 
@@ -109,15 +109,8 @@ public class SettingsFragment extends Fragment {
         String baseUrl = getResources().getString(R.string.base_url);
         String url = baseUrl + "user/" + userId;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {},
+                error -> {}) {
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String responseString = "";
@@ -220,23 +213,15 @@ public class SettingsFragment extends Fragment {
         String url = baseUrl + "user/" + userID;
         final String requestBody = user;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
+        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, response -> {},
+                error -> {}) {
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
             }
 
             @Override
-            public byte[] getBody() throws AuthFailureError {
+            public byte[] getBody() {
                 try {
                     return requestBody == null ? null : requestBody.getBytes("utf-8");
                 } catch (UnsupportedEncodingException uee) {
