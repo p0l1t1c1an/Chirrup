@@ -86,6 +86,7 @@ public class SettingsFragment extends Fragment {
         toSend.put("telephone", CurrentUserData.currUser.getTelephone());
         toSend.put("role", CurrentUserData.currUser.getRole());
         toSend.put("birthday", CurrentUserData.currUser.getBirthday());
+        toSend.put("biography", bio.getText().toString());
         String jsonString = toSend.toString();
 
         //send to Server
@@ -137,6 +138,7 @@ public class SettingsFragment extends Fragment {
                         CurrentUserData.currUser.setPassword(res.getString("password"));
                         CurrentUserData.currUser.setID(res.getInt("id"));
                         CurrentUserData.currUser.setRole(res.get("role").toString());
+                        CurrentUserData.currUser.setBio(res.getString("biography"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
