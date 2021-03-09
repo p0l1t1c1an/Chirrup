@@ -1,7 +1,6 @@
 package coms309.user;
 
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import coms309.profile.Profile;
+import coms309.settings.StandardSettings;
+import coms309.settings.ChildSettings;
+import coms309.settings.ParentSettings;
 
 //creating RestController  
 @RequestMapping("/api")
@@ -58,14 +60,6 @@ public class UserController {
         return "User edited: " + found.getUsername();
     }
 
-    // creating post mapping that creates a new user
-    @PostMapping("/user")
-    private String saveUser(@RequestBody User user) {
-        logger.info("created new user");
-        user.setProfile(new Profile(user));
-        userService.saveOrUpdate(user);
-        return "User created: " + user.getUsername();
-    }
 
     // creating get mapping that returns who a user is following
     @GetMapping("/user/following/{id}")
@@ -81,10 +75,28 @@ public class UserController {
         return userService.getFollowersById(id);
     }
 
+    // creating post mapping that creates a new user
+    @PostMapping("/user")
+    private int saveUser(@RequestBody User user) {
+        user.setProfile(new Profile(user));
+        switch (user.getRole()) {
+            case 2: 
+                user.setSettings(new ChildSettings(user));
+                break;
+            case 3:
+                user.setSettings(new ParentSettings(user));
+                break; 
+            default:
+                user.setSettings(new StandardSettings(user));
+                break;
+        }
+        userService.saveOrUpdate(user);
+        return user.getId();
+    }
+
     // creating post mapping that follows a user
-    @PostMapping("/user/following/{id}/{following}")
+    @PostMapping("/user/{id}/followers/{following}")
     private String followUser(@PathVariable("id") int id, @PathVariable("following") int follow) {
-        logger.info("followed user");
         User follower = userService.getUserById(id);
         User following = userService.getUserById(follow);
         follower.addFollowing(following);

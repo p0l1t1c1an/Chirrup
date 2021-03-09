@@ -3,9 +3,9 @@ package coms309.user;
 import org.springframework.core.style.ToStringCreator;
 
 import coms309.profile.Profile;
+import coms309.settings.Settings;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -34,13 +34,18 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    private Settings settings;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Profile profile;
+
     @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL)
     private Set<User> followers = new HashSet<User>();
+
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<User> following = new HashSet<User>();
 
-    //constructors
     public User(){
         
     }
@@ -56,9 +61,10 @@ public class User {
         this.telephone = user.telephone;
         this.birthday = user.birthday;
         this.profile = user.profile;
+        this.settings = user.settings;
     }
 
-    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Profile profile) {
+    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Profile profile, Settings settings) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -69,6 +75,7 @@ public class User {
         this.telephone = telephone;
         this.birthday = birthday;
         this.profile = profile;
+        this.settings = settings;
     }
 
     //id
@@ -153,11 +160,19 @@ public class User {
     }
 
     //profile
+    // public int getProfile() {
+    //     return this.profile.getId();
+    // }
+
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
     //add someone to this users following list
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
+
 	public void addFollowing(User follow) {
         this.following.add(follow);
 	}
@@ -173,6 +188,7 @@ public class User {
     }
 
     void updateInfo(User user) {
+        this.id = user.id;
         this.email = user.email;
         this.password = user.password;
         this.username = user.username;
@@ -182,6 +198,7 @@ public class User {
         this.telephone = user.telephone;
         this.birthday = user.birthday;
         this.profile = user.profile;
+        this.settings = user.settings;
     }
     
     @Override

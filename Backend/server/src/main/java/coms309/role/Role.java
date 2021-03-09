@@ -14,6 +14,10 @@ public class Role {
     @GeneratedValue
     private int id;
     private String role;
+    
+    // @OneToMany(targetEntity = Role.class, cascade = CascadeType.ALL)
+    // @JoinColumn(name="ur_fk", referencedColumnName = "id")
+    // private List<User> users;
 
     //constructors
     public Role(){
