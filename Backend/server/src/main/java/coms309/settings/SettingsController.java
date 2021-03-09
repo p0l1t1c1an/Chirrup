@@ -104,6 +104,4 @@ public class SettingsController {
         settingsService.saveParent(s);
         return s.getId();
     }
-
 }
-

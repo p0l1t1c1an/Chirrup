@@ -2,7 +2,6 @@ package coms309.user;
 
 import org.springframework.core.style.ToStringCreator;
 
-import coms309.profile.Profile;
 import coms309.settings.Settings;
 
 import java.util.HashSet;
@@ -15,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
@@ -31,14 +32,11 @@ public class User {
     private int role;
     private String telephone;
     private String birthday;
+    private String biography;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Settings settings;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Profile profile;
 
     @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL)
     private Set<User> followers = new HashSet<User>();
@@ -60,11 +58,11 @@ public class User {
         this.role = user.role;
         this.telephone = user.telephone;
         this.birthday = user.birthday;
-        this.profile = user.profile;
         this.settings = user.settings;
+        this.biography = user.biography;
     }
 
-    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Profile profile, Settings settings) {
+    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Settings settings, String biography) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -74,8 +72,8 @@ public class User {
         this.role = role;
         this.telephone = telephone;
         this.birthday = birthday;
-        this.profile = profile;
         this.settings = settings;
+        this.biography = biography;
     }
 
     //id
@@ -159,13 +157,13 @@ public class User {
         this.birthday = birthday;
     }
 
-    //profile
-    // public int getProfile() {
-    //     return this.profile.getId();
-    // }
+    //biography
+    public String getBiography() {
+        return this.biography;
+    }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
 
     //add someone to this users following list
@@ -178,11 +176,13 @@ public class User {
 	}
 
     //get following
+    @JsonIgnore
     public Set<User> getFollowing() {
         return this.following;
     }
 
     //get followers
+    @JsonIgnore
     public Set<User> getFollowers() {
         return this.followers;
     }
@@ -197,8 +197,8 @@ public class User {
         this.role = user.role;
         this.telephone = user.telephone;
         this.birthday = user.birthday;
-        this.profile = user.profile;
         this.settings = user.settings;
+        this.biography = user.biography;
     }
     
     @Override
@@ -212,8 +212,8 @@ public class User {
                 .append("lastname", this.getLastname())
                 .append("role", this.getRole())
                 .append("telephone", this.getTelephone())
+                .append("biography", this.getBiography())
                 .append("birthday", this.getBirthday())
                 .toString();
     }
-
 }
