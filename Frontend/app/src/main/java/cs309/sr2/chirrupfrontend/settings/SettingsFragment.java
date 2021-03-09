@@ -1,12 +1,14 @@
-package com.example.profilesettings;
+package cs309.sr2.chirrupfrontend.settings;
 
-import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -20,68 +22,81 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Logger;
 
-public class MainActivity extends AppCompatActivity {
+import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.utils.AppController;
+
+public class SettingsFragment extends Fragment {
+
+    private TextView username;
+    private TextView firstname;
+    private TextView lastname;
+    private TextView bio;
+    private TextView testView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
         //set text fields to current user data
-        TextView username = findViewById(R.id.usernameField);
-        TextView firstname = findViewById(R.id.firstNameField);
-        TextView lastname = findViewById(R.id.lastNameField);
-        TextView bio = findViewById(R.id.bioField);
-        username.setHint(currentUserData.currUser.getUserName());
-        firstname.setHint(currentUserData.currUser.getFirstName());
-        lastname.setHint(currentUserData.currUser.getLastName());
-        bio.setHint(currentUserData.currUser.getBio());
+        username = root.findViewById(R.id.usernameField);
+        firstname = root.findViewById(R.id.firstNameField);
+        lastname = root.findViewById(R.id.lastNameField);
+        bio = root.findViewById(R.id.bioField);
+        testView = root.findViewById(R.id.testView);
+        username.setHint(CurrentUserData.currUser.getUserName());
+        firstname.setHint(CurrentUserData.currUser.getFirstName());
+        lastname.setHint(CurrentUserData.currUser.getLastName());
+        bio.setHint(CurrentUserData.currUser.getBio());
+
+        root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
+            try {
+                readyUserToUpdate();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        root.findViewById(R.id.cancelButton).setOnClickListener((v) -> {
+            clearUserText();
+        });
+
+        return root;
     }
 
-    public void clearUserText(View view) {
-        TextView username = findViewById(R.id.usernameField);
-        TextView firstname = findViewById(R.id.firstNameField);
-        TextView lastname = findViewById(R.id.lastNameField);
-        TextView bio = findViewById(R.id.bioField);
+    public void clearUserText() {
         username.setText("");
         firstname.setText("");
         lastname.setText("");
         bio.setText("");
     }
 
-    public void readyUserToUpdate(View view) throws JSONException {
+    public void readyUserToUpdate() throws JSONException {
         //create Json to send to the server
         JSONObject toSend = new JSONObject();
 
-        TextView username = findViewById(R.id.usernameField);
-        TextView firstname = findViewById(R.id.firstNameField);
-        TextView lastname = findViewById(R.id.lastNameField);
-        TextView bio = findViewById(R.id.bioField);
-
-        toSend.put("email", currentUserData.currUser.getEmail());
+        toSend.put("email", CurrentUserData.currUser.getEmail());
         toSend.put("username", username.getText().toString());
         toSend.put("firstname", firstname.getText().toString());
         toSend.put("lastname", lastname.getText().toString());
-        toSend.put("password", currentUserData.currUser.getPassword());
-        toSend.put("telephone", currentUserData.currUser.getTelephone());
-        toSend.put("role", currentUserData.currUser.getRole());
-        toSend.put("birthday", currentUserData.currUser.getBirthday());
+        toSend.put("password", CurrentUserData.currUser.getPassword());
+        toSend.put("telephone", CurrentUserData.currUser.getTelephone());
+        toSend.put("role", CurrentUserData.currUser.getRole());
+        toSend.put("birthday", CurrentUserData.currUser.getBirthday());
+        toSend.put("biography", bio.getText().toString());
         String jsonString = toSend.toString();
 
         //send to Server
-        final TextView testView = (TextView) findViewById(R.id.testView);
-        sendUser(jsonString, currentUserData.currUser.getID());
+        sendUser(jsonString, CurrentUserData.currUser.getID());
 
         //update user
         float currTime = System.nanoTime() / 1000000;
-        while ((System.nanoTime() / 1000000) - currTime < 50) {}
-        getUser(currentUserData.currUser.getID());
+        while ((System.nanoTime() / 1000000) - currTime < 50) {
+        }
+        getUser(CurrentUserData.currUser.getID());
         username.setText("");
         firstname.setText("");
         lastname.setText("");
@@ -89,46 +104,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getUser(int userId) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
 
         String baseUrl = getResources().getString(R.string.base_url);
-        String url = baseUrl + "/user/" + userId;
+        String url = baseUrl + "user/" + userId;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {},
+                error -> {}) {
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String responseString = "";
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
-                    TextView view = findViewById(R.id.testView);
                     try {
-                        TextView username = findViewById(R.id.usernameField);
-                        TextView firstname = findViewById(R.id.firstNameField);
-                        TextView lastname = findViewById(R.id.lastNameField);
-                        TextView bio = findViewById(R.id.bioField);
                         JSONObject res = new JSONObject(responseBody);
                         username.setHint(res.getString("username"));
                         firstname.setHint(res.getString("firstname"));
                         lastname.setHint(res.getString("lastname"));
-                        bio.setHint(res.getString("bio"));
+                        bio.setHint(res.getString("biography"));
 
-                        currentUserData.currUser.setUserName(res.getString("username"));
-                        currentUserData.currUser.setFirstName(res.getString("firstname"));
-                        currentUserData.currUser.setLastName(res.getString("lastname"));
-                        currentUserData.currUser.setBirthday(res.getString("birthday"));
-                        currentUserData.currUser.setEmail(res.getString("email"));
-                        currentUserData.currUser.setPassword(res.getString("password"));
-                        currentUserData.currUser.setID(res.getInt("id"));
-                        currentUserData.currUser.setRole(res.get("role").toString());
+                        CurrentUserData.currUser.setUserName(res.getString("username"));
+                        CurrentUserData.currUser.setFirstName(res.getString("firstname"));
+                        CurrentUserData.currUser.setLastName(res.getString("lastname"));
+                        CurrentUserData.currUser.setBirthday(res.getString("birthday"));
+                        CurrentUserData.currUser.setEmail(res.getString("email"));
+                        CurrentUserData.currUser.setPassword(res.getString("password"));
+                        CurrentUserData.currUser.setID(res.getInt("id"));
+                        CurrentUserData.currUser.setRole(res.get("role").toString());
+                        CurrentUserData.currUser.setBio(res.getString("biography"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -205,29 +208,20 @@ public class MainActivity extends AppCompatActivity {
 */
     public void sendUser(String user, int userID) {
         //for debugging
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
         String baseUrl = getResources().getString(R.string.base_url);
-        String url = baseUrl + "/user/" + userID;
+        String url = baseUrl + "user/" + userID;
         final String requestBody = user;
-        final TextView textView = (TextView) findViewById(R.id.testView);
-        
-        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
+        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, response -> {},
+                error -> {}) {
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
             }
 
             @Override
-            public byte[] getBody() throws AuthFailureError {
+            public byte[] getBody() {
                 try {
                     return requestBody == null ? null : requestBody.getBytes("utf-8");
                 } catch (UnsupportedEncodingException uee) {
@@ -235,13 +229,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String responseString = "";
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
-                    textView.setText("Upload Successful");
+                    testView.setText("Upload Successful");
                 }
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }
