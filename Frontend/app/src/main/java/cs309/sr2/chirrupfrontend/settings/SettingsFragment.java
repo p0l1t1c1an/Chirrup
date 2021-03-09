@@ -1,15 +1,13 @@
 package cs309.sr2.chirrupfrontend.settings;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -54,17 +52,29 @@ public class SettingsFragment extends Fragment {
         lastname.setHint(CurrentUserData.currUser.getLastName());
         bio.setHint(CurrentUserData.currUser.getBio());
 
+        ((Button) root.findViewById(R.id.sendButton)).setOnClickListener((v) -> {
+            try {
+                readyUserToUpdate();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ((Button) root.findViewById(R.id.cancelButton)).setOnClickListener((v) -> {
+            clearUserText();
+        });
+
         return root;
     }
 
-    public void clearUserText(View view) {
+    public void clearUserText() {
         username.setText("");
         firstname.setText("");
         lastname.setText("");
         bio.setText("");
     }
 
-    public void readyUserToUpdate(View view) throws JSONException {
+    public void readyUserToUpdate() throws JSONException {
         //create Json to send to the server
         JSONObject toSend = new JSONObject();
 
@@ -83,7 +93,8 @@ public class SettingsFragment extends Fragment {
 
         //update user
         float currTime = System.nanoTime() / 1000000;
-        while ((System.nanoTime() / 1000000) - currTime < 50) {}
+        while ((System.nanoTime() / 1000000) - currTime < 50) {
+        }
         getUser(CurrentUserData.currUser.getID());
         username.setText("");
         firstname.setText("");
@@ -106,7 +117,6 @@ public class SettingsFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
             }
         }) {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String responseString = "";
@@ -117,7 +127,7 @@ public class SettingsFragment extends Fragment {
                         username.setHint(res.getString("username"));
                         firstname.setHint(res.getString("firstname"));
                         lastname.setHint(res.getString("lastname"));
-                        bio.setHint(res.getString("bio"));
+                        bio.setHint(res.getString("biography"));
 
                         CurrentUserData.currUser.setUserName(res.getString("username"));
                         CurrentUserData.currUser.setFirstName(res.getString("firstname"));
@@ -232,7 +242,6 @@ public class SettingsFragment extends Fragment {
                 }
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String responseString = "";
