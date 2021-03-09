@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">profile settings</string>
+    <string name="base_url">http://coms-309-016.cs.iastate.edu:8080/api/</string>
+</resources>
