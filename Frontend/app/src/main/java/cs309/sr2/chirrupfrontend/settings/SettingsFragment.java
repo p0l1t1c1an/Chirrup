@@ -1,12 +1,16 @@
-package cs309.sr2.chirrupfrontend;
+package cs309.sr2.chirrupfrontend.settings;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -20,35 +24,40 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Logger;
 
-public class ProfileSettingsActivity extends AppCompatActivity {
+import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.utils.AppController;
+
+public class SettingsFragment extends Fragment {
+
+    private TextView username;
+    private TextView firstname;
+    private TextView lastname;
+    private TextView bio;
+    private TextView testView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profilesettings);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
         //set text fields to current user data
-        TextView username = findViewById(R.id.usernameField);
-        TextView firstname = findViewById(R.id.firstNameField);
-        TextView lastname = findViewById(R.id.lastNameField);
-        TextView bio = findViewById(R.id.bioField);
+        username = root.findViewById(R.id.usernameField);
+        firstname = root.findViewById(R.id.firstNameField);
+        lastname = root.findViewById(R.id.lastNameField);
+        bio = root.findViewById(R.id.bioField);
+        testView = root.findViewById(R.id.testView);
         username.setHint(CurrentUserData.currUser.getUserName());
         firstname.setHint(CurrentUserData.currUser.getFirstName());
         lastname.setHint(CurrentUserData.currUser.getLastName());
         bio.setHint(CurrentUserData.currUser.getBio());
+
+        return root;
     }
 
     public void clearUserText(View view) {
-        TextView username = findViewById(R.id.usernameField);
-        TextView firstname = findViewById(R.id.firstNameField);
-        TextView lastname = findViewById(R.id.lastNameField);
-        TextView bio = findViewById(R.id.bioField);
         username.setText("");
         firstname.setText("");
         lastname.setText("");
@@ -58,11 +67,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     public void readyUserToUpdate(View view) throws JSONException {
         //create Json to send to the server
         JSONObject toSend = new JSONObject();
-
-        TextView username = findViewById(R.id.usernameField);
-        TextView firstname = findViewById(R.id.firstNameField);
-        TextView lastname = findViewById(R.id.lastNameField);
-        TextView bio = findViewById(R.id.bioField);
 
         toSend.put("email", CurrentUserData.currUser.getEmail());
         toSend.put("username", username.getText().toString());
@@ -75,7 +79,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         String jsonString = toSend.toString();
 
         //send to Server
-        final TextView testView = (TextView) findViewById(R.id.testView);
         sendUser(jsonString, CurrentUserData.currUser.getID());
 
         //update user
@@ -89,10 +92,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     }
 
     public void getUser(int userId) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
 
         String baseUrl = getResources().getString(R.string.base_url);
-        String url = baseUrl + "/user/" + userId;
+        String url = baseUrl + "user/" + userId;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -109,12 +112,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 String responseString = "";
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
-                    TextView view = findViewById(R.id.testView);
                     try {
-                        TextView username = findViewById(R.id.usernameField);
-                        TextView firstname = findViewById(R.id.firstNameField);
-                        TextView lastname = findViewById(R.id.lastNameField);
-                        TextView bio = findViewById(R.id.bioField);
                         JSONObject res = new JSONObject(responseBody);
                         username.setHint(res.getString("username"));
                         firstname.setHint(res.getString("firstname"));
@@ -205,12 +203,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 */
     public void sendUser(String user, int userID) {
         //for debugging
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
         String baseUrl = getResources().getString(R.string.base_url);
-        String url = baseUrl + "/user/" + userID;
+        String url = baseUrl + "user/" + userID;
         final String requestBody = user;
-        final TextView textView = (TextView) findViewById(R.id.testView);
-        
+
         StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -241,7 +238,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 String responseString = "";
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
-                    textView.setText("Upload Successful");
+                    testView.setText("Upload Successful");
                 }
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }

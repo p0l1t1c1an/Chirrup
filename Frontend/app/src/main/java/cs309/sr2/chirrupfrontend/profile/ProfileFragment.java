@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend;
+package cs309.sr2.chirrupfrontend.profile;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**

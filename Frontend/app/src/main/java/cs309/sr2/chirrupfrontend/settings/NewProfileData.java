@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend;
+package cs309.sr2.chirrupfrontend.settings;
 
 public class NewProfileData {
 
