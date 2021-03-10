@@ -36,21 +36,15 @@ public class SettingsFragment extends Fragment {
     private TextView lastname;
     private TextView bio;
     private TextView testView;
+    private TextView jacobText1;
+    private TextView jacobText2;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
         //set text fields to current user data
-        username = root.findViewById(R.id.usernameField);
-        firstname = root.findViewById(R.id.firstNameField);
-        lastname = root.findViewById(R.id.lastNameField);
-        bio = root.findViewById(R.id.bioField);
-        testView = root.findViewById(R.id.testView);
-        username.setHint(CurrentUserData.currUser.getUserName());
-        firstname.setHint(CurrentUserData.currUser.getFirstName());
-        lastname.setHint(CurrentUserData.currUser.getLastName());
-        bio.setHint(CurrentUserData.currUser.getBio());
+        getUser(CurrentUserData.currUser.getID());
 
         root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
             try {
@@ -101,6 +95,9 @@ public class SettingsFragment extends Fragment {
         firstname.setText("");
         lastname.setText("");
         bio.setText("");
+
+        //JACOB SETTINGS
+        getUserSettings(9);
     }
 
     public void getUser(int userId) {
@@ -117,12 +114,21 @@ public class SettingsFragment extends Fragment {
                 if (response != null) {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
                     try {
+                        //set fields
+                        username = (TextView) getView().findViewById(R.id.usernameField);
+                        firstname = (TextView) getView().findViewById(R.id.firstNameField);
+                        lastname = (TextView) getView().findViewById(R.id.lastNameField);
+                        bio = (TextView) getView().findViewById(R.id.bioField);
+                        testView = (TextView) getView().findViewById(R.id.testView);
+
+                        //parse JSON
                         JSONObject res = new JSONObject(responseBody);
                         username.setHint(res.getString("username"));
                         firstname.setHint(res.getString("firstname"));
                         lastname.setHint(res.getString("lastname"));
                         bio.setHint(res.getString("biography"));
 
+                        //set user fields
                         CurrentUserData.currUser.setUserName(res.getString("username"));
                         CurrentUserData.currUser.setFirstName(res.getString("firstname"));
                         CurrentUserData.currUser.setLastName(res.getString("lastname"));
@@ -143,69 +149,6 @@ public class SettingsFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    /*
-    public void createNewUser(View view) {
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        final TextView textView = (TextView) findViewById(R.id.textResponse);
-        String firstName = ((EditText) findViewById(R.id.editTextFirstName)).getText().toString();
-        String lastName = ((EditText) findViewById(R.id.editTextLastName)).getText().toString();
-        String address = ((EditText) findViewById(R.id.editTextAddress)).getText().toString();
-        String phone = ((EditText) findViewById(R.id.editTextPhone)).getText().toString();
-
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("username", "ya");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        final String requestBody = jsonBody.toString();
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://coms-309-016.cs.iastate.edu:8080/api/user/6";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    return null;
-                }
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String responseString = "";
-                if (response != null) {
-                    String responseBody = new String(response.data, StandardCharsets.UTF_8);
-                    textView.setText(responseBody);
-                }
-                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-            }
-        };
-
-        requestQueue.add(stringRequest);
-    }
-*/
     public void sendUser(String user, int userID) {
         //for debugging
         RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
@@ -238,41 +181,36 @@ public class SettingsFragment extends Fragment {
                 }
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }
-//        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//            }
-//        }) {
-//            @Override
-//            public String getBodyContentType() {
-//                return "application/json; charset=utf-8";
-//            }
-//
-//            @Override
-//            public byte[] getBody() throws AuthFailureError {
-//                try {
-//                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-//                } catch (UnsupportedEncodingException uee) {
-//                    return null;
-//                }
-//            }
-//
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            @Override
-//            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-//                String responseString = "";
-//                if (response != null) {
-//                    //Returns the id of the user i am changing
-//                    String responseBody = new String(response.data, StandardCharsets.UTF_8);
-//                    testView.setText(responseBody);
-//                    //for debugging//sends if it worked or not
-//                }
-//                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-//            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+    public void getUserSettings(int userId) {
+        RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
+
+        String baseUrl = getResources().getString(R.string.base_url);
+        String url = baseUrl + "settings/" + userId;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {},
+                error -> {}) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    String responseBody = new String(response.data, StandardCharsets.UTF_8);
+                    try {
+                        JSONObject userData = new JSONObject(responseBody);
+                        jacobText1 = (TextView) getView().findViewById(R.id.jacobText1);
+                        jacobText2 = (TextView) getView().findViewById(R.id.jacobText2);
+                        jacobText1.setText("Dark Mode: " + userData.get("darkMode").toString());
+                        jacobText2.setText("Text Size: " + userData.get("textSize").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
         };
 
         requestQueue.add(stringRequest);
