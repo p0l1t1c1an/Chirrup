@@ -97,17 +97,18 @@ public class UserController {
     // creating post mapping that creates a new user
     @PostMapping("/user")
     private int saveUser(@RequestBody User user) {
-        switch (user.getRole()) {
-            case 2: 
-                user.setSettings(new ChildSettings(user));
-                break;
-            case 3:
-                user.setSettings(new ParentSettings(user));
-                break; 
-            default:
-                user.setSettings(new StandardSettings(user));
-                break;
-        }
+        // switch (user.getRole()) {
+        //     case 2: 
+        //         user.setSettings(new ChildSettings(user));
+        //         break;
+        //     case 3:
+        //         user.setSettings(new ParentSettings(user));
+        //         break; 
+        //     default:
+        //         user.setSettings(new StandardSettings(user));
+        //         break;
+        // }
+        user.setSettings(new StandardSettings(user));
         userService.saveOrUpdate(user);
         return user.getId();
     }
