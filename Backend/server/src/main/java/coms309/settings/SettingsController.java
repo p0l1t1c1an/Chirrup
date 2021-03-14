@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,22 +34,22 @@ public class SettingsController {
     }
     
     @GetMapping("/settings/{id}")
-    private Settings getStandard(@PathVariable("id") int id) {
+    private StandardSettings getStandard(@PathVariable("id") int id) {
         return settingsService.getStandardById(id);
     }
 
     @GetMapping("/settings/child/{id}")
-    private Settings getChild(@PathVariable("id") int id) {
+    private ChildSettings getChild(@PathVariable("id") int id) {
         return settingsService.getChildById(id);
     }
 
     @GetMapping("/settings/parent/{id}")
-    private Settings getParent(@PathVariable("id") int id) {
+    private ParentSettings getParent(@PathVariable("id") int id) {
         return settingsService.getParentById(id);
     }
 
     @DeleteMapping("/settings/{id}")
-    private void deleteSettings(@PathVariable("id") int id) {
+    private void deleteStandard(@PathVariable("id") int id) {
         settingsService.deleteStandard(id);
     }
 
@@ -62,24 +63,24 @@ public class SettingsController {
         settingsService.deleteParent(id);
     }
 
-    @PostMapping("/settings/{id}")
-    private int saveSettings(@PathVariable("id") int id, @RequestBody StandardSettings s) {
+    @PutMapping("/settings/{id}")
+    private int editStandard(@PathVariable("id") int id, @RequestBody StandardSettings s) {
         StandardSettings update = settingsService.getStandardById(id);
         update.updateSettings(s);
         settingsService.saveStandard(update);
         return update.getId();
     }
  
-    @PostMapping("/settings/child/{id}")
-    private int saveSettings(@PathVariable("id") int id, @RequestBody ChildSettings s) {
+    @PutMapping("/settings/child/{id}")
+    private int editChild(@PathVariable("id") int id, @RequestBody ChildSettings s) {
         ChildSettings update = settingsService.getChildById(id);
         update.updateSettings(s);
         settingsService.saveChild(update);
         return update.getId();
     }
 
-    @PostMapping("/settings/parent/{id}")
-    private int saveSettings(@PathVariable("id") int id, @RequestBody ParentSettings s) {
+    @PutMapping("/settings/parent/{id}")
+    private int editParent(@PathVariable("id") int id, @RequestBody ParentSettings s) {
         ParentSettings update = settingsService.getParentById(id);
         update.updateSettings(s);
         settingsService.saveParent(update);
@@ -87,20 +88,20 @@ public class SettingsController {
     }
 
     @PostMapping("/settings")
-    private int saveSettings(@RequestBody StandardSettings s) {
+    private int saveStandard(@RequestBody StandardSettings s) {
         settingsService.saveStandard(s);
         return s.getId();
     }
 
     
     @PostMapping("/settings/child")
-    private int saveSettings(@RequestBody ChildSettings s) {
+    private int saveChild(@RequestBody ChildSettings s) {
         settingsService.saveChild(s);
         return s.getId();
     }    
 
     @PostMapping("/settings/parent")
-    private int saveSettings(@RequestBody ParentSettings s) {
+    private int saveParent(@RequestBody ParentSettings s) {
         settingsService.saveParent(s);
         return s.getId();
     }

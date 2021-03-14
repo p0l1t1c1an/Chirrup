@@ -4,6 +4,7 @@ import coms309.user.User;
 
 import org.springframework.core.style.ToStringCreator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
 * This is a standard settings class that is used
@@ -30,7 +32,7 @@ public abstract class Settings {
     @Column(name = "user_id")
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "user_id")
     private User user;
