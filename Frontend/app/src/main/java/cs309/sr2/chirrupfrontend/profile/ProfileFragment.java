@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend;
+package cs309.sr2.chirrupfrontend.profile;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -34,7 +35,7 @@ public class ProfileFragment extends Fragment {
     /**
      * identification number representing user
      */
-    private int userID = 6;
+    private int userID = 6; //temp for testing purposes
 
     /**
      * avatar image view
@@ -71,8 +72,7 @@ public class ProfileFragment extends Fragment {
         name = root.findViewById(R.id.name);
         bio = root.findViewById(R.id.bio);
 
-        getNameAndUsername();
-        getBio();
+        getTexts();
         getAvatar();
 
         Button followers = root.findViewById(R.id.followers);
@@ -116,13 +116,14 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * get the user's username and name from the database
+     * get the user's username, name, and bio from the database
      */
-    private void getNameAndUsername() {
+    private void getTexts() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 getString(R.string.base_url) + "user/" + userID, null,
-                (Response.Listener<JSONObject>) response -> {
+                response -> {
                     try {
+                        bio.setText(response.getString("biography"));
                         username.setText(response.getString("username"));
                         name.setText(response.getString("firstname") + " " +
                                 response.getString("lastname"));
@@ -130,32 +131,10 @@ public class ProfileFragment extends Fragment {
                         Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
                         e.printStackTrace();
                     }
-                }, (Response.ErrorListener) error ->
+                }, error ->
                 VolleyLog.d(ProfileFragment.class.getSimpleName(), "Error: " + error.getMessage()));
 
 
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
-
-
-    /**
-     * get the user's bio from the database
-     */
-    private void getBio() {
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                getString(R.string.base_url) + "profile/" + userID, null,
-                (Response.Listener<JSONObject>) response -> {
-                    try {
-                        bio.setText(response.getString("biography"));
-                    } catch (JSONException e) {
-                        Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }, (Response.ErrorListener) error ->
-                VolleyLog.d(ProfileFragment.class.getSimpleName(), "Error: " + error.getMessage()));
-
-
-        AppController.getInstance().addToRequestQueue(jsonObjReq);
-    }
-
 }

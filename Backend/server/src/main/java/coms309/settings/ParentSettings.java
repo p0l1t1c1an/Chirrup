@@ -24,8 +24,8 @@ import javax.persistence.OneToMany;
 public class ParentSettings extends StandardSettings {
 
     @OneToMany
-    @JoinColumn(name="children", referencedColumnName = "user_id")
-    private List<ChildSettings> children = new ArrayList<ChildSettings>();
+    @JoinColumn(name="children", referencedColumnName = "id")
+    private List<User> children = new ArrayList<User>();
     
     public ParentSettings(){
         super();

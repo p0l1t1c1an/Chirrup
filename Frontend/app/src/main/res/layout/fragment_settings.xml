@@ -80,7 +80,6 @@
         android:layout_marginBottom="25dp"
         android:text="Save"
         android:textSize="4pt"
-        android:onClick="readyUserToUpdate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -92,20 +91,37 @@
         android:layout_marginBottom="25dp"
         android:text="Cancel"
         android:textSize="4pt"
-        android:onClick="clearUserText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/testView"
-        android:layout_width="275dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="190dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_horizontal"
         android:text=""
-        android:textSize="20dp"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bioField" />
+
+    <TextView
+        android:id="@+id/jacobText1"
+        android:layout_width="192dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="29dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testView" />
+
+    <TextView
+        android:id="@+id/jacobText2"
+        android:layout_width="194dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="89dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jacobText1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

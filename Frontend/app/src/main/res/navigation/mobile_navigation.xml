@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     android:label="menu_profile"
     app:startDestination="@+id/nav_profile">
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="cs309.sr2.chirrupfrontend.ProfileFragment"
+        android:name="cs309.sr2.chirrupfrontend.profile.ProfileFragment"
         android:label="@string/menu_profile" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="cs309.sr2.chirrupfrontend.settings.SettingsFragment"
+        android:label="Settings" />
 
 </navigation>
