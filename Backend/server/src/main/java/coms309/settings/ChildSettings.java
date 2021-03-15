@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
+import io.swagger.annotations.ApiModelProperty;
 
 /**
 * This is a child settings class that is used
@@ -25,7 +26,10 @@ import javax.persistence.ManyToMany;
 @Entity
 public class ChildSettings extends StandardSettings {
 
+    @ApiModelProperty(notes = "Is the child locked out?", name="locked", required=true)
     private boolean locked;
+
+    @ApiModelProperty(notes = "How long can the child be on chirrup?", name="timeLimit", required=true)
     private int timeLimit;
 
 //    @ManyToMany(cascade = CascadeType.ALL)

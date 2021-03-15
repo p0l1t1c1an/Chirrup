@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.Api;
+
 /**
 * This is a standard settings class that is used
 * to config appearance and notification settings. 
@@ -28,10 +31,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "settings")
 public abstract class Settings {
 
+    @ApiModelProperty(notes = "User's Id linked to user", name="id", required=true)
     @Id
     @Column(name = "user_id")
     private int id;
 
+    @ApiModelProperty(notes = "The user linked these settings", name="user", required=true)
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "user_id")

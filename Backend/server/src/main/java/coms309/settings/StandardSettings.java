@@ -6,6 +6,8 @@ import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
 * This is a standard settings class that is used
 * to config appearance and notification settings. 
@@ -16,8 +18,14 @@ import javax.persistence.Entity;
 @Entity
 public class StandardSettings extends Settings {
 
+    @ApiModelProperty(notes = "Dark or Light Background Theme", name="darkMode", required=true)
     private boolean darkMode;
+    
+
+    @ApiModelProperty(notes = "How long until new post are loaded in feed", name="updateTime", required=true)
     private int updateTime;
+    
+    @ApiModelProperty(notes = "Size of the user's text in px", name="textSize", required=true)
     private int textSize;
 
     public StandardSettings(){
