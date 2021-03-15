@@ -40,6 +40,7 @@ public abstract class Settings {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public Settings(){
