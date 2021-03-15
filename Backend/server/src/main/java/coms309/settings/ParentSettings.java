@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
 * This is a parent's settings class that is used
@@ -24,7 +25,8 @@ import javax.persistence.OneToMany;
 public class ParentSettings extends StandardSettings {
 
     @OneToMany
-    @JoinColumn(name="children", referencedColumnName = "id")
+    @JoinColumn(name="children")
+    @JsonIgnore
     private List<User> children = new ArrayList<User>();
     
     public ParentSettings(){
@@ -39,15 +41,15 @@ public class ParentSettings extends StandardSettings {
         super(user, d, up, t);
     }
 
-    public List<ChildSettings> getChildren() {
+    public List<User> getChildren() {
         return children;
     }
 
-    public void setChildren(List<ChildSettings> c) {
+    public void setChildren(List<User> c) {
         children = c;
     }
 
-    public void addChild(ChildSettings c){
+    public void addChild(User c){
         children.add(c);
     }
 
