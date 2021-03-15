@@ -14,23 +14,50 @@ import com.android.volley.toolbox.Volley;
  */
 public class AppController extends Application {
 
+    /**
+     * name of this class
+     */
     public static final String TAG = AppController.class.getSimpleName();
 
+    /**
+     * global http request queue
+     */
     private RequestQueue requestQueue;
+
+
+    /**
+     * global image loader with LruBitmapCache
+     */
     private ImageLoader imageLoader;
 
+    /**
+     * global instance of the app controller
+     */
     private static AppController instance;
 
+    /**
+     * set instance to the instance created on app launch
+     */
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
     }
 
+    /**
+     * get the app controller instance
+     *
+     * @return instance of the app controller
+     */
     public static synchronized AppController getInstance() {
         return instance;
     }
 
+    /**
+     * get the global request queue, or make one if it doesn't exist
+     *
+     * @return the request queue
+     */
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -39,6 +66,11 @@ public class AppController extends Application {
         return requestQueue;
     }
 
+    /**
+     * get the image loader, or create it if it doesn't exist
+     *
+     * @return image loader
+     */
     public ImageLoader getImageLoader() {
         getRequestQueue();
         if (imageLoader == null) {
@@ -48,23 +80,38 @@ public class AppController extends Application {
         return this.imageLoader;
     }
 
+    /**
+     * add a request to the request queue with a specific tag
+     *
+     * @param req request to send
+     * @param tag tag to request with
+     * @param <T> data type of request
+     */
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         getRequestQueue().add(req);
     }
 
+    /**
+     * add a request to the request queue
+     *
+     * @param req request to send
+     * @param <T> data type of request
+     */
     public <T> void addToRequestQueue(Request<T> req) {
         req.setTag(TAG);
         getRequestQueue().add(req);
     }
 
+    /**
+     * cancel all requests associated to the tag
+     *
+     * @param tag tag requests are referenced by
+     */
     public void cancelPendingRequests(Object tag) {
         if (requestQueue != null) {
             requestQueue.cancelAll(tag);
         }
     }
-
-
-
 }

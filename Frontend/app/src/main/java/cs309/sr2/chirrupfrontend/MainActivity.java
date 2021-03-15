@@ -13,10 +13,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+/**
+ * Main activity the app opens to, will contain all the fragments for all the screens
+ *
+ * @author Jeremy Noesen, William Zogg
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * main app bar
+     */
     private AppBarConfiguration mAppBarConfiguration;
 
+    /**
+     * initialize the main activity when it is created when the app is launched
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    /**
+     * add elements to the options menu when it is created
+     *
+     * @param menu menu created
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -41,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * This method is called whenever the user chooses to navigate Up within your application's
+     * activity hierarchy from the action bar.
+     *
+     * @return true on navigation up
+     */
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
