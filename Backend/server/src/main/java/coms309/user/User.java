@@ -3,6 +3,7 @@ package coms309.user;
 import org.springframework.core.style.ToStringCreator;
 
 import coms309.settings.Settings;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,17 +22,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User {
     
     //User properties
+    
+    @ApiModelProperty(notes = "Id of the User",name="id",required=true)
     @Id
     @GeneratedValue
     private int id;
+    @ApiModelProperty(notes = "Email of the User",name="email",required=true)
     private String email;
+    @ApiModelProperty(notes = "Password of the User",name="password",required=true)
     private String password;
+    @ApiModelProperty(notes = "Username of the User",name="username",required=true)
     private String username;
+    @ApiModelProperty(notes = "Firstname of the User",name="firstname",required=true)
     private String firstname;
+    @ApiModelProperty(notes = "Lastname of the User",name="lastname",required=true)
     private String lastname;
+    @ApiModelProperty(notes = "Role of the User",name="role",required=true)
     private int role;
+    @ApiModelProperty(notes = "Phone number of the User",name="telephone",required=true)
     private String telephone;
+    @ApiModelProperty(notes = "Birthday of the User",name="birthday",required=true)
     private String birthday;
+    @ApiModelProperty(notes = "Biography of the User",name="biography",required=true)
     private String biography;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

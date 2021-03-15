@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.builders.PathSelectors; 
-import springfox.documentation.builders.RequestHandlerSelectors; 
+import springfox.documentation.builders.RequestHandlerSelectors;
+
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.spring.web.OnServletBasedWebApplication;

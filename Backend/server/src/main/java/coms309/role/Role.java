@@ -2,6 +2,8 @@ package coms309.role;
 
 import org.springframework.core.style.ToStringCreator;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,9 +12,12 @@ import javax.persistence.Id;
 public class Role {
     
     //Role properties
+    @ApiModelProperty(notes = "Id of the Role",name="id",required=true)
     @Id
     @GeneratedValue
     private int id;
+
+    @ApiModelProperty(notes = "Name of the Role",name="role",required=true)
     private String role;
     
     // @OneToMany(targetEntity = Role.class, cascade = CascadeType.ALL)

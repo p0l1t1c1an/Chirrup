@@ -16,10 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import coms309.settings.StandardSettings;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import coms309.settings.ChildSettings;
 import coms309.settings.ParentSettings;
 
 //creating RestController  
+@Api(value = "UserController", description = "Rest APIs for user entity")
 @RequestMapping("/api")
 @RestController
 public class UserController {
@@ -29,6 +34,12 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);    
 
     //creating a get mapping to retrieve all the users in the db
+    @ApiOperation(value = "get all users", response = Iterable.class, tags = "getUsers")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/user")
     private List<User> getAllUser() {
         logger.info("got users");
@@ -36,6 +47,12 @@ public class UserController {
     }
 
     //creating a get mappping to get a user by an id
+    @ApiOperation(value = "get user by id", response = User.class, tags = "getUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/user/{id}")
     private User getUser(@PathVariable("id") int id) {
         logger.info("got user");
@@ -43,6 +60,12 @@ public class UserController {
     }
 
     // creating a delete mapping to remove an existing user
+    @ApiOperation(value = "delete user by id", response = String.class, tags = "deleteUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @DeleteMapping("/user/{id}")
     private String deleteUser(@PathVariable("id") int id) {
         logger.info("deleted user");
@@ -61,6 +84,12 @@ public class UserController {
     // }
 
     // creating post mapping that edits an existing user
+    @ApiOperation(value = "edit user by id", response = String.class, tags = "editUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @PutMapping("/user/{id}")
     private String editUser(@PathVariable("id") int id, @RequestBody User user) {
         logger.info("edited user");
@@ -71,6 +100,12 @@ public class UserController {
     }
 
     // creating post mapping that partially edits an existing user
+    @ApiOperation(value = "partially edit a user", response = String.class, tags = "editPartialUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @PatchMapping("/user/{id}")
     private String editPartialUser(@PathVariable("id") int id, @RequestBody User user) {
         logger.info("edited user");
@@ -81,6 +116,12 @@ public class UserController {
     }
 
     // creating get mapping that returns who a user is following
+    @ApiOperation(value = "get users following user by id", response = Iterable.class, tags = "getFollowing")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/user/following/{id}")
     private List<Integer> getFollowing(@PathVariable("id") int id) {
         logger.info("returned followed users");
@@ -88,6 +129,12 @@ public class UserController {
     }
 
     // creating get mapping that returns who a user is being followed by
+    @ApiOperation(value = "get users followers by id", response = Iterable.class, tags = "getFollowers")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/user/followers/{id}")
     private List<Integer> getFollowers(@PathVariable("id") int id) {
         logger.info("returned followers");
@@ -95,8 +142,14 @@ public class UserController {
     }
 
     // creating post mapping that creates a new user
+    @ApiOperation(value = "create a new user", response = User.class, tags = "saveUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/user")
-    private int saveUser(@RequestBody User user) {
+    private User saveUser(@RequestBody User user) {
         // switch (user.getRole()) {
         //     case 2: 
         //         user.setSettings(new ChildSettings(user));
@@ -110,10 +163,16 @@ public class UserController {
         // }
         user.setSettings(new StandardSettings(user));
         userService.saveOrUpdate(user);
-        return user.getId();
+        return user;
     }
 
     // creating post mapping that follows a user
+    @ApiOperation(value = "follow a user", response = String.class, tags = "followUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/user/{id}/followers/{following}")
     private String followUser(@PathVariable("id") int id, @PathVariable("following") int follow) {
         User follower = userService.getUserById(id);
