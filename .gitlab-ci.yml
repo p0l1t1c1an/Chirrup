@@ -21,4 +21,4 @@ android-build:
      - chmod +x ./Frontend/gradlew
     script:
      - cd Frontend
-     - ./gradlew aseemble
+     - ./gradlew assemble
