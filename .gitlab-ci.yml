@@ -8,7 +8,7 @@ maven-build:
     tags:
      - springboot_runner
     script:
-     - cd Backend
+     - cd /Backend/server
      - mvn package
 
 android-build:
