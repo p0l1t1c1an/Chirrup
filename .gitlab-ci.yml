@@ -1,7 +1,8 @@
 #this is a config file for CI/CD
 stages:
  - maventry
- - androidtry
+ - androidbuild
+ - androidtest
     
 maven-build:
     stage: maventry
@@ -13,7 +14,7 @@ maven-build:
 
 android-build:
     image: javiersantos/android-ci:latest
-    stage: androidtry
+    stage: androidbuild
     tags: 
      - android_runner
     before_script:
@@ -22,3 +23,18 @@ android-build:
     script:
      - cd Frontend
      - ./gradlew assemble
+    artifacts:
+      paths:
+      - Android_test/app/build/outputs/
+      
+android-test:
+    image: javiersantos/android-ci:latest
+    stage: androidtest
+    tags: 
+     - android_runner
+    before_script:
+     - export GRADLE_USER_HOME='pwd'/.gradle
+     - chmod +x ./Frontend/gradlew
+    script:
+     - cd Frontend
+     - ./gradlew test
