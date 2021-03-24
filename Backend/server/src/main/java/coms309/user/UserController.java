@@ -161,6 +161,7 @@ public class UserController {
         //         user.setSettings(new StandardSettings(user));
         //         break;
         // }
+        logger.info("created new user");
         user.setSettings(new StandardSettings(user));
         userService.saveOrUpdate(user);
         return user;
@@ -179,6 +180,7 @@ public class UserController {
         User following = userService.getUserById(follow);
         follower.addFollowing(following);
         userService.saveOrUpdate(follower);
+        logger.info("followed a user");
         return "User is now following: " + following.getUsername();
     }
 }
