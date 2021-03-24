@@ -11,6 +11,17 @@ maven-build:
     script:
      - cd Backend/server
      - mvn package
+     
+maven-test:
+    stage: maventest
+    tags:
+     - springboot_runner
+    script:
+     - cd Backend/server
+     - mvn test
+    artifacts:
+     paths:
+      - Backend/server/target/*.jar
 
 android-build:
     image: javiersantos/android-ci:latest
