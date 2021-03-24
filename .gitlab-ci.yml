@@ -1,6 +1,8 @@
 #this is a config file for CI/CD
 stages:
  - maventry
+ - maventest
+ - mavendeploy
  - androidbuild
  - androidtest
     
@@ -24,7 +26,7 @@ maven-test:
       - Backend/server/target/*.jar
 
 autoDeploy:
-    stage: mavenDeploy
+    stage: mavendeploy
     tags:
      - springboot_runner
     script:
