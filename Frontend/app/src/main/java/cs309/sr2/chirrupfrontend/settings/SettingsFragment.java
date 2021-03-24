@@ -29,16 +29,36 @@ import java.nio.charset.StandardCharsets;
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
+/**
+ * This class is the page where a user can see and update their profile data.
+ *
+ * @author wszogg
+ */
 public class SettingsFragment extends Fragment {
 
+    //Textbox where users input a new username.
     private TextView username;
+    //Textbox where users input a new first name.
     private TextView firstname;
+    //Textbox where users input a new last name.
     private TextView lastname;
+    //Textbox where users input a new bio.
     private TextView bio;
+    //Textbox to show update status.
     private TextView testView;
+    //Textbox to show some settings.
     private TextView jacobText1;
+    //Textbox to show some settings.
     private TextView jacobText2;
 
+    /**
+     * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
+     *
+     * @param inflater Turns the corresponding XML file into a layout.
+     * @param container A group of views.
+     * @param savedInstanceState A map of string keys.
+     * @return New view for this fragment.
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -61,6 +81,9 @@ public class SettingsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * This method clears all text editing fields.
+     */
     public void clearUserText() {
         username.setText("");
         firstname.setText("");
@@ -68,6 +91,11 @@ public class SettingsFragment extends Fragment {
         bio.setText("");
     }
 
+    /**
+     * This method grabs all user data and sends it to the server (calls sendUser()), and clears the text fields.
+     *
+     * @throws JSONException This method creates a json object to send to the server and so it may throw a JSONException.
+     */
     public void readyUserToUpdate() throws JSONException {
         //create Json to send to the server
         JSONObject toSend = new JSONObject();
@@ -100,6 +128,11 @@ public class SettingsFragment extends Fragment {
         getUserSettings(9);
     }
 
+    /**
+     *This user sends a GET request to get user data for a specific user, and updates their data.
+     *
+     * @param userId The id of the user you want to update.
+     */
     public void getUser(int userId) {
         RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
 
@@ -149,6 +182,12 @@ public class SettingsFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * This method sends a user to the server via a PATCH request. It will print whether or not it was successful in a textView box.
+     *
+     * @param user JSON String representing user info to send.
+     * @param userID ID of the user you are sending.
+     */
     public void sendUser(String user, int userID) {
         //for debugging
         RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
@@ -186,6 +225,11 @@ public class SettingsFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * Gets settings for a specific user via a GET request.
+     *
+     * @param userId The id of the user you want to get settings for.
+     */
     public void getUserSettings(int userId) {
         RequestQueue requestQueue = Volley.newRequestQueue(AppController.getInstance());
 
