@@ -23,6 +23,17 @@ maven-test:
      paths:
       - Backend/server/target/*.jar
 
+autoDeploy:
+    stage: mavenDeploy
+    tags:
+     - springboot_runner
+    script:
+     - cd Backend/server
+     - mvn package
+     - sudo mv target/*.jar /target/web-demo.jar
+     - sudo systemctl stop system-web-demo
+     - sudo systemctl start system-web-demo
+
 android-build:
     image: javiersantos/android-ci:latest
     stage: androidbuild
