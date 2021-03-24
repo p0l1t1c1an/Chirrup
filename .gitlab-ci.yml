@@ -1,6 +1,8 @@
 #this is a config file for CI/CD
 stages:
  - maventry
+ - maventest
+ - mavendeploy
  - androidbuild
  - androidtest
     
@@ -11,6 +13,28 @@ maven-build:
     script:
      - cd Backend/server
      - mvn package
+     
+maven-test:
+    stage: maventest
+    tags:
+     - springboot_runner
+    script:
+     - cd Backend/server
+     - mvn test
+    artifacts:
+     paths:
+      - Backend/server/target/*.jar
+
+autoDeploy:
+    stage: mavendeploy
+    tags:
+     - springboot_runner
+    script:
+     - cd Backend/server
+     - mvn package
+     - sudo mv target/*.jar /target/web-demo.jar
+     - sudo systemctl stop system-web-demo
+     - sudo systemctl start system-web-demo
 
 android-build:
     image: javiersantos/android-ci:latest

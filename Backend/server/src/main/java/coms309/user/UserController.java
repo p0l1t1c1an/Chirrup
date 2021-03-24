@@ -110,7 +110,7 @@ public class UserController {
     private String editPartialUser(@PathVariable("id") int id, @RequestBody User user) {
         logger.info("edited user");
         User found = userService.getUserById(id);
-        found.updatePatrialInfo(user);
+        found.updatePartialInfo(user);
         userService.saveOrUpdate(found);
         return "User edited: " + found.getUsername();
     }
@@ -161,6 +161,7 @@ public class UserController {
         //         user.setSettings(new StandardSettings(user));
         //         break;
         // }
+        logger.info("created new user");
         user.setSettings(new StandardSettings(user));
         userService.saveOrUpdate(user);
         return user;
@@ -179,6 +180,7 @@ public class UserController {
         User following = userService.getUserById(follow);
         follower.addFollowing(following);
         userService.saveOrUpdate(follower);
+        logger.info("followed a user");
         return "User is now following: " + following.getUsername();
     }
 }
