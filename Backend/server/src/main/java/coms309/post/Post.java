@@ -6,6 +6,7 @@ import coms309.user.User;
 import coms309.user.UserService;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.ObjectInputStream.GetField;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Entity
@@ -74,6 +76,11 @@ public class Post {
     }
 
     //dateCreated
+    @JsonIgnore
+    public Date getDateCreated() {
+        return this.dateCreated;
+    }
+
     @JsonGetter("dateCreated")
     public String getDateCreatedString() {
         if(this.dateCreated != null) {
