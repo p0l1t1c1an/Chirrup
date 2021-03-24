@@ -88,7 +88,7 @@ public class ProfileFragment extends Fragment {
         });
 
 //        LinearLayout linearLayout = root.findViewById(R.id.profile_feed_layout);
-//        linearLayout.addView(new PostCard(inflater, container, savedInstanceState, 5, 0).getView());
+//        linearLayout.addView(new PostCard(inflater, container, savedInstanceState, 5).getView());
 
         return root;
     }

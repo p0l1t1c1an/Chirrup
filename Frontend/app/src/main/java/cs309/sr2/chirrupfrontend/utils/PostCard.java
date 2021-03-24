@@ -80,10 +80,10 @@ public class PostCard {
      * @param savedInstanceState Bundle from parent view onCreate
      */
     public PostCard(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState,
-                    int userID, int postID) {
+                    int postID) {
 
-        this.userID = userID;
         this.postID = postID;
+        userID = 5; //todo get user ID from post
 
         root = inflater.inflate(R.layout.ui_postcard, container, false);
 
@@ -93,7 +93,7 @@ public class PostCard {
         body = root.findViewById(R.id.postbody);
         timestamp = root.findViewById(R.id.posttimestamp);
 
-        getUserText();
+        getUserData();
       //  getPostText();
         getAvatar();
 
@@ -143,7 +143,7 @@ public class PostCard {
     /**
      * get the user's username and name from the database
      */
-    private void getUserText() {
+    private void getUserData() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 AppController.getInstance().getString(R.string.base_url) + "user/" + userID, null,
                 response -> {
@@ -165,7 +165,7 @@ public class PostCard {
     /**
      * get the post data from the database
      */
-    private void getPostText() {
+    private void getPostData() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 AppController.getInstance().getString(R.string.base_url) + "url_here", null, //todo put proper url here
                 response -> {
