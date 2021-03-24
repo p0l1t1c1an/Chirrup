@@ -84,6 +84,9 @@ public class ProfileFragment extends Fragment {
             //show following list
         });
 
+//        LinearLayout linearLayout = root.findViewById(R.id.profile_feed_layout);
+//        linearLayout.addView(new PostCard(inflater, container, 5).getView());
+
         return root;
     }
 
