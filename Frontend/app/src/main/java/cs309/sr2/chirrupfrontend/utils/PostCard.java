@@ -35,7 +35,7 @@ public class PostCard {
     /**
      * identification number representing user
      */
-    private final int userID;
+    private int userID;
 
     /**
      * identification number representing post
@@ -77,13 +77,10 @@ public class PostCard {
      *
      * @param inflater LayoutInflater from parent view onCreate
      * @param container ViewGroup from parent view onCreate
-     * @param savedInstanceState Bundle from parent view onCreate
      */
-    public PostCard(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState,
-                    int postID) {
+    public PostCard(@NonNull LayoutInflater inflater, ViewGroup container, int postID) {
 
         this.postID = postID;
-        userID = 5; //todo get user ID from post
 
         root = inflater.inflate(R.layout.ui_postcard, container, false);
 
@@ -93,8 +90,8 @@ public class PostCard {
         body = root.findViewById(R.id.postbody);
         timestamp = root.findViewById(R.id.posttimestamp);
 
+        getPostData();
         getUserData();
-      //  getPostText();
         getAvatar();
 
         Button like = root.findViewById(R.id.postlike);
@@ -167,11 +164,12 @@ public class PostCard {
      */
     private void getPostData() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                AppController.getInstance().getString(R.string.base_url) + "url_here", null, //todo put proper url here
+                AppController.getInstance().getString(R.string.base_url) + "posts/" + postID, null,
                 response -> {
                     try {
-                        body.setText(response.getString("body"));
-                        timestamp.setText(response.getString("time"));
+                        body.setText(response.getString("content"));
+                        timestamp.setText(response.getString("dateCreated"));
+                        userID = response.getInt("creator");
                     } catch (JSONException e) {
                         Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
                         e.printStackTrace();
