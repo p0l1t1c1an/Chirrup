@@ -24,7 +24,9 @@ import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
 
 /**
  * A UI element that will show the contents of a user post, including details about who posted, what
- * was posted, and likes
+ * was posted, and likes. a post can be added to a layout easily by doing
+ * <br>
+ * <code>layout.addView(new PostCard(inflater, container, savedInstanceState, userID, postID).getView());</code>
  *
  * @author Jeremy Noesen
  */
@@ -71,11 +73,11 @@ public class PostCard {
     private final View root;
 
     /**
-     * set up the post card contents
+     * create a new post card within another view from a userID and postID.
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater LayoutInflater from parent view onCreate
+     * @param container ViewGroup from parent view onCreate
+     * @param savedInstanceState Bundle from parent view onCreate
      */
     public PostCard(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState,
                     int userID, int postID) {
