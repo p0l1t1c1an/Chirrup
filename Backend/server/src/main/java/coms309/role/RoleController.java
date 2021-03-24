@@ -1,6 +1,9 @@
 package coms309.role;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,7 @@ public class RoleController {
     // autowired the StudentService class
     @Autowired
     RoleService roleService;
+    Logger logger = LoggerFactory.getLogger(RoleController.class);    
 
     //creating a get mapping for returning all roles in the db
     @ApiOperation(value = "lists all roles", response = Iterable.class, tags = "getAllRole")
@@ -34,6 +38,7 @@ public class RoleController {
         @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/role")
     private List<Role> getAllRole() {
+        logger.info("got all roles");
         return roleService.getAllRole();
     }
 
@@ -46,6 +51,7 @@ public class RoleController {
         @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/role/{id}")
     private Role getRole(@PathVariable("id") int id) {
+        logger.info("got role by id");
         return roleService.getRoleById(id);
     }
 
@@ -58,6 +64,7 @@ public class RoleController {
         @ApiResponse(code = 404, message = "not found!!!") })
     @DeleteMapping("/role/{id}")
     private String deleteRole(@PathVariable("id") int id) {
+        logger.info("deleted role by id");
         roleService.delete(id);
         return "Role deleted: " + id;
     }
@@ -71,6 +78,7 @@ public class RoleController {
         @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/role")
     private String saveRole(@RequestBody Role role) {
+        logger.info("created a new role");
         roleService.saveOrUpdate(role);
         return "Role created: " + role.getRole();
     }
@@ -86,6 +94,7 @@ public class RoleController {
     private String updateRole(@PathVariable("id") int id, @RequestBody Role role) {
         Role current = roleService.getRoleById(id);
         current.setRole(role.getRole());
+        logger.info("updated role by id");
         return "Role updated: " + current.getRole();
     }
 }
