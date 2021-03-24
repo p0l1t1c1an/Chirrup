@@ -110,7 +110,7 @@ public class UserController {
     private String editPartialUser(@PathVariable("id") int id, @RequestBody User user) {
         logger.info("edited user");
         User found = userService.getUserById(id);
-        found.updatePatrialInfo(user);
+        found.updatePartialInfo(user);
         userService.saveOrUpdate(found);
         return "User edited: " + found.getUsername();
     }
