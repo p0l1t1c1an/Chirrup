@@ -13,14 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.utils.AppController;
@@ -35,7 +33,7 @@ public class ProfileFragment extends Fragment {
     /**
      * identification number representing user
      */
-    private int userID = 6; //temp for testing purposes
+    private int userID = 9; //temp for testing purposes
 
     /**
      * avatar image view
