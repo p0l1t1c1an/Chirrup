@@ -2,9 +2,11 @@ package coms309.user;
 
 import org.springframework.core.style.ToStringCreator;
 
+import coms309.post.Post;
 import coms309.settings.Settings;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,10 +15,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Entity
 public class User {
@@ -42,7 +47,7 @@ public class User {
     @ApiModelProperty(notes = "Phone number of the User",name="telephone",required=true)
     private String telephone;
     @ApiModelProperty(notes = "Birthday of the User",name="birthday",required=true)
-    private String birthday;
+    private Date birthday;
     @ApiModelProperty(notes = "Biography of the User",name="biography",required=true)
     private String biography;
 
@@ -55,6 +60,10 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<User> following = new HashSet<User>();
+
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Set<Post> posts = new HashSet<Post>();
 
     public User(){
         
@@ -74,7 +83,7 @@ public class User {
         this.biography = user.biography;
     }
 
-    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, String birthday, Settings settings, String biography) {
+    public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, Date birthday, Settings settings, String biography) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -161,11 +170,21 @@ public class User {
     }
 
     //birthday
-    public String getBirthday() {
+    @JsonIgnore
+    public Date getBirthday() {
         return this.birthday;
     }
 
-    public void setBirthday(String birthday) {
+    @JsonGetter("birthday")
+    public String getBirthdayString() {
+        if(this.birthday != null) {
+            return this.birthday.toString();
+        }
+        return "";
+    }
+
+    @JsonSetter("birthday")
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -199,6 +218,11 @@ public class User {
         return this.followers;
     }
 
+    @JsonIgnore
+    public Set<Post> getPosts() {
+        return this.posts;
+    }
+
     //changes all fields of a user, for put requests
     void updateInfo(User user) {
         this.email = user.email;
@@ -213,7 +237,7 @@ public class User {
     }
 
     //only changes things which aren't null, useful for patch requests
-    void updatePatrialInfo(User user) {
+    void updatePartialInfo(User user) {
         this.email = user.email == null ? this.email : user.email;
         this.password = user.password == null ? this.password : user.password;
         this.username = user.username == null ? this.username : user.username;
@@ -237,7 +261,7 @@ public class User {
                 .append("role", this.getRole())
                 .append("telephone", this.getTelephone())
                 .append("biography", this.getBiography())
-                .append("birthday", this.getBirthday())
+                .append("birthday", this.getBirthday().toString())
                 .toString();
     }
 }

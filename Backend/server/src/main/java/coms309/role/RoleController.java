@@ -43,7 +43,7 @@ public class RoleController {
     }
 
     //creating a get mapping for returning a specific role
-    @ApiOperation(value = "gets a role by id", response = Role.class, tags = "getROle")
+    @ApiOperation(value = "gets a role by id", response = Role.class, tags = "getRole")
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Suceess|OK"),
         @ApiResponse(code = 401, message = "not authorized!"), 
@@ -95,6 +95,7 @@ public class RoleController {
         Role current = roleService.getRoleById(id);
         current.setRole(role.getRole());
         logger.info("updated role by id");
+        roleService.saveOrUpdate(current);
         return "Role updated: " + current.getRole();
     }
 }
