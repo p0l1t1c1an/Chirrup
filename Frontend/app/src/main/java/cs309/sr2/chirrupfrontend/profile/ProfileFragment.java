@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.utils.PostCard;
 
 /**
  * profile page fragment
@@ -83,6 +86,9 @@ public class ProfileFragment extends Fragment {
         following.setOnClickListener(v -> {
             //show following list
         });
+
+        LinearLayout linearLayout = root.findViewById(R.id.profile_feed_layout);
+        linearLayout.addView(new PostCard(inflater, container, savedInstanceState, 5, 0).getView());
 
         return root;
     }

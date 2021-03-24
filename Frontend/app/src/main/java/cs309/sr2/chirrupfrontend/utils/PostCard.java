@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -29,56 +28,62 @@ import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
  *
  * @author Jeremy Noesen
  */
-public class PostCardFragment extends Fragment {
+public class PostCard {
 
     /**
      * identification number representing user
      */
-    private int userID;
+    private final int userID;
+
+    /**
+     * identification number representing post
+     */
+    private final int postID;
 
     /**
      * avatar image view
      */
-    private ImageView avatar;
+    private final ImageView avatar;
 
     /**
      * username text view
      */
-    private TextView username;
+    private final TextView username;
 
     /**
      * name text view
      */
-    private TextView name;
+    private final TextView name;
 
     /**
      * post body text view
      */
-    private TextView body;
+    private final TextView body;
 
     /**
      * timestamp text view
      */
-    private TextView timestamp;
+    private final TextView timestamp;
 
     /**
-     * create a new post card ui fragment to show a user post
+     * root view for post
      */
-    public PostCardFragment() {
-        //todo set which post is being referenced
-        userID = 9; //todo set from post data
-    }
+    private final View root;
 
     /**
-     * set up the post card contents and return the full post
+     * set up the post card contents
      *
      * @param inflater
      * @param container
      * @param savedInstanceState
-     * @return post card view
      */
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_postcard, container, false);
+    public PostCard(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState,
+                    int userID, int postID) {
+
+        this.userID = userID;
+        this.postID = postID;
+
+        root = inflater.inflate(R.layout.ui_postcard, container, false);
 
         avatar = root.findViewById(R.id.postavatar);
         username = root.findViewById(R.id.postusername);
@@ -105,8 +110,6 @@ public class PostCardFragment extends Fragment {
         comment.setOnClickListener(v -> {
             //show compose UI to add reply
         });
-
-        return root;
     }
 
     /**
@@ -140,7 +143,7 @@ public class PostCardFragment extends Fragment {
      */
     private void getUserText() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                getString(R.string.base_url) + "user/" + userID, null,
+                AppController.getInstance().getString(R.string.base_url) + "user/" + userID, null,
                 response -> {
                     try {
                         username.setText(response.getString("username"));
@@ -162,7 +165,7 @@ public class PostCardFragment extends Fragment {
      */
     private void getPostText() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                getString(R.string.base_url) + "url_here", null, //todo put proper url here
+                AppController.getInstance().getString(R.string.base_url) + "url_here", null, //todo put proper url here
                 response -> {
                     try {
                         body.setText(response.getString("body"));
@@ -176,6 +179,15 @@ public class PostCardFragment extends Fragment {
 
 
         AppController.getInstance().addToRequestQueue(jsonObjReq);
+    }
+
+    /**
+     * get the view of the post
+     *
+     * @return view of post
+     */
+    public View getView() {
+        return root;
     }
 
 }
