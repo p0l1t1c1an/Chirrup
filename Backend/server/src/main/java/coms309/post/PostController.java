@@ -1,6 +1,8 @@
 package coms309.post;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,4 +104,19 @@ public class PostController {
         postService.saveOrUpdate(current);
         return "post updated: " + current.getId();
     }
+
+    //creating a get mapping for returning all posts in the db from a specific user
+    @ApiOperation(value = "lists all posts by certain user", response = Iterable.class, tags = "getAllPostByUserId")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @GetMapping("/user/{userId}/posts")
+    private Set<Post> getAllPostByUserId(@PathVariable("userId") int userId) {
+        User user = userService.getUserById(userId);
+        logger.info("got all posts from user");
+        return user.getPosts();
+    }
+
 }

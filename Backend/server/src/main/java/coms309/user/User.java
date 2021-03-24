@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -61,7 +62,7 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<User> following = new HashSet<User>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Post> posts = new HashSet<Post>();
 

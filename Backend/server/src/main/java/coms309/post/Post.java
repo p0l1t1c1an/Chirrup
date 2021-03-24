@@ -67,10 +67,17 @@ public class Post {
     }
 
     //creator
+    @JsonIgnore
     public User getCreator() {
         return this.creator;
     }
+
+    @JsonGetter("creator")
+    public int getCreatorId() {
+        return this.creator.getId();
+    }
     
+    @JsonSetter("creator")
     public void setCreator(User creator) {
         this.creator = creator;
     }
