@@ -1,6 +1,5 @@
 package cs309.sr2.chirrupfrontend.utils;
 
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -182,9 +181,9 @@ public class PostCard {
     }
 
     /**
-     * get the view of the post
+     * get the view of the post layout
      *
-     * @return view of post
+     * @return view of post layout
      */
     public View getView() {
         return root;
