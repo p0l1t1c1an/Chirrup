@@ -3,13 +3,10 @@ package coms309.post;
 import org.springframework.core.style.ToStringCreator;
 
 import coms309.user.User;
-import coms309.user.UserService;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.ObjectInputStream.GetField;
-import java.sql.Date;
+import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
