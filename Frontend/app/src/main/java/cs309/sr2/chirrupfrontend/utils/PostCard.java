@@ -90,8 +90,10 @@ public class PostCard {
         timestamp = root.findViewById(R.id.posttimestamp);
 
         getPostData();
-        getUserData();
-        getAvatar();
+        root.postDelayed(() -> {
+            getUserData();
+            getAvatar();
+        }, 100L);
 
         Button like = root.findViewById(R.id.postlike);
         Button share = root.findViewById(R.id.postshare);
