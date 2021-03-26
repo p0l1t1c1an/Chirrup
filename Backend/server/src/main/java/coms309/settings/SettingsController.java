@@ -1,5 +1,12 @@
 package coms309.settings;
 
+
+import coms309.user.User;
+import coms309.user.UserService;
+
+import coms309.role.Role;
+import coms309.role.RoleService;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +31,12 @@ import io.swagger.annotations.ApiResponses;
 public class SettingsController {
     @Autowired
     SettingsService settingsService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    RoleService roleService;
 
     @ApiOperation(value = "Get a list of Standard, Child, and Parent Settings", response= List.class, tags = "getAllStandard")
     @GetMapping("/settings")
@@ -127,4 +140,40 @@ public class SettingsController {
         settingsService.saveParent(s);
         return s.getId();
     }
+
+    @GetMapping("/settings/{id}/blocked")
+    private List<User> getBlockedUsers(@PathVariable("id") int id) {
+        return settingsService.getStandardById(id).getBlocked();
+    }
+
+    
+    @PostMapping("/settings/{id}/block/{blocked}")
+    private void blockUser(@PathVariable("id") int id, @PathVariable("blocked") int blocked) {
+       settingsService.getStandardById(id).addBlocked(userService.getUserById(blocked));
+    }
+
+
+    @PostMapping("/settings/{id}/unblock/{unblocked}")
+    private void unblockUser(@PathVariable("id") int id, @PathVariable("unblocked") int unblocked) {
+       settingsService.getStandardById(id).removeBlocked(userService.getUserById(unblocked));
+    }
+
+ 
+    @GetMapping("/settings/child/{id}/whitelist")
+    private List<Role> getRoleWhitelist(@PathVariable("id") int id) {
+        return settingsService.getChildById(id).getWhitelist();
+    }
+
+    
+    @PostMapping("/settings/child/{id}/whitelist/{role}")
+    private void addRole(@PathVariable("id") int id, @PathVariable("role") int role) {
+       settingsService.getChildById(id).addToWhitelist(roleService.getRoleById(role));
+    }
+
+
+    @DeleteMapping("/settings/child/{id}/whitelist/{role}")
+    private void removeRole(@PathVariable("id") int id, @PathVariable("role") int role) {
+       settingsService.getChildById(id).removeFromWhitelist(roleService.getRoleById(role));
+    }
+
 }

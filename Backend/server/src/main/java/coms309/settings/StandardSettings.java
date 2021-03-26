@@ -2,9 +2,15 @@ package coms309.settings;
 
 import coms309.user.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,6 +33,10 @@ public class StandardSettings extends Settings {
     
     @ApiModelProperty(notes = "Size of the user's text in px", name="textSize", required=true)
     private int textSize;
+
+    @OneToMany
+    @JsonIgnore
+    private List<User> blockedUsers = new ArrayList<User>();
 
     public StandardSettings(){
         
@@ -87,6 +97,18 @@ public class StandardSettings extends Settings {
         darkMode = s.darkMode;
         updateTime = s.updateTime;
         textSize = s.textSize;
+    }
+
+    public List<User> getBlocked() {
+        return blockedUsers;
+    }
+
+    public void addBlocked(User u) {
+        blockedUsers.add(u);
+    }
+
+    public void removeBlocked(User u) {
+        blockedUsers.remove(u);
     }
 
     @Override

@@ -10,8 +10,9 @@ import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -32,9 +33,9 @@ public class ChildSettings extends StandardSettings {
     @ApiModelProperty(notes = "How long can the child be on chirrup?", name="timeLimit", required=true)
     private int timeLimit;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name="whitelist", referencedColumnName = "id")
-//    private List<Role> roleWhitelist = new ArrayList<Role>(); 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Role> roleWhitelist = new ArrayList<Role>(); 
 
     public ChildSettings(){
         super();
@@ -83,23 +84,26 @@ public class ChildSettings extends StandardSettings {
         timeLimit = t;
     } 
  
-//    public List<Role> getWhitelist() {
-//        return roleWhitelist;
-//    }
-//
-//    public void setWhitelist(List<Role> w) {
-//        roleWhitelist = w;
-//    }
-//
-//    public void addRoleToWhitelist(Role r){
-//        roleWhitelist.add(r);
-//    }
+    public List<Role> getWhitelist() {
+        return roleWhitelist;
+    }
+
+    public void setWhitelist(List<Role> w) {
+        roleWhitelist = w;
+    }
+
+    public void addToWhitelist(Role r){
+        roleWhitelist.add(r);
+    }
+
+    public void removeFromWhitelist(Role r){
+        roleWhitelist.remove(r);
+    }
 
     public void updateSettings(ChildSettings c) {
         super.updateSettings(c);
         locked = c.locked;
         timeLimit = c.timeLimit;
-//        roleWhitelist = c.roleWhitelist;
     }
 
     @Override
