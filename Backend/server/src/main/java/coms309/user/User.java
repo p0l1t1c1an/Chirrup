@@ -56,10 +56,10 @@ public class User {
     @PrimaryKeyJoinColumn
     private Settings settings;
 
-    @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    @ManyToMany(mappedBy = "following", fetch= FetchType.EAGER)
     private Set<User> followers = new HashSet<User>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    @ManyToMany(fetch= FetchType.EAGER)
     private Set<User> following = new HashSet<User>();
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
