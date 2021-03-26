@@ -1,6 +1,7 @@
 package coms309.user;
 
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,8 +123,8 @@ public class UserController {
         @ApiResponse(code = 401, message = "not authorized!"), 
         @ApiResponse(code = 403, message = "forbidden!!!"),
         @ApiResponse(code = 404, message = "not found!!!") })
-    @GetMapping("/user/following/{id}")
-    private List<Integer> getFollowing(@PathVariable("id") int id) {
+    @GetMapping("/user/{id}/following")
+    private Set<User> getFollowing(@PathVariable("id") int id) {
         logger.info("returned followed users");
         return userService.getFollowingById(id);
     }
@@ -135,8 +136,8 @@ public class UserController {
         @ApiResponse(code = 401, message = "not authorized!"), 
         @ApiResponse(code = 403, message = "forbidden!!!"),
         @ApiResponse(code = 404, message = "not found!!!") })
-    @GetMapping("/user/followers/{id}")
-    private List<Integer> getFollowers(@PathVariable("id") int id) {
+    @GetMapping("/user/{id}/followers")
+    private Set<User> getFollowers(@PathVariable("id") int id) {
         logger.info("returned followers");
         return userService.getFollowersById(id);
     }
