@@ -10,7 +10,7 @@ import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,7 +33,7 @@ public class ChildSettings extends StandardSettings {
     @ApiModelProperty(notes = "How long can the child be on chirrup?", name="timeLimit", required=true)
     private int timeLimit;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Role> roleWhitelist = new ArrayList<Role>(); 
 

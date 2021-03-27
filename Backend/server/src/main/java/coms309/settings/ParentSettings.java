@@ -24,8 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class ParentSettings extends StandardSettings {
 
-    @OneToMany
-    @JoinColumn(name="children")
+    @OneToMany  //Technically could be many to many, but would need way to add another parent
     @JsonIgnore
     private List<User> children = new ArrayList<User>();
     
@@ -51,6 +50,10 @@ public class ParentSettings extends StandardSettings {
 
     public void addChild(User c){
         children.add(c);
+    }
+
+    public void removeChild(User c){
+        children.remove(c);
     }
 
     public void updateSettings(ParentSettings p) {

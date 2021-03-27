@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,7 +34,7 @@ public class StandardSettings extends Settings {
     @ApiModelProperty(notes = "Size of the user's text in px", name="textSize", required=true)
     private int textSize;
 
-    @OneToMany
+    @ManyToMany
     @JsonIgnore
     private List<User> blockedUsers = new ArrayList<User>();
 

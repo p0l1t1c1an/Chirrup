@@ -149,13 +149,17 @@ public class SettingsController {
     
     @PostMapping("/settings/{id}/block/{blocked}")
     private void blockUser(@PathVariable("id") int id, @PathVariable("blocked") int blocked) {
-       settingsService.getStandardById(id).addBlocked(userService.getUserById(blocked));
+        StandardSettings s =  settingsService.getStandardById(id);
+        s.addBlocked(userService.getUserById(blocked));
+        settingsService.saveStandard(s);
     }
 
 
-    @PostMapping("/settings/{id}/unblock/{unblocked}")
+    @DeleteMapping("/settings/{id}/unblock/{unblocked}")
     private void unblockUser(@PathVariable("id") int id, @PathVariable("unblocked") int unblocked) {
-       settingsService.getStandardById(id).removeBlocked(userService.getUserById(unblocked));
+        StandardSettings s = settingsService.getStandardById(id);
+        s.removeBlocked(userService.getUserById(unblocked));
+        settingsService.saveStandard(s);
     }
 
  
@@ -167,13 +171,38 @@ public class SettingsController {
     
     @PostMapping("/settings/child/{id}/whitelist/{role}")
     private void addRole(@PathVariable("id") int id, @PathVariable("role") int role) {
-       settingsService.getChildById(id).addToWhitelist(roleService.getRoleById(role));
+        ChildSettings c = settingsService.getChildById(id);
+        c.addToWhitelist(roleService.getRoleById(role));
+        settingsService.saveChild(c);
     }
 
 
     @DeleteMapping("/settings/child/{id}/whitelist/{role}")
     private void removeRole(@PathVariable("id") int id, @PathVariable("role") int role) {
-       settingsService.getChildById(id).removeFromWhitelist(roleService.getRoleById(role));
+        ChildSettings c = settingsService.getChildById(id);
+        c.removeFromWhitelist(roleService.getRoleById(role));
+        settingsService.saveChild(c);
+    }
+
+    @GetMapping("/settings/parent/{id}/children")
+    private List<User> getParentsChildren(@PathVariable("id") int id) {
+        return settingsService.getParentById(id).getChildren();
+    }
+
+    
+    @PostMapping("/settings/parent/{id}/child/{child}")
+    private void addChildToParent(@PathVariable("id") int id, @PathVariable("child") int child) {
+        ParentSettings p = settingsService.getParentById(id);
+        p.addChild(userService.getUserById(child));
+        settingsService.saveParent(p);
+    }
+
+
+    @DeleteMapping("/settings/parent/{id}/child/{child}")
+    private void removeChildFromParent(@PathVariable("id") int id, @PathVariable("child") int child) {
+        ParentSettings p = settingsService.getParentById(id);
+        p.removeChild(userService.getUserById(child));
+        settingsService.saveParent(p);
     }
 
 }
