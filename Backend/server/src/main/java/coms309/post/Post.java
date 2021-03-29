@@ -1,17 +1,30 @@
 package coms309.post;
 
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.data.jpa.domain.QAbstractAuditable;
 
 import coms309.user.User;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,30 +38,26 @@ public class Post {
     @GeneratedValue
     private int id;
 
-    @ApiModelProperty(notes = "Creator of the Post",name="id",required=true)
+    @ApiModelProperty(notes = "Creator of the Post",name="creator",required=true)
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @ApiModelProperty(notes = "Date post was created",name="id",required=true)
-    private Date dateCreated;
+    @ApiModelProperty(notes = "Date post was created",name="dateCreated",required=true)
+    private LocalDateTime dateCreated;
 
-    @ApiModelProperty(notes = "Content of the post",name="id",required=true)
+    @ApiModelProperty(notes = "Content of the post",name="content",required=true)
     private String content;
 
-    @ApiModelProperty(notes = "Parent of this post",name="id",required=true)
-    @PrimaryKeyJoinColumn
+    @OneToOne
+    @JoinColumn(name = "parent_id")
     private Post parent;
 
-    @ApiModelProperty(notes = "Comments on this post",name="id",required=true)
-    @PrimaryKeyJoinColumn
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,  mappedBy = "parent", fetch= FetchType.EAGER)
     private Set<Post> comments = new HashSet<Post>();
 
-    @ApiModelProperty(notes = "Likes on this post",name="id",required=true)
-    @PrimaryKeyJoinColumn
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
-    private Set<User> likes = new HashSet<Post>();
+    @ManyToMany(fetch= FetchType.EAGER)
+    private Set<User> likes = new HashSet<User>();
 
     public Post() {
 
@@ -61,7 +70,7 @@ public class Post {
         this.content = post.content;
     }
 
-    public Post(int id, User creator, Date dateCreated, String content) {
+    public Post(int id, User creator, LocalDateTime dateCreated, String content) {
         this.id = id;
         this.creator = creator;
         this.dateCreated = dateCreated;
@@ -95,7 +104,7 @@ public class Post {
 
     //dateCreated
     @JsonIgnore
-    public Date getDateCreated() {
+    public LocalDateTime getDateCreated() {
         return this.dateCreated;
     }
 
@@ -108,7 +117,7 @@ public class Post {
     }
 
     @JsonSetter("dateCreated")
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -131,6 +140,88 @@ public class Post {
         this.creator = post.creator == null ? this.creator : post.creator;
         this.dateCreated = post.dateCreated == null ? this.dateCreated : post.dateCreated;
         this.content = post.content == null ? this.content : post.content;
+    }
+
+    //comments
+    @JsonIgnore
+    public Set<Post> getComments() {
+        return comments;
+    }
+
+    @JsonGetter("comments")
+    public List<Integer> getCommentIds() {
+        List<Integer> com = new ArrayList<Integer>();
+        for (Post p : this.comments) {
+            com.add(p.id);
+        }
+        
+        return com;
+    }
+
+    //likes
+    @JsonIgnore
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    @JsonGetter("likes")
+    public List<Integer> getLikeIds() {
+        List<Integer> likeList = new ArrayList<Integer>();
+        for (User u : this.likes) {
+            likeList.add(u.getId());
+        }
+        
+        return likeList;
+    }
+
+    public void addLike(User currentUser) {
+        this.likes.add(currentUser);
+    }
+
+    
+    public void addComment(Post comment) {
+        this.comments.add(comment);
+    }
+
+    public void removeComment(Post post) {
+        this.comments.remove(post);
+    }
+
+    public void dismissComments() {
+        for (Post post : comments) {
+            post.dismissComments();
+        }
+        this.comments.clear();
+    }
+
+    public void removeLike(User currentUser) {
+        Iterator<User> it = this.likes.iterator();
+
+        while(it.hasNext()) {
+            User c = it.next();
+            if(c.getId() == currentUser.getId()) {
+                it.remove();
+            }
+        }
+    }
+
+    //parent
+    public void setParent(Post parentPost) {
+        this.parent = parentPost;
+    }
+
+    @JsonIgnore
+    public Post getParent() {
+        return parent;
+    }
+
+    public void removeParent() {
+        this.parent = null;
+    }
+
+    @JsonGetter("parent")
+    public Integer getParentsId() {
+        return this.parent == null ? null : this.parent.getId();
     }
 
     @Override
