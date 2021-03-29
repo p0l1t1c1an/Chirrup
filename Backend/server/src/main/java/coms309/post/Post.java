@@ -25,16 +25,30 @@ public class Post {
     @GeneratedValue
     private int id;
 
-    // @Column(name = "creator_id")
-    // private int creatorId;
-
+    @ApiModelProperty(notes = "Creator of the Post",name="id",required=true)
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 
+    @ApiModelProperty(notes = "Date post was created",name="id",required=true)
     private Date dateCreated;
 
+    @ApiModelProperty(notes = "Content of the post",name="id",required=true)
     private String content;
+
+    @ApiModelProperty(notes = "Parent of this post",name="id",required=true)
+    @PrimaryKeyJoinColumn
+    private Post parent;
+
+    @ApiModelProperty(notes = "Comments on this post",name="id",required=true)
+    @PrimaryKeyJoinColumn
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    private Set<Post> comments = new HashSet<Post>();
+
+    @ApiModelProperty(notes = "Likes on this post",name="id",required=true)
+    @PrimaryKeyJoinColumn
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    private Set<User> likes = new HashSet<Post>();
 
     public Post() {
 

@@ -89,7 +89,26 @@ public class PostController {
         return "post created: " + post.getId();
     }
 
-    //creating an update mapping that edits an existing post
+    //creating post mapping the creates a new comment
+    @ApiOperation(value = "creates a new comment", response = String.class, tags = "savePost")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @PostMapping("/posts/{userId}/{postId}")
+    private String savePost(@RequestBody Post comment, @PathVariable(value = "userId") int id, @PathVariable(value = "postId") int postId) {
+        User creator = userService.getUserById(id);
+        Post parentPost = postService.getPostById(postId);
+
+        post.setCreator(creator);
+        parentPost.addComment(comment);
+        postService.saveOrUpdate(parentPost);
+        logger.info("created a new comment");
+        return "comment created: " + post.getId();
+    }
+
+    //creating an update mapping that edits an existing post/comment
     @ApiOperation(value = "updates a post by id", response = String.class, tags = "updatePost")
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Suceess|OK"),
