@@ -17,7 +17,7 @@ public class Session {
      *
      * @param userID id of user logged in
      */
-    static void setUser(int userID) {
+    public static void setUser(int userID) {
         Session.userID = userID;
     }
 
