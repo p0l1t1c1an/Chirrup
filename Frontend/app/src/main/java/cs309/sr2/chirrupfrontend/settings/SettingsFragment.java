@@ -245,10 +245,7 @@ public class SettingsFragment extends Fragment {
                     String responseBody = new String(response.data, StandardCharsets.UTF_8);
                     try {
                         JSONObject userData = new JSONObject(responseBody);
-                        jacobText1 = (TextView) getView().findViewById(R.id.jacobText1);
-                        jacobText2 = (TextView) getView().findViewById(R.id.jacobText2);
-                        jacobText1.setText("Dark Mode: " + userData.get("darkMode").toString());
-                        jacobText2.setText("Text Size: " + userData.get("textSize").toString());
+                        //Insert User settings logic here
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
