@@ -16,7 +16,7 @@
         android:label="Settings" />
     <fragment
         android:id="@+id/nav_messaging"
-        android:name="cs309.sr2.chirrupfrontend.messaging.messageFragment"
+        android:name="cs309.sr2.chirrupfrontend.messaging.MessageFragment"
         android:label="Messaging" />
 
 </navigation>

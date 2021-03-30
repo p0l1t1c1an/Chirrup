@@ -5,5 +5,5 @@ package cs309.sr2.chirrupfrontend.messaging;
  *
  * @author wszogg
  */
-public class groupThread {
+public class GroupThread {
 }
