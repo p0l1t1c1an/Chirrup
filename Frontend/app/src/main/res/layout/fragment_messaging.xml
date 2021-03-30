@@ -1,6 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/open6"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:text="Open"
+        android:textSize="9dp"
+        app:layout_constraintStart_toEndOf="@+id/recent6"
+        app:layout_constraintTop_toBottomOf="@+id/open5" />
+
+    <Button
+        android:id="@+id/open5"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:text="Open"
+        android:textSize="9dp"
+        app:layout_constraintStart_toEndOf="@+id/recent5"
+        app:layout_constraintTop_toBottomOf="@+id/open4" />
+
+    <Button
+        android:id="@+id/open4"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:text="Open"
+        android:textSize="9dp"
+        app:layout_constraintStart_toEndOf="@+id/recent4"
+        app:layout_constraintTop_toBottomOf="@+id/open3" />
+
+    <Button
+        android:id="@+id/open3"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:text="Open"
+        android:textSize="9dp"
+        app:layout_constraintStart_toEndOf="@+id/recent3"
+        app:layout_constraintTop_toBottomOf="@+id/open2" />
+
+    <Button
+        android:id="@+id/open2"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:text="Open"
+        android:textSize="9dp"
+        app:layout_constraintStart_toEndOf="@+id/recent2"
+        app:layout_constraintTop_toBottomOf="@+id/open1" />
+
+    <TextView
+        android:id="@+id/recent6"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recent5" />
+
+    <TextView
+        android:id="@+id/recent5"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recent4" />
+
+    <TextView
+        android:id="@+id/recent4"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recent3" />
+
+    <TextView
+        android:id="@+id/recent3"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recent2" />
+
+    <TextView
+        android:id="@+id/recent2"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recent1" />
+
+    <EditText
+        android:id="@+id/searchMessages"
+        android:layout_width="304dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:hint="Search Messages..."
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/RecentMessages"
+        android:layout_width="304dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="35dp"
+        android:text="Recents:"
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchMessages" />
+
+    <TextView
+        android:id="@+id/recent1"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RecentMessages" />
+
+    <Button
+        android:id="@+id/open1"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
+        android:text="Open"
+        android:textSize="9dp"
+        app:layout_constraintStart_toEndOf="@+id/recent1"
+        app:layout_constraintTop_toBottomOf="@+id/RecentMessages" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
