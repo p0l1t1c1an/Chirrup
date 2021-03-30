@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -29,11 +30,6 @@ import cs309.sr2.chirrupfrontend.utils.AppController;
  * @author Jeremy Noesen
  */
 public class ProfileFragment extends Fragment {
-
-    /**
-     * identification number representing user
-     */
-    private int userID = 9; //temp for testing purposes
 
     /**
      * avatar image view
@@ -121,7 +117,7 @@ public class ProfileFragment extends Fragment {
      */
     private void getTexts() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                getString(R.string.base_url) + "user/" + userID, null,
+                getString(R.string.base_url) + "user/" + Session.getUser(), null,
                 response -> {
                     try {
                         bio.setText(response.getString("biography"));
