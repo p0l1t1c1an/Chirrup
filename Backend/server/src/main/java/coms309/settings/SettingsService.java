@@ -75,5 +75,32 @@ public class SettingsService {
     public void deleteParent(int id){  
         parentRepository.deleteById(id);  
     }
+
+    public ParentSettings standardToParent(int id){
+        StandardSettings s = standardRepository.findById(id).get();
+        ParentSettings p = new ParentSettings();
+        ((StandardSettings) p).updateSettings(s);
+        standardRepository.deleteById(id);
+        parentRepository.save(p);
+        return p;
+    }
+
+    public StandardSettings parentToStandard(int id){
+        ParentSettings p = parentRepository.findById(id).get();
+        StandardSettings s = new StandardSettings();
+        s.updateSettings(p);
+        parentRepository.deleteById(id);
+        standardRepository.save(s);
+        return s;
+    }
+
+    public StandardSettings childToStandard(int id){
+        ChildSettings c = childRepository.findById(id).get();
+        StandardSettings s = new StandardSettings();
+        s.updateSettings(c);
+        childRepository.deleteById(id);
+        standardRepository.save(s);
+        return s;
+    }
 }
 
