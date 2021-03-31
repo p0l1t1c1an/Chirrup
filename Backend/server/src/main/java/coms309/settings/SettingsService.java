@@ -82,6 +82,7 @@ public class SettingsService {
         ((StandardSettings) p).updateSettings(s);
         standardRepository.deleteById(id);
         parentRepository.save(p);
+        p.getUser().setSettings(p);
         return p;
     }
 
@@ -91,6 +92,7 @@ public class SettingsService {
         s.updateSettings(p);
         parentRepository.deleteById(id);
         standardRepository.save(s);
+        s.getUser().setSettings(s);
         return s;
     }
 
@@ -100,6 +102,7 @@ public class SettingsService {
         s.updateSettings(c);
         childRepository.deleteById(id);
         standardRepository.save(s);
+        s.getUser().setSettings(s);
         return s;
     }
 }

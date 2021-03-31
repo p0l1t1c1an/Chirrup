@@ -147,7 +147,7 @@ public class SettingsController {
     }
 
     
-    @PostMapping("/settings/{id}/block/{blocked}")
+    @PutMapping("/settings/{id}/block/{blocked}")
     private void blockUser(@PathVariable("id") int id, @PathVariable("blocked") int blocked) {
         StandardSettings s =  settingsService.getStandardById(id);
         s.addBlocked(userService.getUserById(blocked));
@@ -169,7 +169,7 @@ public class SettingsController {
     }
 
     
-    @PostMapping("/settings/child/{id}/whitelist/{role}")
+    @PutMapping("/settings/child/{id}/whitelist/{role}")
     private void addRole(@PathVariable("id") int id, @PathVariable("role") int role) {
         ChildSettings c = settingsService.getChildById(id);
         c.addToWhitelist(roleService.getRoleById(role));
@@ -190,11 +190,36 @@ public class SettingsController {
     }
 
     
-    @PostMapping("/settings/parent/{id}/child/{child}")
+    @PutMapping("/settings/parent/{id}/child/{child}")
     private void addChildToParent(@PathVariable("id") int id, @PathVariable("child") int child) {
         ParentSettings p = settingsService.getParentById(id);
         p.addChild(userService.getUserById(child));
         settingsService.saveParent(p);
+    }
+
+    
+    @PostMapping("/settings/parent/{id}/child")
+    private void createChildOfParent(@PathVariable("id") int id, @RequestBody User user) {
+        ParentSettings p;
+        StandardSettings s = settingsService.getStandardById(id);
+
+        if (s.getClass().equals(ParentSettings.class)){
+            p = settingsService.getParentById(id);
+        }
+        else if(s.getClass().equals(StandardSettings.class)){
+            p = settingsService.standardToParent(id);
+        }
+        else { 
+            return; 
+        }
+            
+        p.addChild(user);
+        settingsService.saveParent(p);
+
+        user.setRole(2);
+        user.setSettings(new ChildSettings(user));
+        userService.saveOrUpdate(user);
+
     }
 
 
