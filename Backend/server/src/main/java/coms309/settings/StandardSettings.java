@@ -99,6 +99,7 @@ public class StandardSettings extends Settings {
         textSize = s.textSize;
     }
 
+    @JsonIgnore
     public List<User> getBlocked() {
         return blockedUsers;
     }

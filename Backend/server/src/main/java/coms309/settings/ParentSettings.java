@@ -9,7 +9,7 @@ import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class ParentSettings extends StandardSettings {
 
-    @OneToMany  //Technically could be many to many, but would need way to add another parent
+    @ManyToMany  //Technically could be many to many, but would need way to add another parent
     @JsonIgnore
     private List<User> children = new ArrayList<User>();
     
@@ -40,6 +40,7 @@ public class ParentSettings extends StandardSettings {
         super(user, d, up, t);
     }
 
+    @JsonIgnore
     public List<User> getChildren() {
         return children;
     }

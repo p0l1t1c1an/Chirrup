@@ -83,7 +83,8 @@ public class ChildSettings extends StandardSettings {
     public void setTimeLimit(Integer t) {
         timeLimit = t;
     } 
- 
+
+    @JsonIgnore
     public List<Role> getWhitelist() {
         return roleWhitelist;
     }
