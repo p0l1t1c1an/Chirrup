@@ -24,7 +24,6 @@ import org.json.JSONException;
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.utils.AppController;
-import cs309.sr2.chirrupfrontend.utils.PostCard;
 
 /**
  * profile page fragment
@@ -86,9 +85,6 @@ public class ProfileFragment extends Fragment {
         following.setOnClickListener(v -> {
             //show following list
         });
-
-
-//        linearLayout.addView(new PostCard(inflater, container, 5).getView());
 
         return root;
     }
