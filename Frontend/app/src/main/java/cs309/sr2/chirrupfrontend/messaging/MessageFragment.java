@@ -41,7 +41,7 @@ import cs309.sr2.chirrupfrontend.settings.CurrentUserData;
  *
  * @author wszogg
  */
-public class messageFragment extends Fragment {
+public class MessageFragment extends Fragment {
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
