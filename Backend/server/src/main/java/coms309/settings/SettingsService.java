@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;  
 
 import org.springframework.beans.factory.annotation.Autowired;  
-import org.springframework.stereotype.Service;  
+import org.springframework.stereotype.Service;
+
+import coms309.user.User;  
 
 
 @Service  
@@ -83,6 +85,7 @@ public class SettingsService {
         standardRepository.deleteById(id);
         parentRepository.save(p);
         p.getUser().setSettings(p);
+        p.getUser().setRole(User.PARENT);
         return p;
     }
 
@@ -93,6 +96,7 @@ public class SettingsService {
         parentRepository.deleteById(id);
         standardRepository.save(s);
         s.getUser().setSettings(s);
+        s.getUser().setRole(User.STANDARD);
         return s;
     }
 
@@ -103,6 +107,7 @@ public class SettingsService {
         childRepository.deleteById(id);
         standardRepository.save(s);
         s.getUser().setSettings(s);
+        s.getUser().setRole(User.STANDARD);
         return s;
     }
 }

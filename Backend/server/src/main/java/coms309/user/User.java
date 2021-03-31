@@ -26,7 +26,13 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Entity
 public class User {
-    
+
+    // Constants for role types
+    public final static int STANDARD = 1;
+    public final static int CHILD = 2;
+    public final static int PARENT = 3;
+    public final static int ADMIN = 4;
+
     //User properties
     
     @ApiModelProperty(notes = "Id of the User",name="id",required=true)
