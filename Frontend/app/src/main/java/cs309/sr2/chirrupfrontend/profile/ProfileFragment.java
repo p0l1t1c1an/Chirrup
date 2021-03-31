@@ -74,8 +74,8 @@ public class ProfileFragment extends Fragment {
         name = root.findViewById(R.id.name);
         bio = root.findViewById(R.id.bio);
 
-        setProfileData();
-        setAvatar();
+        getProfileData();
+        getAvatar();
 
         root.postDelayed(() -> {
             LinearLayout postLayout = root.findViewById(R.id.profile_feed_layout);
@@ -106,7 +106,7 @@ public class ProfileFragment extends Fragment {
     /**
      * get the user's avatar image from the database and apply it to the image view
      */
-    private void setAvatar() {
+    private void getAvatar() {
 
         String testURL = "https://api.androidhive.info/volley/volley-image.jpg";
 
@@ -133,7 +133,7 @@ public class ProfileFragment extends Fragment {
     /**
      * get the user's username, name, and bio from the database, as well as their post list
      */
-    private void setProfileData() {
+    private void getProfileData() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 getString(R.string.base_url) + "user/" + Session.getUser(),
                 null, response -> {
