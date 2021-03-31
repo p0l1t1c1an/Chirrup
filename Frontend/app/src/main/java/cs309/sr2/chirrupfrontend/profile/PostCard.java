@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.utils;
+package cs309.sr2.chirrupfrontend.profile;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
  * A UI element that will show the contents of a user post, including details about who posted, what

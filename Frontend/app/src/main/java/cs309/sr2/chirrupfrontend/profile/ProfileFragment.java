@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -18,6 +19,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import cs309.sr2.chirrupfrontend.R;
@@ -52,22 +54,40 @@ public class ProfileFragment extends Fragment {
     private TextView bio;
 
     /**
+     * list of post ids
+     */
+    private JSONArray posts;
+
+    /**
      * retrieve the profile data to fill in the text fields and avatar
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return profile page view
+     * @param inflater           layout inflater
+     * @param container          view group
+     * @param savedInstanceState saved instance state
+     * @return full profile page view
      */
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         avatar = root.findViewById(R.id.avatar);
         username = root.findViewById(R.id.username);
         name = root.findViewById(R.id.name);
         bio = root.findViewById(R.id.bio);
 
-        getTexts();
+        getProfileData();
         getAvatar();
+
+        root.postDelayed(() -> {
+            LinearLayout postLayout = root.findViewById(R.id.profile_feed_layout);
+            for (int i = 0; i < posts.length(); i++) {
+                try {
+                    postLayout.addView(new PostCard(inflater, container, posts.getInt(i)).getView());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 100L);
+
 
         Button followers = root.findViewById(R.id.followers);
         Button following = root.findViewById(R.id.following);
@@ -79,9 +99,6 @@ public class ProfileFragment extends Fragment {
         following.setOnClickListener(v -> {
             //show following list
         });
-
-//        LinearLayout linearLayout = root.findViewById(R.id.profile_feed_layout);
-//        linearLayout.addView(new PostCard(inflater, container, 5).getView());
 
         return root;
     }
@@ -99,7 +116,8 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(ProfileFragment.class.getSimpleName(), "Image Load Error: " + error.getMessage());
+                Log.e(ProfileFragment.class.getSimpleName(), "Image Load Error: "
+                        + error.getMessage());
             }
 
             @Override
@@ -113,24 +131,25 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * get the user's username, name, and bio from the database
+     * get the user's username, name, and bio from the database, as well as their post list
      */
-    private void getTexts() {
+    private void getProfileData() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                getString(R.string.base_url) + "user/" + Session.getUser(), null,
-                response -> {
-                    try {
-                        bio.setText(response.getString("biography"));
-                        username.setText(response.getString("username"));
-                        name.setText(response.getString("firstname") + " " +
-                                response.getString("lastname"));
-                    } catch (JSONException e) {
-                        Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }, error ->
+                getString(R.string.base_url) + "user/" + Session.getUser(),
+                null, response -> {
+            try {
+                bio.setText(response.getString("biography"));
+                username.setText(response.getString("username"));
+                name.setText(response.getString("firstname") + " " +
+                        response.getString("lastname"));
+                posts = response.getJSONArray("posts");
+            } catch (JSONException e) {
+                Log.e(ProfileFragment.class.getSimpleName(), "JSON Load Error: "
+                        + e.getMessage());
+                e.printStackTrace();
+            }
+        }, error ->
                 VolleyLog.d(ProfileFragment.class.getSimpleName(), "Error: " + error.getMessage()));
-
 
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }

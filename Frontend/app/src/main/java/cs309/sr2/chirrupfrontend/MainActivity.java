@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        Session.setUser(6); //temporary
+        Session.setUser(10); //temporary
     }
 
     /**
