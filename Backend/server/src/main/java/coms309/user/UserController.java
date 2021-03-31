@@ -21,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import coms309.post.Post;
 import coms309.settings.ChildSettings;
 import coms309.settings.ParentSettings;
 
@@ -166,6 +167,20 @@ public class UserController {
         user.setSettings(new StandardSettings(user));
         userService.saveOrUpdate(user);
         return user;
+    }
+
+    //creating a get mapping for returning all posts in the db from a specific user
+    @ApiOperation(value = "lists all posts by certain user", response = Iterable.class, tags = "getAllPostByUserId")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @GetMapping("/user/{userId}/posts")
+    private List<Integer> getAllPostByUserId(@PathVariable("userId") int userId) {
+        User user = userService.getUserById(userId);
+        logger.info("got all posts from user");
+        return user.getPostsId();
     }
 
     // creating post mapping that follows a user

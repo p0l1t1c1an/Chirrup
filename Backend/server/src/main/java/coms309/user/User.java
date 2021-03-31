@@ -7,7 +7,9 @@ import coms309.settings.Settings;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -222,6 +224,15 @@ public class User {
     @JsonIgnore
     public Set<Post> getPosts() {
         return this.posts;
+    }
+
+    @JsonGetter("posts")
+    public List<Integer> getPostsId() {
+        List<Integer> ps = new ArrayList<Integer>();
+        for (Post p : posts) {
+            ps.add(p.getId());
+        }
+        return ps;
     }
 
     //changes all fields of a user, for put requests
