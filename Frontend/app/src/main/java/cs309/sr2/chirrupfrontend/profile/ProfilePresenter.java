@@ -14,9 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.Volley.VolleyListener;
+import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.post.PostView;
-import cs309.sr2.chirrupfrontend.Volley.VolleyRequester;
+import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
  * class to handle visual changes for the profile page

@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.Volley;
+package cs309.sr2.chirrupfrontend.volley;
 
 import com.android.volley.toolbox.ImageLoader;
 
