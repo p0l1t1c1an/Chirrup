@@ -1,6 +1,5 @@
-package cs309.sr2.chirrupfrontend.utils;
+package cs309.sr2.chirrupfrontend.Volley;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -15,6 +14,7 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 
 import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
  * class to handle server calls across the app, this acts as the model class for multiple screens
@@ -24,27 +24,15 @@ import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
 public class VolleyRequester {
 
     /**
-     * bitmap returned with getBitmap
+     * volley listener for this requester
      */
-    private Bitmap bitmap;
-
-    /**
-     * string returned with getString
-     */
-    private String string;
-
-    /**
-     * json object returned with getObject
-     */
-    private JSONObject jsonObject;
+    private VolleyListener volleyListener;
 
     /**
      * create a new volley requester
      */
-    public VolleyRequester() {
-        bitmap = null;
-        string = null;
-        jsonObject = null;
+    public VolleyRequester(VolleyListener volleyListener) {
+        this.volleyListener = volleyListener;
     }
 
     /**
@@ -52,9 +40,7 @@ public class VolleyRequester {
      *
      * @param url request url
      */
-    private Bitmap getBitmap(String url) {
-        bitmap = null;
-
+    public void getBitmap(String url) {
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
             @Override
@@ -66,12 +52,10 @@ public class VolleyRequester {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
                 if (response.getBitmap() != null) {
-                    bitmap = response.getBitmap();
+                    volleyListener.onImageResponse(response);
                 }
             }
         });
-
-        return bitmap;
     }
 
     /**
@@ -79,17 +63,13 @@ public class VolleyRequester {
      *
      * @param url request url
      */
-    private String getString(String url) {
-        string = null;
-
+    public void getString(String url) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                response -> string = response, error ->
+                response -> volleyListener.onStringResponse(response), error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "String get error: "
                         + error.getMessage()));
 
         AppController.getInstance().addToRequestQueue(stringRequest);
-
-        return string;
     }
 
     /**
@@ -97,17 +77,13 @@ public class VolleyRequester {
      *
      * @param url request url
      */
-    private JSONObject getObject(String url) {
-        jsonObject = null;
-
+    public void getObject(String url) {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url,
-                null, response -> jsonObject = response, error ->
+                null, response -> volleyListener.onObjectResponse(response), error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object get error: "
                         + error.getMessage()));
 
         AppController.getInstance().addToRequestQueue(jsonObjReq);
-
-        return jsonObject;
     }
 
     /**
