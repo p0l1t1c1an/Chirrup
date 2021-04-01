@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.account.Session;
 
 /**
  * profile page fragment
@@ -30,7 +31,9 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        new ProfilePresenter(root, inflater, container);
+        ProfilePresenter profilePresenter = new ProfilePresenter(root, inflater, container);
+        profilePresenter.loadData(getString(R.string.base_url) + "user/" + Session.getUser(),
+                "https://api.androidhive.info/volley/volley-image.jpg");
 
         Button followers = root.findViewById(R.id.followers);
         Button following = root.findViewById(R.id.following);

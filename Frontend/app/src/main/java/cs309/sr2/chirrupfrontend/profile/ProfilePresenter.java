@@ -15,9 +15,7 @@ import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.Volley.VolleyListener;
-import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.post.PostView;
-import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.Volley.VolleyRequester;
 
 /**
@@ -51,10 +49,18 @@ public class ProfilePresenter implements VolleyListener {
         this.view = view;
         this.inflater = inflater;
         this.container = container;
+    }
+
+    /**
+     * load the data for the profile page
+     *
+     * @param objectURL url for the json object
+     * @param imageURL url for user avatar
+     */
+    public void loadData(String objectURL, String imageURL) {
         VolleyRequester volleyRequester = new VolleyRequester(this);
-        volleyRequester.getObject(AppController.getInstance()
-                .getString(R.string.base_url) + "user/" + Session.getUser());
-        volleyRequester.getBitmap("https://api.androidhive.info/volley/volley-image.jpg");
+        volleyRequester.getObject(objectURL);
+        volleyRequester.getImage(imageURL);
     }
 
     /**

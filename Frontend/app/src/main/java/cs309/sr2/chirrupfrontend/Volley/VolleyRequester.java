@@ -36,11 +36,11 @@ public class VolleyRequester {
     }
 
     /**
-     * GET a bitmap image from the database
+     * GET an image from the database
      *
      * @param url request url
      */
-    public void getBitmap(String url) {
+    public void getImage(String url) {
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
             @Override
