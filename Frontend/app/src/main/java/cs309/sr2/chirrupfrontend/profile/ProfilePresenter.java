@@ -54,12 +54,12 @@ public class ProfilePresenter implements VolleyListener {
     /**
      * load the data for the profile page
      *
-     * @param objectURL url for the json object
+     * @param userURL url for the user json object
      * @param imageURL url for user avatar
      */
-    public void loadData(String objectURL, String imageURL) {
+    public void loadData(String userURL, String imageURL) {
         VolleyRequester volleyRequester = new VolleyRequester(this);
-        volleyRequester.getObject(objectURL);
+        volleyRequester.getObject(userURL);
         volleyRequester.getImage(imageURL);
     }
 
@@ -76,7 +76,6 @@ public class ProfilePresenter implements VolleyListener {
      * set the profile data when the response occurs
      *
      * @param response response from request
-     * @throws JSONException
      */
     @Override
     public void onObjectResponse(JSONObject response) {
