@@ -64,7 +64,7 @@ public class User {
     @ManyToMany(fetch= FetchType.EAGER)
     private Set<User> following = new HashSet<User>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    @OneToMany(mappedBy = "creator", fetch= FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Post> posts = new HashSet<Post>();
 
