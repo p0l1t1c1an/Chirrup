@@ -1,39 +1,56 @@
 package cs309.sr2.chirrupfrontend.listui.post;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
  * A UI element that will show the contents of a user post, including details about who posted, what
- * was posted, and likes. a post can be added to a layout easily by doing
+ * was posted, and likes. a post can be added to a layout easily by doing:
  * <br>
- * <code>layout.addView(new PostView(inflater, container, savedInstanceState, postID).getView());</code>
+ * <code>PostFragment fragment = new PostFragment(userID);
+ * AppController.getFragmentManager().beginTransaction().add(R.id.container, fragment).commit();</code>
  *
  * @author Jeremy Noesen
  */
-public class PostView {
+public class PostFragment extends Fragment {
+
 
     /**
-     * root view for post
+     * id of post to show
      */
-    private final View root;
+    private int postID;
 
     /**
-     * create a new post card within another view from a userID and postID.
+     * create a post UI card from the post id
      *
-     * @param inflater LayoutInflater from parent view onCreate
-     * @param container ViewGroup from parent view onCreate
-     * @param postID id of the post to make a view for
+     * @param postID id of post to show
      */
-    public PostView(@NonNull LayoutInflater inflater, ViewGroup container, int postID) {
-        root = inflater.inflate(R.layout.ui_postcard, container, false);
+    public PostFragment(int postID) {
+        this.postID = postID;
+    }
+
+    /**
+     * retrieve the post data to fill in the text fields and avatar to create a full post card
+     *
+     * @param inflater           layout inflater
+     * @param container          view group
+     * @param savedInstanceState saved instance state
+     * @return fully filled post card
+     */
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.ui_postcard, container, false);
 
         PostPresenter postPresenter = new PostPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
@@ -55,15 +72,7 @@ public class PostView {
         comment.setOnClickListener(v -> {
             //show compose UI to add reply
         });
-    }
 
-    /**
-     * get the view of the post layout
-     *
-     * @return view of post layout
-     */
-    public View getView() {
         return root;
     }
-
 }

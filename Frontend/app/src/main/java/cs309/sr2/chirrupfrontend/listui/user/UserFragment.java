@@ -11,15 +11,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
- * A UI element that will show the contents of a user for the purpose of listing with other users
+ * A UI element that will show the contents of a user for the purpose of listing with other users. Can be added with:
  * <br>
  * <code>UserFragment fragment = new UserFragment(userID);
- * AppController.getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();</code>
+ * AppController.getFragmentManager().beginTransaction().add(R.id.container, fragment).commit();</code>
  *
  * @author Jeremy Noesen
  */
@@ -31,13 +30,6 @@ public class UserFragment extends Fragment {
     private int userID;
 
     /**
-     * create a user fragment for the logged in user
-     */
-    public UserFragment() {
-        userID = -1;
-    }
-
-    /**
      * create a user for the profile of a specific user
      *
      * @param userID id of user to show user of
@@ -47,19 +39,17 @@ public class UserFragment extends Fragment {
     }
 
     /**
-     * retrieve the profile data to fill in the text fields and avatar
+     * retrieve the profile data to fill in the text fields and avatar to create a user card
      *
      * @param inflater           layout inflater
      * @param container          view group
      * @param savedInstanceState saved instance state
-     * @return user card
+     * @return filled out user card
      */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_usercard, container, false);
-
-        if (userID < 0) userID = Session.getUser();
 
         UserPresenter postPresenter = new UserPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
