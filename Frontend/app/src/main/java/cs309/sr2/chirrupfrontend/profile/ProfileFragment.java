@@ -35,8 +35,8 @@ public class ProfileFragment extends Fragment {
         profilePresenter.loadData(getString(R.string.base_url) + "user/" + Session.getUser(),
                 "https://api.androidhive.info/volley/volley-image.jpg");
 
-        Button followers = root.findViewById(R.id.followers);
-        Button following = root.findViewById(R.id.following);
+        Button followers = root.findViewById(R.id.profile_followers);
+        Button following = root.findViewById(R.id.profile_following);
 
         followers.setOnClickListener(v -> {
             //show followers list

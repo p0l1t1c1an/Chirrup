@@ -80,9 +80,9 @@ public class ProfilePresenter implements VolleyListener {
     @Override
     public void onObjectResponse(JSONObject response) {
         try {
-            ((TextView) view.findViewById(R.id.bio)).setText(response.getString("biography"));
-            ((TextView) view.findViewById(R.id.username)).setText(response.getString("username"));
-            ((TextView) view.findViewById(R.id.name)).setText(response.getString("firstname") + " " +
+            ((TextView) view.findViewById(R.id.profile_bio)).setText(response.getString("biography"));
+            ((TextView) view.findViewById(R.id.profile_username)).setText(response.getString("username"));
+            ((TextView) view.findViewById(R.id.profile_name)).setText(response.getString("firstname") + " " +
                     response.getString("lastname"));
 
             LinearLayout postLayout = view.findViewById(R.id.profile_feed_layout);
@@ -106,6 +106,6 @@ public class ProfilePresenter implements VolleyListener {
      */
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.avatar)).setImageBitmap(response.getBitmap());
+        ((ImageView) view.findViewById(R.id.profile_avatar)).setImageBitmap(response.getBitmap());
     }
 }

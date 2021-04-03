@@ -38,7 +38,7 @@ public class UserView {
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                 "user/" + userID,"https://api.androidhive.info/volley/volley-image.jpg");
 
-        Button view = root.findViewById(R.id.view);
+        Button view = root.findViewById(R.id.user_view);
 
         view.setOnClickListener(v -> {
             //show profile of clicked user

@@ -39,9 +39,9 @@ public class PostView {
                 "posts/" + postID,AppController.getInstance().getString(R.string.base_url) +
                 "user/#","https://api.androidhive.info/volley/volley-image.jpg");
 
-        Button like = root.findViewById(R.id.postlike);
-        Button share = root.findViewById(R.id.postshare);
-        Button comment = root.findViewById(R.id.postcomment);
+        Button like = root.findViewById(R.id.post_like);
+        Button share = root.findViewById(R.id.post_share);
+        Button comment = root.findViewById(R.id.post_comment);
 
         like.setOnClickListener(v -> {
             //add or remove like
