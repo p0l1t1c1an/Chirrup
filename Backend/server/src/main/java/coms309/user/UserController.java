@@ -162,7 +162,7 @@ public class UserController {
         //         break;
         // }
         logger.info("created new user");
-        user.setSettings(new StandardSettings(user));
+        user.setSettings(new UserSettings(user));
         userService.saveOrUpdate(user);
         return user;
     }
