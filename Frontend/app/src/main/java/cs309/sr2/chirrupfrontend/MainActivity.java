@@ -5,6 +5,7 @@ import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import cs309.sr2.chirrupfrontend.account.Session;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
  * Main activity the app opens to, will contain all the fragments for all the screens
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         Session.setUser(10); //temporary
+
+        AppController.setFragmentManager(getSupportFragmentManager());
     }
 
     /**

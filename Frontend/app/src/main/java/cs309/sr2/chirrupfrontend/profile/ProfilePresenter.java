@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.listui.user.UserView;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.listui.post.PostView;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
@@ -90,6 +91,7 @@ public class ProfilePresenter implements VolleyListener {
             for (int i = 0; i < posts.length(); i++) {
                 try {
                     postLayout.addView(new PostView(inflater, container, posts.getInt(i)).getView());
+//                    postLayout.addView(new UserView(inflater, container, 9).getView());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

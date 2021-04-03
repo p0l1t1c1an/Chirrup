@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -41,7 +43,8 @@ public class UserView {
         Button view = root.findViewById(R.id.user_view);
 
         view.setOnClickListener(v -> {
-            //show profile of clicked user
+            Fragment profile = new ProfileFragment();
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile).commit();
         });
     }
 
