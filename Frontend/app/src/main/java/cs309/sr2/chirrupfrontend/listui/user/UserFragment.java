@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
+import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -58,7 +58,7 @@ public class UserFragment extends Fragment {
         Button view = root.findViewById(R.id.user_view);
 
         view.setOnClickListener(v -> {
-            PersonalProfileFragment profile = new PersonalProfileFragment(userID);
+            OtherProfileFragment profile = new OtherProfileFragment(userID);
             AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile).commit();
         });
 
