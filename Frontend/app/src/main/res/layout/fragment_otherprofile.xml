@@ -8,7 +8,7 @@
     tools:context=".profile.personal.PersonalProfileFragment">
 
     <ImageView
-        android:id="@+id/profile_avatar"
+        android:id="@+id/otherprofile_avatar"
         android:layout_width="144dp"
         android:layout_height="144dp"
         android:layout_marginStart="32dp"
@@ -20,15 +20,15 @@
         android:cropToPadding="true"
         android:scaleType="centerCrop"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/profile_bio"
-        app:layout_constraintEnd_toStartOf="@+id/profile_username"
+        app:layout_constraintBottom_toTopOf="@+id/otherprofile_bio"
+        app:layout_constraintEnd_toStartOf="@+id/otherprofile_username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars"
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/profile_username"
+        android:id="@+id/otherprofile_username"
         android:layout_width="184dp"
         android:layout_height="34dp"
         android:layout_marginTop="32dp"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/profile_name"
+        android:id="@+id/otherprofile_name"
         android:layout_width="184dp"
         android:layout_height="34dp"
         android:layout_marginTop="8dp"
@@ -50,10 +50,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_username" />
+        app:layout_constraintTop_toBottomOf="@+id/otherprofile_username" />
 
     <TextView
-        android:id="@+id/profile_bio"
+        android:id="@+id/otherprofile_bio"
         android:layout_width="352dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -65,31 +65,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_avatar" />
+        app:layout_constraintTop_toBottomOf="@+id/otherprofile_avatar" />
 
     <Button
-        android:id="@+id/profile_followers"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/button_followers"
-        android:textAlignment="center"
-        android:textSize="8sp"
-        app:layout_constraintEnd_toStartOf="@+id/profile_following"
-        app:layout_constraintTop_toBottomOf="@+id/profile_name" />
-
-    <Button
-        android:id="@+id/profile_following"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
+        android:id="@+id/otherprofile_follow"
+        android:layout_width="184dp"
+        android:layout_height="46dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:text="@string/button_following"
+        android:text="@string/button_follow"
         android:textAlignment="center"
-        android:textSize="8sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+        app:layout_constraintTop_toBottomOf="@+id/otherprofile_name" />
 
     <LinearLayout
         android:layout_width="352dp"
@@ -101,15 +89,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_bio">
+        app:layout_constraintTop_toBottomOf="@+id/otherprofile_bio">
 
         <ScrollView
-            android:id="@+id/profile_feed_scrollview"
+            android:id="@+id/otherprofile_feed_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/profile_feed_layout"
+                android:id="@+id/otherprofile_feed_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />

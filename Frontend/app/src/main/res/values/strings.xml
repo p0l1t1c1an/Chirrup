@@ -8,6 +8,8 @@
     <string name="action_settings">Settings</string>
     <string name="button_followers">Followers</string>
     <string name="button_following">Following</string>
+    <string name="button_follow">Follow</string>
+    <string name="button_unfollow">Unfollow</string>
     <string name="placeholder">Placeholder Text</string>
     <string name="view">View</string>
 

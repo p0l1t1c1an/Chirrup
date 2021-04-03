@@ -1,7 +1,4 @@
-package cs309.sr2.chirrupfrontend.profile.personal;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+package cs309.sr2.chirrupfrontend.profile.other;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,15 +6,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
 
 /**
- * personal profile page fragment
+ * other user profile page fragment
  *
  * @author Jeremy Noesen
  */
-public class PersonalProfileFragment extends Fragment {
+public class OtherProfileFragment extends Fragment {
+
+    /**
+     * id of user to show profile of
+     */
+    private int userID;
+
+    /**
+     * create a fragment for the profile of a specific user
+     *
+     * @param userID id of user to show profile of
+     */
+    public OtherProfileFragment(int userID) {
+        this.userID = userID;
+    }
 
     /**
      * retrieve the profile data to fill in the text fields and avatar
@@ -29,14 +43,16 @@ public class PersonalProfileFragment extends Fragment {
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_personalprofile, container, false);
+        View root = inflater.inflate(R.layout.fragment_otherprofile, container, false);
 
-        PersonalProfilePresenter personalProfilePresenter = new PersonalProfilePresenter(root);
-        personalProfilePresenter.loadData(getString(R.string.base_url) + "user/" + Session.getUser(),
+        if (userID < 0) userID = Session.getUser();
+
+        OtherProfilePresenter otherProfilePresenter = new OtherProfilePresenter(root);
+        otherProfilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
                 "https://api.androidhive.info/volley/volley-image.jpg");
 
-        Button followers = root.findViewById(R.id.personalprofile_followers);
-        Button following = root.findViewById(R.id.personalprofile_following);
+        Button followers = root.findViewById(R.id.otherprofile_followers);
+        Button following = root.findViewById(R.id.otherprofile_follow);
 
         followers.setOnClickListener(v -> {
             //show followers list

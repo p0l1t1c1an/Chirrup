@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.profile.personal;
+package cs309.sr2.chirrupfrontend.profile.other;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -11,9 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.listui.post.PostFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
-import cs309.sr2.chirrupfrontend.listui.post.PostFragment;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
@@ -21,7 +21,7 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
  *
  * @author Jeremy Noesen
  */
-public class PersonalProfilePresenter implements VolleyListener {
+public class OtherProfilePresenter implements VolleyListener {
 
     /**
      * view of profile fragment
@@ -33,7 +33,7 @@ public class PersonalProfilePresenter implements VolleyListener {
      *
      * @param view fragment view
      */
-    public PersonalProfilePresenter(View view) {
+    public OtherProfilePresenter(View view) {
         this.view = view;
     }
 
@@ -66,16 +66,16 @@ public class PersonalProfilePresenter implements VolleyListener {
     @Override
     public void onObjectResponse(JSONObject response) {
         try {
-            ((TextView) view.findViewById(R.id.personalprofile_bio)).setText(response.getString("biography"));
-            ((TextView) view.findViewById(R.id.personalprofile_username)).setText(response.getString("username"));
-            ((TextView) view.findViewById(R.id.personalprofile_name)).setText(response.getString("firstname") + " " +
+            ((TextView) view.findViewById(R.id.otherprofile_bio)).setText(response.getString("biography"));
+            ((TextView) view.findViewById(R.id.otherprofile_username)).setText(response.getString("username"));
+            ((TextView) view.findViewById(R.id.otherprofile_name)).setText(response.getString("firstname") + " " +
                     response.getString("lastname"));
 
             JSONArray posts = response.getJSONArray("posts");
             for (int i = 0; i < posts.length(); i++) {
                 try {
                     PostFragment post = new PostFragment(posts.getInt(i));
-                    AppController.getFragmentManager().beginTransaction().add(R.id.personalprofile_feed_layout, post).commit();
+                    AppController.getFragmentManager().beginTransaction().add(R.id.otherprofile_feed_layout, post).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -92,6 +92,6 @@ public class PersonalProfilePresenter implements VolleyListener {
      */
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.personalprofile_avatar)).setImageBitmap(response.getBitmap());
+        ((ImageView) view.findViewById(R.id.otherprofile_avatar)).setImageBitmap(response.getBitmap());
     }
 }
