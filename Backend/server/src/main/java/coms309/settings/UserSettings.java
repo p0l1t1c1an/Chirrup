@@ -22,12 +22,12 @@ import io.swagger.annotations.ApiModelProperty;
 */
 
 @Entity
-public class StandardSettings extends Settings {
+public class UserSettings extends Settings {
 
+    // Generic Settings
     @ApiModelProperty(notes = "Dark or Light Background Theme", name="darkMode", required=true)
     private boolean darkMode;
     
-
     @ApiModelProperty(notes = "How long until new post are loaded in feed", name="updateTime", required=true)
     private int updateTime;
     
@@ -38,27 +38,49 @@ public class StandardSettings extends Settings {
     @JsonIgnore
     private List<User> blockedUsers = new ArrayList<User>();
 
-    public StandardSettings(){
+
+    // Child Settings
+    @ApiModelProperty(notes = "Is the child locked out?", name="locked", required=true)
+    private boolean locked;
+
+    @ApiModelProperty(notes = "How long can the child be on chirrup?", name="timeLimit", required=true)
+    private int timeLimit;
+
+    @JsonIgnore
+    private List<Integer> roleWhitelist = new ArrayList<Integer>(); 
+
+
+    // Parent Settings
+    @ManyToMany
+    @JsonIgnore
+    private List<User> children = new ArrayList<User>();
+    
+
+    public UserSettings(){
         
     }
 
-    public StandardSettings(StandardSettings s){
+    public UserSettings(UserSettings s){
         super(s);
         darkMode = s.darkMode;
         updateTime = s.updateTime;
         textSize = s.textSize;
+        locked = s.locked;
+        timeLimit = s.timeLimit;
     }
 
-    public StandardSettings(User u){
+    public UserSettings(User u){
         super(u);
         
         // Defaults
         darkMode = false;
         updateTime = 5;
         textSize = 12; 
+        locked = false;
+        timeLimit = 30;
     }
 
-    public StandardSettings(User user, boolean d, int up, int t){
+    public UserSettings(User user, boolean d, int up, int t){
         super(user);
         darkMode = d;
         updateTime = up;
@@ -92,13 +114,7 @@ public class StandardSettings extends Settings {
         textSize = t;
     }
 
-    public void updateSettings(StandardSettings s){
-        super.updateSettings(s);
-        darkMode = s.darkMode;
-        updateTime = s.updateTime;
-        textSize = s.textSize;
-    }
-
+    // Child Controls
     @JsonIgnore
     public List<User> getBlocked() {
         return blockedUsers;
@@ -110,6 +126,68 @@ public class StandardSettings extends Settings {
 
     public void removeBlocked(User u) {
         blockedUsers.remove(u);
+    }
+
+    //Locked
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean l) {
+        locked = l;
+    }
+
+    //Time Limit
+    public Integer getTimeLimit() {
+        return timeLimit;
+    }
+
+    public void setTimeLimit(Integer t) {
+        timeLimit = t;
+    } 
+
+    @JsonIgnore
+    public List<Integer> getWhitelist() {
+        return roleWhitelist;
+    }
+
+    public void setWhitelist(List<Integer> w) {
+        roleWhitelist = w;
+    }
+
+    public void addToWhitelist(Integer r){
+        roleWhitelist.add(r);
+    }
+
+    public void removeFromWhitelist(Integer r){
+        roleWhitelist.remove(r);
+    }
+
+    // Parent Controls
+    @JsonIgnore
+    public List<User> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<User> c) {
+        children = c;
+    }
+
+    public void addChild(User c){
+        children.add(c);
+    }
+
+    public void removeChild(User c){
+        children.remove(c);
+    }
+
+    public void updateSettings(UserSettings s){
+        super.updateSettings(s);
+        darkMode = s.darkMode;
+        updateTime = s.updateTime;
+        textSize = s.textSize;
+        locked = s.locked;
+        timeLimit = s.timeLimit;
     }
 
     @Override
