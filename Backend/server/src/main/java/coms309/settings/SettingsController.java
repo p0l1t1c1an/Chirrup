@@ -4,9 +4,6 @@ package coms309.settings;
 import coms309.user.User;
 import coms309.user.UserService;
 
-import coms309.role.Integer;
-import coms309.role.IntegerService;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
