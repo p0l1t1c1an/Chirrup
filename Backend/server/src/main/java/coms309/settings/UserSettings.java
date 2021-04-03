@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
+import javax.persistence.ElementCollection;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,6 +47,7 @@ public class UserSettings extends Settings {
     @ApiModelProperty(notes = "How long can the child be on chirrup?", name="timeLimit", required=true)
     private int timeLimit;
 
+    @ElementCollection(targetClass=Integer.class)
     @JsonIgnore
     private List<Integer> roleWhitelist = new ArrayList<Integer>(); 
 
