@@ -14,7 +14,7 @@ import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
- * class to handle visual changes for posts
+ * class to handle visual changes for user list cards
  *
  * @author Jeremy Noesen
  */

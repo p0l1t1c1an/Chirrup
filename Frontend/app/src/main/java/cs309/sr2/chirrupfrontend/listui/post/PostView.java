@@ -14,7 +14,7 @@ import cs309.sr2.chirrupfrontend.utils.AppController;
  * A UI element that will show the contents of a user post, including details about who posted, what
  * was posted, and likes. a post can be added to a layout easily by doing
  * <br>
- * <code>layout.addView(new PostCard(inflater, container, savedInstanceState, postID).getView());</code>
+ * <code>layout.addView(new PostView(inflater, container, savedInstanceState, postID).getView());</code>
  *
  * @author Jeremy Noesen
  */
@@ -30,6 +30,7 @@ public class PostView {
      *
      * @param inflater LayoutInflater from parent view onCreate
      * @param container ViewGroup from parent view onCreate
+     * @param postID id of the post to make a view for
      */
     public PostView(@NonNull LayoutInflater inflater, ViewGroup container, int postID) {
         root = inflater.inflate(R.layout.ui_postcard, container, false);
