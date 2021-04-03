@@ -112,15 +112,15 @@ public class VolleyRequester {
     }
 
     /**
-     * set a string in the database using PUT
+     * set a string in the database using PATCH
      *
      * @param url request url
      * @param jsonObject json object to set
      */
     public void setObject(String url, JSONObject jsonObject) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url,
                 null, response -> {}, error ->
-                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object put error: "
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object patch error: "
                         + error.getMessage())) {
             @Override
             public String getBodyContentType() {
