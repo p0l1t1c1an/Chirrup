@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.profile;
+package cs309.sr2.chirrupfrontend.profile.personal;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,7 +17,7 @@ import cs309.sr2.chirrupfrontend.account.Session;
  *
  * @author Jeremy Noesen
  */
-public class ProfileFragment extends Fragment {
+public class PersonalProfileFragment extends Fragment {
 
     /**
      * id of user to show profile of
@@ -27,7 +27,7 @@ public class ProfileFragment extends Fragment {
     /**
      * create a profile fragment for the logged in user
      */
-    public ProfileFragment() {
+    public PersonalProfileFragment() {
         userID = -1;
     }
 
@@ -36,7 +36,7 @@ public class ProfileFragment extends Fragment {
      *
      * @param userID id of user to show profile of
      */
-    public ProfileFragment(int userID) {
+    public PersonalProfileFragment(int userID) {
         this.userID = userID;
     }
 
@@ -54,8 +54,8 @@ public class ProfileFragment extends Fragment {
 
         if (userID < 0) userID = Session.getUser();
 
-        ProfilePresenter profilePresenter = new ProfilePresenter(root, inflater, container);
-        profilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
+        PersonalProfilePresenter personalProfilePresenter = new PersonalProfilePresenter(root);
+        personalProfilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
                 "https://api.androidhive.info/volley/volley-image.jpg");
 
         Button followers = root.findViewById(R.id.profile_followers);

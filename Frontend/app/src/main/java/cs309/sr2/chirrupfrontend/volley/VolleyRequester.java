@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 
-import cs309.sr2.chirrupfrontend.profile.ProfileFragment;
+import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -45,7 +45,7 @@ public class VolleyRequester {
         imageLoader.get(url, new ImageLoader.ImageListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(ProfileFragment.class.getSimpleName(), "Image get Error: "
+                Log.e(PersonalProfileFragment.class.getSimpleName(), "Image get Error: "
                         + error.getMessage());
             }
 

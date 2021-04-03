@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="cs309.sr2.chirrupfrontend.profile.ProfileFragment"
+        android:name="cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment"
         android:label="@string/menu_profile" />
     <fragment
         android:id="@+id/nav_settings"
