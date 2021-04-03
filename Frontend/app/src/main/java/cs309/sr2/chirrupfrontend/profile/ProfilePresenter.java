@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
-import cs309.sr2.chirrupfrontend.post.PostView;
+import cs309.sr2.chirrupfrontend.listui.post.PostView;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**

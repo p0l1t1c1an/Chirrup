@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.post;
+package cs309.sr2.chirrupfrontend.listui.post;
 
 import android.view.View;
 import android.widget.ImageView;
