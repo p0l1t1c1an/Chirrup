@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -270,5 +271,31 @@ public class User {
                 .append("biography", this.getBiography())
                 .append("birthday", this.getBirthday().toString())
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+
+        User u = (User) obj;
+
+        return (u.id == id && u.role == role
+                && Objects.equals(email, u.email)
+                && Objects.equals(password, u.password)
+                && Objects.equals(username, u.username)
+                && Objects.equals(firstname, u.firstname)
+                && Objects.equals(lastname, u.lastname)
+                && Objects.equals(telephone, u.telephone)
+                && Objects.equals(biography, u.biography)
+                && Objects.equals(birthday, u.birthday) );
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

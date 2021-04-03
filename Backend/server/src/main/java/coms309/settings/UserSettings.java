@@ -4,11 +4,14 @@ import coms309.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.Entity;
 import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,9 +38,9 @@ public class UserSettings extends Settings {
     @ApiModelProperty(notes = "Size of the user's text in px", name="textSize", required=true)
     private int textSize;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<User> blockedUsers = new ArrayList<User>();
+    private Set<User> blockedUsers = new HashSet<User>();
 
 
     // Child Settings
@@ -51,14 +54,14 @@ public class UserSettings extends Settings {
     @JsonIgnore
     private List<Integer> roleWhitelist = new ArrayList<Integer>(); 
 
-    @ManyToMany(mappedBy = "children")
+    @ManyToMany(mappedBy = "children", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<UserSettings> parents = new ArrayList<UserSettings>();
+    private Set<UserSettings> parents = new HashSet<UserSettings>();
 
     // Parent Settings
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<UserSettings> children = new ArrayList<UserSettings>();
+    private Set<UserSettings> children = new HashSet<UserSettings>();
     
 
     public UserSettings(){
@@ -123,7 +126,7 @@ public class UserSettings extends Settings {
 
     // Child Controls
     @JsonIgnore
-    public List<User> getBlocked() {
+    public Set<User> getBlocked() {
         return blockedUsers;
     }
 
@@ -173,11 +176,11 @@ public class UserSettings extends Settings {
 
     // Parent Controls
     @JsonIgnore
-    public List<UserSettings> getParents() {
+    public Set<UserSettings> getParents() {
         return parents;
     }
 
-    public void setParents(List<UserSettings> p) {
+    public void setParents(Set<UserSettings> p) {
         parents = p;
     }
 
@@ -190,11 +193,11 @@ public class UserSettings extends Settings {
     }
 
     @JsonIgnore
-    public List<UserSettings> getChildren() {
+    public Set<UserSettings> getChildren() {
         return children;
     }
 
-    public void setChildren(List<UserSettings> c) {
+    public void setChildren(Set<UserSettings> c) {
         children = c;
     }
 
@@ -225,5 +228,27 @@ public class UserSettings extends Settings {
                 .append("locked", this.getLocked())
                 .append("timeLimit", this.getTimeLimit())
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+
+        UserSettings u = (UserSettings) obj;
+
+        return (u.getId() == getId() && u.darkMode == darkMode
+                && u.updateTime == updateTime
+                && u.textSize == textSize
+                && u.locked == locked
+                && u.timeLimit == timeLimit);
+    }
+
+    @Override
+    public int hashCode(){
+        return getId();
     }
 }

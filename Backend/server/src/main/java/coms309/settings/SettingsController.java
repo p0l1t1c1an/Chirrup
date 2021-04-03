@@ -5,6 +5,8 @@ import coms309.user.User;
 import coms309.user.UserService;
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,7 +62,7 @@ public class SettingsController {
         return update.getId();
     }
  
-   @ApiOperation(value = "Save a Settings Settings", response = int.class, tags = "saveSettings")
+    @ApiOperation(value = "Save a Settings Settings", response = int.class, tags = "saveSettings")
     @PostMapping("/settings")
     private int saveSettings(@RequestBody UserSettings s) {
         settingsService.saveSettings(s);
@@ -73,7 +75,7 @@ public class SettingsController {
     }
 
     @GetMapping("/settings/{id}/blocked")
-    private List<User> getBlockedUsers(@PathVariable("id") int id) {
+    private Set<User> getBlockedUsers(@PathVariable("id") int id) {
         return settingsService.getSettingsById(id).getBlocked();
     }
 
