@@ -3,6 +3,7 @@ package cs309.sr2.chirrupfrontend.listui.user;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 
@@ -36,6 +37,12 @@ public class UserView {
         UserPresenter postPresenter = new UserPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                 "user/" + userID,"https://api.androidhive.info/volley/volley-image.jpg");
+
+        Button view = root.findViewById(R.id.view);
+
+        view.setOnClickListener(v -> {
+            //show profile of clicked user
+        });
     }
 
     /**
