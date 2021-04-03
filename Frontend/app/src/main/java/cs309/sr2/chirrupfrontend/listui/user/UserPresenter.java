@@ -69,7 +69,7 @@ public class UserPresenter implements VolleyListener {
     public void onObjectResponse(JSONObject response) {
         try {
             ((TextView) view.findViewById(R.id.username)).setText(response.getString("username"));
-            ((TextView) view.findViewById(R.id.postname)).setText(response.getString("firstname")
+            ((TextView) view.findViewById(R.id.name)).setText(response.getString("firstname")
                     + " " + response.getString("lastname"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -83,6 +83,6 @@ public class UserPresenter implements VolleyListener {
      */
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.postavatar)).setImageBitmap(response.getBitmap());
+        ((ImageView) view.findViewById(R.id.avatar)).setImageBitmap(response.getBitmap());
     }
 }

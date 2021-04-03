@@ -87,12 +87,12 @@ public class PostPresenter implements VolleyListener {
     public void onObjectResponse(JSONObject response) {
         try {
             if (ready) {
-                ((TextView) view.findViewById(R.id.postusername)).setText(response.getString("username"));
-                ((TextView) view.findViewById(R.id.postname)).setText(response.getString("firstname")
+                ((TextView) view.findViewById(R.id.username)).setText(response.getString("username"));
+                ((TextView) view.findViewById(R.id.name)).setText(response.getString("firstname")
                         + " " + response.getString("lastname"));
             } else {
-                ((TextView) view.findViewById(R.id.postbody)).setText(response.getString("content"));
-                ((TextView) view.findViewById(R.id.posttimestamp)).setText(response.getString("dateCreated"));
+                ((TextView) view.findViewById(R.id.body)).setText(response.getString("content"));
+                ((TextView) view.findViewById(R.id.timestamp)).setText(response.getString("dateCreated"));
                 volleyRequester.getObject(userURL.replace("#", String.valueOf(response.getInt("creator"))));
                 volleyRequester.getImage(imageURL.replace("#", String.valueOf(response.getInt("creator"))));
                 ready = true;
@@ -109,6 +109,6 @@ public class PostPresenter implements VolleyListener {
      */
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.postavatar)).setImageBitmap(response.getBitmap());
+        ((ImageView) view.findViewById(R.id.avatar)).setImageBitmap(response.getBitmap());
     }
 }
