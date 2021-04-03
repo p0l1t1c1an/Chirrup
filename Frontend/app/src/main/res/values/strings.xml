@@ -9,6 +9,7 @@
     <string name="button_followers">Followers</string>
     <string name="button_following">Following</string>
     <string name="placeholder">Placeholder Text</string>
+    <string name="view">View</string>
 
     <string name="menu_profile">Profile</string>
     <string name="base_url">http://coms-309-016.cs.iastate.edu:8080/api/</string>
