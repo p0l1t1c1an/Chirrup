@@ -43,7 +43,7 @@ public class UserView {
         Button view = root.findViewById(R.id.user_view);
 
         view.setOnClickListener(v -> {
-            Fragment profile = new ProfileFragment();
+            ProfileFragment profile = new ProfileFragment(userID);
             AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile).commit();
         });
     }

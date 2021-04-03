@@ -20,6 +20,27 @@ import cs309.sr2.chirrupfrontend.account.Session;
 public class ProfileFragment extends Fragment {
 
     /**
+     * id of user to show profile of
+     */
+    private int userID;
+
+    /**
+     * create a profile fragment for the logged in user
+     */
+    public ProfileFragment() {
+        userID = -1;
+    }
+
+    /**
+     * create a fragment for the profile of a specific user
+     *
+     * @param userID id of user to show profile of
+     */
+    public ProfileFragment(int userID) {
+        this.userID = userID;
+    }
+
+    /**
      * retrieve the profile data to fill in the text fields and avatar
      *
      * @param inflater           layout inflater
@@ -31,8 +52,10 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        if (userID < 0) userID = Session.getUser();
+
         ProfilePresenter profilePresenter = new ProfilePresenter(root, inflater, container);
-        profilePresenter.loadData(getString(R.string.base_url) + "user/" + Session.getUser(),
+        profilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
                 "https://api.androidhive.info/volley/volley-image.jpg");
 
         Button followers = root.findViewById(R.id.profile_followers);
