@@ -67,6 +67,11 @@ public class SettingsController {
         return s.getId();
     }
  
+    @GetMapping("/settings/{id}/blocked/ids")
+    private List<Integer> getBlockedUserIds(@PathVariable("id") int id) {
+        return settingsService.getBlockedIds(id);
+    }
+
     @GetMapping("/settings/{id}/blocked")
     private List<User> getBlockedUsers(@PathVariable("id") int id) {
         return settingsService.getSettingsById(id).getBlocked();
@@ -111,40 +116,30 @@ public class SettingsController {
     }
 
     @GetMapping("/settings/parent/{id}/children")
-    private List<User> getParentsChildren(@PathVariable("id") int id) {
-        return settingsService.getSettingsById(id).getChildren();
+    private List<Integer> getParentsChildren(@PathVariable("id") int id) {
+        return settingsService.getChildrenIds(id);
     }
 
+    @GetMapping("/settings/child/{id}/parents")
+    private List<Integer> getChildsParents(@PathVariable("id") int id) {
+        return settingsService.getParentIds(id);
+    }
     
     @PutMapping("/settings/parent/{id}/child/{child}")
     private void addChildToParent(@PathVariable("id") int id, @PathVariable("child") int child) {
-        UserSettings p = settingsService.getSettingsById(id);
-        User c = userService.getUserById(child);
-        p.addChild(c);
-        c.setRole(User.CHILD);
-        settingsService.saveSettings(p);
+        settingsService.addChildToParent(id, child);    
     }
 
     
     @PostMapping("/settings/parent/{id}/child")
     private void createChildOfParent(@PathVariable("id") int id, @RequestBody User user) {
-        UserSettings s = settingsService.getSettingsById(id);
-            
-        s.addChild(user);
-        s.getUser().setRole(User.PARENT);
-        settingsService.saveSettings(s);
-
-        user.setRole(User.CHILD);
-        user.setSettings(new UserSettings(user));
-        userService.saveOrUpdate(user);
+        settingsService.createChildOfParent(id, user);
     }
 
 
     @DeleteMapping("/settings/parent/{id}/child/{child}")
     private void removeChildFromParent(@PathVariable("id") int id, @PathVariable("child") int child) {
-        UserSettings p = settingsService.getSettingsById(id);
-        p.removeChild(userService.getUserById(child));
-        settingsService.saveSettings(p);
+        settingsService.removeChildFromParent(id, child);
     }
 
 }

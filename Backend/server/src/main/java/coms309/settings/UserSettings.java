@@ -49,11 +49,14 @@ public class UserSettings extends Settings {
     @JsonIgnore
     private List<Integer> roleWhitelist = new ArrayList<Integer>(); 
 
+    @ManyToMany(mappedBy = "children")
+    @JsonIgnore
+    private List<UserSettings> parents = new ArrayList<UserSettings>();
 
     // Parent Settings
     @ManyToMany
     @JsonIgnore
-    private List<User> children = new ArrayList<User>();
+    private List<UserSettings> children = new ArrayList<UserSettings>();
     
 
     public UserSettings(){
@@ -85,6 +88,8 @@ public class UserSettings extends Settings {
         darkMode = d;
         updateTime = up;
         textSize = t;
+        locked = false;
+        timeLimit = 30;
     }
 
     //Dark Mode
@@ -163,21 +168,39 @@ public class UserSettings extends Settings {
         roleWhitelist.remove(r);
     }
 
+
     // Parent Controls
     @JsonIgnore
-    public List<User> getChildren() {
+    public List<UserSettings> getParents() {
+        return parents;
+    }
+
+    public void setParents(List<UserSettings> p) {
+        parents = p;
+    }
+
+    public void addParent(UserSettings p){
+        parents.add(p);
+    }
+
+    public void removeParent(UserSettings p){
+        parents.remove(p);
+    }
+
+    @JsonIgnore
+    public List<UserSettings> getChildren() {
         return children;
     }
 
-    public void setChildren(List<User> c) {
+    public void setChildren(List<UserSettings> c) {
         children = c;
     }
 
-    public void addChild(User c){
+    public void addChild(UserSettings c){
         children.add(c);
     }
 
-    public void removeChild(User c){
+    public void removeChild(UserSettings c){
         children.remove(c);
     }
 
@@ -197,6 +220,8 @@ public class UserSettings extends Settings {
                 .append("darkMode", this.getDarkMode())
                 .append("updateTime", this.getUpdateTime())
                 .append("textSize", this.getTextSize())
+                .append("locked", this.getLocked())
+                .append("timeLimit", this.getTimeLimit())
                 .toString();
     }
 }
