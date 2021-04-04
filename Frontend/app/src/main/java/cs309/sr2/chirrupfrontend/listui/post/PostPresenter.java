@@ -5,9 +5,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,6 +58,16 @@ public class PostPresenter implements VolleyListener {
     private int status;
 
     /**
+     * whether the main user has like the post or not
+     */
+    private boolean liked;
+
+    /**
+     * number of likes on post
+     */
+    private int likes;
+
+    /**
      * create a new presenter for post
      *
      * @param view fragment view
@@ -90,31 +100,7 @@ public class PostPresenter implements VolleyListener {
     @Override
     public void onObjectResponse(JSONObject response) {
         try {
-            if (status == 2) {
-                JSONArray likes = response.getJSONArray("likes");
-                int likeIndex = -1;
-                boolean liked = false;
-                for(int i = 0; i < likes.length(); i++) {
-                    if(likes.getInt(i) == likeUserID) {
-                        liked = true;
-                        likeIndex = i;
-                        break;
-                    }
-                }
-
-                Button like = view.findViewById(R.id.post_like);
-
-                if(liked) {
-                    like.setText("Like (" + (likes.length() - 1) + ")");
-                    likes.remove(likeIndex);
-                } else {
-                    like.setText("Unlike (" + (likes.length() + 1) + ")");
-                    likes.put(likes.length(), likeUserID);
-                }
-
-                volleyRequester.setObject(postURL, response.put("likes", likes));
-
-            } else if (status == 1) {
+            if (status == 1) {
                 ((TextView) view.findViewById(R.id.post_username)).setText(response.getString("username"));
                 ((TextView) view.findViewById(R.id.post_name)).setText(response.getString("firstname")
                         + " " + response.getString("lastname"));
@@ -123,19 +109,15 @@ public class PostPresenter implements VolleyListener {
                 ((TextView) view.findViewById(R.id.post_body)).setText(response.getString("content"));
                 ((TextView) view.findViewById(R.id.post_timestamp)).setText(response.getString("dateCreated"));
 
-                JSONArray likes = response.getJSONArray("likes");
-                boolean liked = false;
-                for(int i = 0; i < likes.length(); i++) {
-                    if(likes.getInt(i) == likeUserID) {
-                        liked = true;
-                        break;
-                    }
+                if(response.get("likes").toString().contains(Integer.toString(likeUserID))) {
+                    liked = true;
+                    likes = response.get("likes").toString().split(",").length;
                 }
 
                 if(liked) {
-                    ((Button) view.findViewById(R.id.post_like)).setText("Unlike (" + likes.length() + ")");
+                    ((Button) view.findViewById(R.id.post_like)).setText("Unlike (" + this.likes + ")");
                 } else {
-                    ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes.length() + ")");
+                    ((Button) view.findViewById(R.id.post_like)).setText("Like (" + this.likes + ")");
                 }
 
                 volleyRequester.getObject(userURL.replace("#", String.valueOf(response.getInt("creator"))));
@@ -160,10 +142,24 @@ public class PostPresenter implements VolleyListener {
     /**
      * add or remove a like from a post
      *
-     * @param userID id of user liking post
+     * @param url post liking url
+     * @param likeUserID id of user liking post
      */
-    public void likePost(int userID) {
-        volleyRequester.getObject(postURL);
-        this.likeUserID = userID;
+    public void likePost(String url, int likeUserID) {
+        this.likeUserID = likeUserID;
+
+        Button like = view.findViewById(R.id.post_like);
+
+        if(liked) {
+            volleyRequester.setString(url.replace("#", Integer.toString(likeUserID)), null, Request.Method.DELETE);
+            like.setText("Like (" + (likes - 1) + ")");
+            likes--;
+            liked = false;
+        } else {
+            volleyRequester.setString(url.replace("#", Integer.toString(likeUserID)), null, Request.Method.POST);
+            like.setText("Unlike (" + (likes + 1) + ")");
+            likes++;
+            liked = true;
+        }
     }
 }
