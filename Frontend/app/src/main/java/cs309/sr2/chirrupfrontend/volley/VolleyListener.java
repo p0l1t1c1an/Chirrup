@@ -2,6 +2,7 @@ package cs309.sr2.chirrupfrontend.volley;
 
 import com.android.volley.toolbox.ImageLoader;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -16,20 +17,27 @@ public interface VolleyListener {
      *
      * @param response response from request
      */
-    void onStringResponse(String response);
+    default void onStringResponse(String response) {}
 
     /**
      * Runs when a json object response is received
      *
      * @param response response from request
      */
-    void onObjectResponse(JSONObject response);
+    default void onObjectResponse(JSONObject response) {}
 
     /**
      * Runs when an image response is received
      *
      * @param response response from request
      */
-    void onImageResponse(ImageLoader.ImageContainer response);
+    default void onImageResponse(ImageLoader.ImageContainer response) {}
+
+    /**
+     * Runs when an array response is received
+     *
+     * @param response response from request
+     */
+    default void onArrayResponse(JSONArray response) {}
 
 }
