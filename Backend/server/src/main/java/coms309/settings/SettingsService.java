@@ -66,14 +66,20 @@ public class SettingsService {
 
     public void addChildToParent(int id, int child) {
         UserSettings parentSettings = userSettingsRepository.findById(id).get();
+        User parentAccount = userRepository.findById(id).get();
+        
         UserSettings childSettings = userSettingsRepository.findById(child).get();
         User childAccount = userRepository.findById(child).get();
 
         parentSettings.addChild(childSettings);
         childSettings.addParent(parentSettings);
+        
         childAccount.setRole(User.CHILD);
+        parentAccount.setRole(User.PARENT);
 
         userRepository.save(childAccount);
+        userRepository.save(parentAccount);
+        
         userSettingsRepository.save(childSettings);
         userSettingsRepository.save(parentSettings);
     }
