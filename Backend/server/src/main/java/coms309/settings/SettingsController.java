@@ -1,6 +1,12 @@
 package coms309.settings;
 
+
+import coms309.user.User;
+import coms309.user.UserService;
+
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,106 +31,129 @@ public class SettingsController {
     @Autowired
     SettingsService settingsService;
 
-    @ApiOperation(value = "Get a list of Standard, Child, and Parent Settings", response= List.class, tags = "getAllStandard")
+    @Autowired
+    UserService userService;
+
+    @ApiOperation(value = "Get a list of all Settings", response= List.class, tags = "getAllSettings")
     @GetMapping("/settings")
-    private List<StandardSettings> getAllStandard() {
-        return settingsService.getAllStandard();
+    private List<UserSettings> getAllSettings() {
+        return settingsService.getAllSettings();
     }
     
-    @ApiOperation(value = "Get a list of Child Settings", response= List.class, tags = "getAllChildren")
-    @GetMapping("/settings/child")
-    private List<ChildSettings> getAllChildren() {
-        return settingsService.getAllChildren();
-    }
-    
-    @ApiOperation(value = "Get a list of Parent Settings", response= List.class, tags = "getAllParents")
-    @GetMapping("/settings/parent")
-    private List<ParentSettings> getAllParents() {
-        return settingsService.getAllParents();
-    }
-    
-    @ApiOperation(value = "Get a specific Standard, Child, or Parent Settings by id", response= StandardSettings.class, tags = "getStandard")
+   
+    @ApiOperation(value = "Get a specific Settings by id", response= UserSettings.class, tags = "getSettings")
     @GetMapping("/settings/{id}")
-    private StandardSettings getStandard(@PathVariable("id") int id) {
-        return settingsService.getStandardById(id);
+    private UserSettings getSettings(@PathVariable("id") int id) {
+        return settingsService.getSettingsById(id);
     }
 
-    @ApiOperation(value = "Get a specific Child Settings by id", response= ChildSettings.class, tags = "getChild")
-    @GetMapping("/settings/child/{id}")
-    private ChildSettings getChild(@PathVariable("id") int id) {
-        return settingsService.getChildById(id);
-    }
-
-    @ApiOperation(value = "Get a specific Parent Settings by id", response= ParentSettings.class, tags = "getParent")
-    @GetMapping("/settings/parent/{id}")
-    private ParentSettings getParent(@PathVariable("id") int id) {
-        return settingsService.getParentById(id);
-    }
-
-    @ApiOperation(value = "Delete a specific Standard, Child, or Parent Settings by id", response = void.class, tags = "deleteStandard")
+    @ApiOperation(value = "Delete a specific Settings by id", response = void.class, tags = "deleteSettings")
     @DeleteMapping("/settings/{id}")
-    private void deleteStandard(@PathVariable("id") int id) {
-        settingsService.deleteStandard(id);
+    private void deleteSettings(@PathVariable("id") int id) {
+        settingsService.deleteSettingsById(id);
     }
 
-    @ApiOperation(value = "Delete a specific Child Settings by id", response = void.class, tags = "deleteChild")
-    @DeleteMapping("/settings/child/{id}")
-    private void deleteChild(@PathVariable("id") int id) {
-        settingsService.deleteChild(id);
-    }
-
-    @ApiOperation(value = "Delete a specific Parent Settings by id", response = void.class, tags = "deleteParent")
-    @DeleteMapping("/settings/parent/{id}")
-    private void deleteParent(@PathVariable("id") int id) {
-        settingsService.deleteParent(id);
-    }
-
-
-    @ApiOperation(value = "Edit a specific Standard, Child, or Parent Settings by id", response = int.class, tags = "editStandard")
+    @ApiOperation(value = "Edit a specific Settings by id", response = int.class, tags = "editSettings")
     @PutMapping("/settings/{id}")
-    private int editStandard(@PathVariable("id") int id, @RequestBody StandardSettings s) {
-        StandardSettings update = settingsService.getStandardById(id);
+    private int editSettings(@PathVariable("id") int id, @RequestBody UserSettings s) {
+        UserSettings update = settingsService.getSettingsById(id);
         update.updateSettings(s);
-        settingsService.saveStandard(update);
+        settingsService.saveSettings(update);
         return update.getId();
     }
  
-    @ApiOperation(value = "Edit a specific Child Settings by id", response = int.class, tags = "editChild")
-    @PutMapping("/settings/child/{id}")
-    private int editChild(@PathVariable("id") int id, @RequestBody ChildSettings s) {
-        ChildSettings update = settingsService.getChildById(id);
-        update.updateSettings(s);
-        settingsService.saveChild(update);
-        return update.getId();
-    }
-
-    @ApiOperation(value = "Edit a specific Parent Settings by id", response = int.class, tags = "parentStandard")
-    @PutMapping("/settings/parent/{id}")
-    private int editParent(@PathVariable("id") int id, @RequestBody ParentSettings s) {
-        ParentSettings update = settingsService.getParentById(id);
-        update.updateSettings(s);
-        settingsService.saveParent(update);
-        return update.getId();
-    }
-
-    @ApiOperation(value = "Save a Standard Settings", response = int.class, tags = "saveStandard")
+    @ApiOperation(value = "Create a Settings", response = int.class, tags = "saveSettings")
     @PostMapping("/settings")
-    private int saveStandard(@RequestBody StandardSettings s) {
-        settingsService.saveStandard(s);
+    private int saveSettings(@RequestBody UserSettings s) {
+        settingsService.saveSettings(s);
         return s.getId();
     }
  
-    @ApiOperation(value = "Save a Child Settings", response = int.class, tags = "saveChild")
-    @PostMapping("/settings/child")
-    private int saveChild(@RequestBody ChildSettings s) {
-        settingsService.saveChild(s);
-        return s.getId();
-    }    
-
-    @ApiOperation(value = "Save a Parent Settings", response = int.class, tags = "saveParent")
-    @PostMapping("/settings/parent")
-    private int saveParent(@RequestBody ParentSettings s) {
-        settingsService.saveParent(s);
-        return s.getId();
+    @ApiOperation(value = "Get a list of Users' Ids that are blocked", response = List.class, tags = "getBlockedUserIds")
+    @GetMapping("/settings/{id}/blocked/ids")
+    private List<Integer> getBlockedUserIds(@PathVariable("id") int id) {
+        return settingsService.getBlockedIds(id);
     }
+
+    @ApiOperation(value = "Get a list of Users that are blocked", response = Set.class, tags = "getBlockedUsers")
+    @GetMapping("/settings/{id}/blocked")
+    private Set<User> getBlockedUsers(@PathVariable("id") int id) {
+        return settingsService.getSettingsById(id).getBlocked();
+    }
+
+    
+    @ApiOperation(value = "Block a user from your feed & search", response = void.class, tags = "blockUser")
+    @PutMapping("/settings/{id}/block/{blocked}")
+    private void blockUser(@PathVariable("id") int id, @PathVariable("blocked") int blocked) {
+        UserSettings s =  settingsService.getSettingsById(id);
+        s.addBlocked(userService.getUserById(blocked));
+        settingsService.saveSettings(s);
+    }
+
+
+    @ApiOperation(value = "Unblock a user from your feed & search", response = void.class, tags = "unblockUser")
+    @DeleteMapping("/settings/{id}/unblock/{unblocked}")
+    private void unblockUser(@PathVariable("id") int id, @PathVariable("unblocked") int unblocked) {
+        UserSettings s = settingsService.getSettingsById(id);
+        s.removeBlocked(userService.getUserById(unblocked));
+        settingsService.saveSettings(s);
+    }
+
+ 
+    @ApiOperation(value = "Get a list of the roles in whitelist", response = List.class, tags = "getRoleWhitelist")
+    @GetMapping("/settings/child/{id}/whitelist")
+    private List<Integer> getRoleWhitelist(@PathVariable("id") int id) {
+        return settingsService.getSettingsById(id).getWhitelist();
+    }
+
+    
+    @ApiOperation(value = "Add a role to the role Whitelist", response = void.class, tags = "addRole")
+    @PutMapping("/settings/child/{id}/whitelist/{role}")
+    private void addRole(@PathVariable("id") int id, @PathVariable("role") int role) {
+        UserSettings c = settingsService.getSettingsById(id);
+        c.addToWhitelist(role);
+        settingsService.saveSettings(c);
+    }
+
+
+    @ApiOperation(value = "Remove a role from the Role Whitelist", response = void.class, tags = "removeRole")
+    @DeleteMapping("/settings/child/{id}/whitelist/{role}")
+    private void removeRole(@PathVariable("id") int id, @PathVariable("role") int role) {
+        UserSettings c = settingsService.getSettingsById(id);
+        c.removeFromWhitelist(role);
+        settingsService.saveSettings(c);
+    }
+
+    @ApiOperation(value = "Get a list of children's ids", response = List.class, tags = "getParentsChildren")
+    @GetMapping("/settings/parent/{id}/children")
+    private List<Integer> getParentsChildren(@PathVariable("id") int id) {
+        return settingsService.getChildrenIds(id);
+    }
+
+    @ApiOperation(value = "Get a list of parents' ids", response = List.class, tags = "getChildsParents")
+    @GetMapping("/settings/child/{id}/parents")
+    private List<Integer> getChildsParents(@PathVariable("id") int id) {
+        return settingsService.getParentIds(id);
+    }
+    
+    @ApiOperation(value = "Link a Child to a Parent", response = void.class, tags = "addChildToParent")
+    @PutMapping("/settings/parent/{id}/child/{child}")
+    private void addChildToParent(@PathVariable("id") int id, @PathVariable("child") int child) {
+        settingsService.addChildToParent(id, child);    
+    }
+
+    
+    @ApiOperation(value = "Create a child of linked to a Parent", response = void.class, tags = "createChildOfParent")
+    @PostMapping("/settings/parent/{id}/child")
+    private void createChildOfParent(@PathVariable("id") int id, @RequestBody User user) {
+        settingsService.createChildOfParent(id, user);
+    }
+
+
+    @ApiOperation(value = "Unlink a Child from a Parent", response = void.class, tags = "removeChildFromParent")
+    @DeleteMapping("/settings/parent/{id}/child/{child}")
+    private void removeChildFromParent(@PathVariable("id") int id, @PathVariable("child") int child) {
+        settingsService.removeChildFromParent(id, child);
+    }
+
 }
