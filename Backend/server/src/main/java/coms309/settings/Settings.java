@@ -66,10 +66,6 @@ public abstract class Settings {
         this.id = id;
     }
     
-    @JsonIgnore
-    public User getUser() {
-        return user;
-    }
 
     public void setUser(User u){
         id = u.getId();
