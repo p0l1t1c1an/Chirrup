@@ -50,15 +50,6 @@ public class OtherProfilePresenter implements VolleyListener {
     }
 
     /**
-     * not used for this class
-     *
-     * @param response response from request
-     */
-    @Override
-    public void onStringResponse(String response) {
-    }
-
-    /**
      * set the profile data when the response occurs
      *
      * @param response response from request

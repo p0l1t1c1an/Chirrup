@@ -6,9 +6,11 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -73,6 +75,20 @@ public class VolleyRequester {
     }
 
     /**
+     * GET an array from the database
+     *
+     * @param url request url
+     */
+    public void getArray(String url) {
+        JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET, url,
+                null, response -> volleyListener.onArrayResponse(response), error ->
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object get error: "
+                        + error.getMessage()));
+
+        AppController.getInstance().addToRequestQueue(jsonArrReq);
+    }
+
+    /**
      * GET a json object from the database
      *
      * @param url request url
@@ -87,20 +103,17 @@ public class VolleyRequester {
     }
 
     /**
-     * set a string in the database using PATCH
+     * set a string in the database
      *
      * @param url request url
      * @param string string to set
+     * @param method method to use for setting, Request.Method.
      */
-    public void setString(String url, String string) {
-        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url,
+    public void setString(String url, String string, int method) {
+        StringRequest stringRequest = new StringRequest(method, url,
                 response -> {}, error ->
-                VolleyLog.d(VolleyRequester.class.getSimpleName(), "String patch error: "
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "String set error: "
                         + error.getMessage())) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
 
             @Override
             public byte[] getBody() {
@@ -112,20 +125,39 @@ public class VolleyRequester {
     }
 
     /**
-     * set a string in the database using PATCH
+     * set an array in the database using PATCH
+     *
+     * @param url request url
+     * @param jsonArray json array to set
+     * @param method method to use for setting, Request.Method.
+     */
+    public void setArray(String url, JSONArray jsonArray, int method) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url,
+                null, response -> {}, error ->
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Array set error: "
+                        + error.getMessage())) {
+
+            @Override
+            public byte[] getBody() {
+                return jsonArray == null ? null : jsonArray.toString().getBytes(StandardCharsets.UTF_8);
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest);
+    }
+
+    /**
+     * set an object in the database using PATCH
      *
      * @param url request url
      * @param jsonObject json object to set
+     * @param method method to use for setting, Request.Method.
      */
-    public void setObject(String url, JSONObject jsonObject) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url,
-                null, response -> {}, error ->
-                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object patch error: "
+    public void setObject(String url, JSONObject jsonObject, int method) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url,
+                jsonObject, response -> {}, error ->
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object set error: "
                         + error.getMessage())) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
 
             @Override
             public byte[] getBody() {
