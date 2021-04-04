@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.post;
+package cs309.sr2.chirrupfrontend.listui.post;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -87,12 +87,12 @@ public class PostPresenter implements VolleyListener {
     public void onObjectResponse(JSONObject response) {
         try {
             if (ready) {
-                ((TextView) view.findViewById(R.id.postusername)).setText(response.getString("username"));
-                ((TextView) view.findViewById(R.id.postname)).setText(response.getString("firstname")
+                ((TextView) view.findViewById(R.id.post_username)).setText(response.getString("username"));
+                ((TextView) view.findViewById(R.id.post_name)).setText(response.getString("firstname")
                         + " " + response.getString("lastname"));
             } else {
-                ((TextView) view.findViewById(R.id.postbody)).setText(response.getString("content"));
-                ((TextView) view.findViewById(R.id.posttimestamp)).setText(response.getString("dateCreated"));
+                ((TextView) view.findViewById(R.id.post_body)).setText(response.getString("content"));
+                ((TextView) view.findViewById(R.id.post_timestamp)).setText(response.getString("dateCreated"));
                 volleyRequester.getObject(userURL.replace("#", String.valueOf(response.getInt("creator"))));
                 volleyRequester.getImage(imageURL.replace("#", String.valueOf(response.getInt("creator"))));
                 ready = true;
@@ -109,6 +109,6 @@ public class PostPresenter implements VolleyListener {
      */
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.postavatar)).setImageBitmap(response.getBitmap());
+        ((ImageView) view.findViewById(R.id.post_avatar)).setImageBitmap(response.getBitmap());
     }
 }

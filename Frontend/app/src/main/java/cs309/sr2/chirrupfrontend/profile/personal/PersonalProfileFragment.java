@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.profile;
+package cs309.sr2.chirrupfrontend.profile.personal;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,11 +13,11 @@ import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
 
 /**
- * profile page fragment
+ * personal profile page fragment
  *
  * @author Jeremy Noesen
  */
-public class ProfileFragment extends Fragment {
+public class PersonalProfileFragment extends Fragment {
 
     /**
      * retrieve the profile data to fill in the text fields and avatar
@@ -29,14 +29,14 @@ public class ProfileFragment extends Fragment {
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_personalprofile, container, false);
 
-        ProfilePresenter profilePresenter = new ProfilePresenter(root, inflater, container);
-        profilePresenter.loadData(getString(R.string.base_url) + "user/" + Session.getUser(),
+        PersonalProfilePresenter personalProfilePresenter = new PersonalProfilePresenter(root);
+        personalProfilePresenter.loadData(getString(R.string.base_url) + "user/" + Session.getUser(),
                 "https://api.androidhive.info/volley/volley-image.jpg");
 
-        Button followers = root.findViewById(R.id.followers);
-        Button following = root.findViewById(R.id.following);
+        Button followers = root.findViewById(R.id.personalprofile_followers);
+        Button following = root.findViewById(R.id.personalprofile_following);
 
         followers.setOnClickListener(v -> {
             //show followers list

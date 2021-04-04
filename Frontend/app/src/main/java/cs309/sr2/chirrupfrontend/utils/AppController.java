@@ -3,6 +3,8 @@ package cs309.sr2.chirrupfrontend.utils;
 import android.app.Application;
 import android.text.TextUtils;
 
+import androidx.fragment.app.FragmentManager;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -34,6 +36,11 @@ public class AppController extends Application {
      * global instance of the app controller
      */
     private static AppController instance;
+
+    /**
+     * fragment manager for app
+     */
+    private static FragmentManager fragmentManager;
 
     /**
      * set instance to the instance created on app launch
@@ -113,5 +120,23 @@ public class AppController extends Application {
         if (requestQueue != null) {
             requestQueue.cancelAll(tag);
         }
+    }
+
+    /**
+     * get the fragment manager for the app
+     *
+     * @return fragment manager for the app
+     */
+    public static FragmentManager getFragmentManager() {
+        return AppController.fragmentManager;
+    }
+
+    /**
+     * set the app fragment manager
+     *
+     * @param fragmentManager fragment manager
+     */
+    public static void setFragmentManager(FragmentManager fragmentManager) {
+        AppController.fragmentManager = fragmentManager;
     }
 }

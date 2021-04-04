@@ -1,10 +1,7 @@
-package cs309.sr2.chirrupfrontend.profile;
+package cs309.sr2.chirrupfrontend.profile.personal;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -14,8 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
-import cs309.sr2.chirrupfrontend.post.PostView;
+import cs309.sr2.chirrupfrontend.listui.post.PostFragment;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
@@ -23,7 +21,7 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
  *
  * @author Jeremy Noesen
  */
-public class ProfilePresenter implements VolleyListener {
+public class PersonalProfilePresenter implements VolleyListener {
 
     /**
      * view of profile fragment
@@ -31,24 +29,12 @@ public class ProfilePresenter implements VolleyListener {
     private View view;
 
     /**
-     * inflater from fragment, used to make posts
-     */
-    private LayoutInflater inflater;
-
-    /**
-     * view group from fragment, used to make posts
-     */
-    private ViewGroup container;
-
-    /**
      * create a new presenter for the profile page
      *
      * @param view fragment view
      */
-    public ProfilePresenter(View view, LayoutInflater inflater, ViewGroup container) {
+    public PersonalProfilePresenter(View view) {
         this.view = view;
-        this.inflater = inflater;
-        this.container = container;
     }
 
     /**
@@ -80,16 +66,16 @@ public class ProfilePresenter implements VolleyListener {
     @Override
     public void onObjectResponse(JSONObject response) {
         try {
-            ((TextView) view.findViewById(R.id.bio)).setText(response.getString("biography"));
-            ((TextView) view.findViewById(R.id.username)).setText(response.getString("username"));
-            ((TextView) view.findViewById(R.id.name)).setText(response.getString("firstname") + " " +
+            ((TextView) view.findViewById(R.id.personalprofile_bio)).setText(response.getString("biography"));
+            ((TextView) view.findViewById(R.id.personalprofile_username)).setText(response.getString("username"));
+            ((TextView) view.findViewById(R.id.personalprofile_name)).setText(response.getString("firstname") + " " +
                     response.getString("lastname"));
 
-            LinearLayout postLayout = view.findViewById(R.id.profile_feed_layout);
             JSONArray posts = response.getJSONArray("posts");
             for (int i = 0; i < posts.length(); i++) {
                 try {
-                    postLayout.addView(new PostView(inflater, container, posts.getInt(i)).getView());
+                    PostFragment post = new PostFragment(posts.getInt(i));
+                    AppController.getFragmentManager().beginTransaction().add(R.id.personalprofile_feed_layout, post).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -106,6 +92,6 @@ public class ProfilePresenter implements VolleyListener {
      */
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.avatar)).setImageBitmap(response.getBitmap());
+        ((ImageView) view.findViewById(R.id.personalprofile_avatar)).setImageBitmap(response.getBitmap());
     }
 }

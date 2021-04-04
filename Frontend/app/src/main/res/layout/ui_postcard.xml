@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <ImageView
-        android:id="@+id/postavatar"
+        android:id="@+id/post_avatar"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="16dp"
@@ -22,7 +22,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/postname"
+        android:id="@+id/post_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -31,11 +31,11 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/postavatar"
+        app:layout_constraintStart_toEndOf="@+id/post_avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/posttimestamp"
+        android:id="@+id/post_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -44,22 +44,22 @@
         android:text="@string/placeholder"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/postname"
+        app:layout_constraintStart_toEndOf="@+id/post_name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/postusername"
+        android:id="@+id/post_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="@string/placeholder"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/postavatar"
-        app:layout_constraintTop_toBottomOf="@+id/postname" />
+        app:layout_constraintStart_toEndOf="@+id/post_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/post_name" />
 
     <TextView
-        android:id="@+id/postbody"
+        android:id="@+id/post_body"
         android:layout_width="316dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -70,10 +70,10 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postavatar" />
+        app:layout_constraintTop_toBottomOf="@+id/post_avatar" />
 
     <Button
-        android:id="@+id/postcomment"
+        android:id="@+id/post_comment"
         android:layout_width="100dp"
         android:layout_height="37dp"
         android:layout_marginStart="32dp"
@@ -83,12 +83,12 @@
         android:text="@string/placeholder"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/postshare"
+        app:layout_constraintEnd_toStartOf="@+id/post_share"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postbody" />
+        app:layout_constraintTop_toBottomOf="@+id/post_body" />
 
     <Button
-        android:id="@+id/postshare"
+        android:id="@+id/post_share"
         android:layout_width="100dp"
         android:layout_height="37dp"
         android:layout_marginTop="8dp"
@@ -96,12 +96,12 @@
         android:text="@string/placeholder"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/postlike"
-        app:layout_constraintStart_toEndOf="@+id/postcomment"
-        app:layout_constraintTop_toBottomOf="@+id/postbody" />
+        app:layout_constraintEnd_toStartOf="@+id/post_like"
+        app:layout_constraintStart_toEndOf="@+id/post_comment"
+        app:layout_constraintTop_toBottomOf="@+id/post_body" />
 
     <Button
-        android:id="@+id/postlike"
+        android:id="@+id/post_like"
         android:layout_width="100dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
@@ -112,6 +112,6 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/postshare"
-        app:layout_constraintTop_toBottomOf="@+id/postbody" />
+        app:layout_constraintStart_toEndOf="@+id/post_share"
+        app:layout_constraintTop_toBottomOf="@+id/post_body" />
 </androidx.constraintlayout.widget.ConstraintLayout>
