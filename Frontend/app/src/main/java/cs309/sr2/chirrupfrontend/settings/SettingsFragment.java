@@ -46,10 +46,8 @@ public class SettingsFragment extends Fragment {
     private TextView bio;
     //Textbox to show update status.
     private TextView testView;
-    //Textbox to show some settings.
-    private TextView jacobText1;
-    //Textbox to show some settings.
-    private TextView jacobText2;
+
+
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
@@ -116,16 +114,13 @@ public class SettingsFragment extends Fragment {
 
         //update user
         float currTime = System.nanoTime() / 1000000;
-        while ((System.nanoTime() / 1000000) - currTime < 50) {
+        while ((System.nanoTime() / 1000000) - currTime < 100) {
         }
         getUser(CurrentUserData.currUser.getID());
         username.setText("");
         firstname.setText("");
         lastname.setText("");
         bio.setText("");
-
-        //JACOB SETTINGS
-        getUserSettings(9);
     }
 
     /**
@@ -156,8 +151,11 @@ public class SettingsFragment extends Fragment {
 
                         //parse JSON
                         JSONObject res = new JSONObject(responseBody);
-                        username.setHint(res.getString("username"));
-                        firstname.setHint(res.getString("firstname"));
+                        String newUserName = res.getString("username");
+                        String newFirstName = res.getString("firstname");
+
+                        username.setHint(newUserName);
+                        firstname.setHint(newFirstName);
                         lastname.setHint(res.getString("lastname"));
                         bio.setHint(res.getString("biography"));
 
