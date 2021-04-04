@@ -103,15 +103,16 @@ public class VolleyRequester {
     }
 
     /**
-     * set a string in the database using PATCH
+     * set a string in the database
      *
      * @param url request url
      * @param string string to set
+     * @param method method to use for setting, Request.Method.
      */
-    public void setString(String url, String string) {
-        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, url,
+    public void setString(String url, String string, int method) {
+        StringRequest stringRequest = new StringRequest(method, url,
                 response -> {}, error ->
-                VolleyLog.d(VolleyRequester.class.getSimpleName(), "String patch error: "
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "String set error: "
                         + error.getMessage())) {
 
             @Override
@@ -128,11 +129,12 @@ public class VolleyRequester {
      *
      * @param url request url
      * @param jsonArray json array to set
+     * @param method method to use for setting, Request.Method.
      */
-    public void setObject(String url, JSONArray jsonArray) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url,
+    public void setArray(String url, JSONArray jsonArray, int method) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url,
                 null, response -> {}, error ->
-                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object patch error: "
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Array set error: "
                         + error.getMessage())) {
 
             @Override
@@ -149,11 +151,12 @@ public class VolleyRequester {
      *
      * @param url request url
      * @param jsonObject json object to set
+     * @param method method to use for setting, Request.Method.
      */
-    public void setObject(String url, JSONObject jsonObject) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url,
+    public void setObject(String url, JSONObject jsonObject, int method) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url,
                 jsonObject, response -> {}, error ->
-                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object patch error: "
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object set error: "
                         + error.getMessage())) {
 
             @Override
