@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -62,15 +63,15 @@ public class PostFragment extends Fragment {
         Button comment = root.findViewById(R.id.post_comment);
 
         like.setOnClickListener(v -> {
-            //add or remove like
+            postPresenter.likePost(Session.getUser());
         });
 
         share.setOnClickListener(v -> {
-            //show share options or just copy a link to the post
+            //show ui to send as a message
         });
 
         comment.setOnClickListener(v -> {
-            //show compose UI to add reply
+            //show compose UI to add reply keeping the parent data with it
         });
 
         return root;
