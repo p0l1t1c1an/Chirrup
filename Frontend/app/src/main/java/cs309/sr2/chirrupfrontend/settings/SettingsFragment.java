@@ -136,7 +136,7 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         toSend.put("biography", bio.getText().toString());
         String jsonString = toSend.toString();
         VolleyRequester = new VolleyRequester(this);
-        VolleyRequester.setString(getResources().getString(R.string.base_url), jsonString);
+        VolleyRequester.setObject(getResources().getString(R.string.base_url), toSend, Request.Method.PUT);
 
         //update current user screen
         VolleyRequester.getString(getResources().getString(R.string.base_url) + CurrentUserData.currUser.getID());
