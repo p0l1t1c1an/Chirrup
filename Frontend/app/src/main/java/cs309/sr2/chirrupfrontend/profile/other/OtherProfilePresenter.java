@@ -106,9 +106,9 @@ public class OtherProfilePresenter implements VolleyListener {
             }
 
             if(followed) {
-                ((Button) view.findViewById(R.id.post_like)).setText("Unfollow (" + followers + ")");
+                ((Button) view.findViewById(R.id.otherprofile_follow)).setText("Unfollow (" + followers + ")");
             } else {
-                ((Button) view.findViewById(R.id.post_like)).setText("Follow (" + followers + ")");
+                ((Button) view.findViewById(R.id.otherprofile_follow)).setText("Follow (" + followers + ")");
             }
         } catch (JSONException e) {
             e.printStackTrace();
