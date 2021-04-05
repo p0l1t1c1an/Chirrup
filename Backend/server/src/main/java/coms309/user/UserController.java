@@ -235,7 +235,7 @@ public class UserController {
             return "profile picture not given";
         }
 
-        String path = "D:/Desktop/"; //httpServletRequest.getServletContext().getRealPath(profilePicturePath);
+        String path = httpServletRequest.getServletContext().getRealPath(profilePicturePath);
 
         if (!new File(path).exists()) {
             new File(path).mkdir();
