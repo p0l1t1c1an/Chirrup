@@ -22,8 +22,8 @@ maven-test:
      - cd Backend/server
      - mvn test
     artifacts:
-     paths:
-      - Backend/server/target/*.jar
+      paths:
+       - Backend/server/target/*.jar
 
 autoDeploy:
     stage: mavendeploy
@@ -36,8 +36,8 @@ autoDeploy:
      - sudo systemctl stop system-web-demo
      - sudo systemctl start system-web-demo
     only:
-     refs:
-      - master
+      refs:
+       - master
 
 android-build:
     image: javiersantos/android-ci:latest
@@ -52,7 +52,7 @@ android-build:
      - ./gradlew assemble
     artifacts:
       paths:
-      - Android_test/app/build/outputs/
+       - Android_test/app/build/outputs/
       
 android-test:
     image: javiersantos/android-ci:latest
