@@ -196,4 +196,17 @@ public class UserController {
         logger.info("followed a user");
         return "User is now following: " + following.getUsername();
     }
+
+    @ApiOperation(value = "lists all dms by certain user", response = Iterable.class, tags = "getAllDirectMessagesByUserId")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @GetMapping("/user/{userId}/directmessages")
+    private List<Integer> getAllDirectMessagesByUserId(@PathVariable("userId") int userId) {
+        User user = userService.getUserById(userId);
+        logger.info("got all messages from user");
+        return user.getMessagesId();
+    }
 }

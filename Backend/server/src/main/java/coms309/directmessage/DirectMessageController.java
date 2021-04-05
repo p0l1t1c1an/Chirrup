@@ -60,7 +60,7 @@ public class DirectMessageController {
         @ApiResponse(code = 403, message = "forbidden!!!"),
         @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/directmessages/{id}")
-    private DirectMessage getPost(@PathVariable("id") int id) {
+    private DirectMessage getDirectMessage(@PathVariable("id") int id) {
         logger.info("got dm by id");
         return dmService.getDirectMessageById(id);
     }
@@ -90,9 +90,8 @@ public class DirectMessageController {
     private String saveDirectMessage(@RequestBody DirectMessage dm, @PathVariable(value = "fromId") int fromId, @PathVariable(value = "toId") int toId) {
         User from = userService.getUserById(fromId);
         User to = userService.getUserById(toId);
-
         LocalDateTime now = LocalDateTime.now();
-
+        
         dm.setDateSent(now);
         dm.setFrom(from);
         dm.setTo(to);
