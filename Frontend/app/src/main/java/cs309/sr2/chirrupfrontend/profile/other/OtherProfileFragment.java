@@ -49,12 +49,13 @@ public class OtherProfileFragment extends Fragment {
 
         OtherProfilePresenter otherProfilePresenter = new OtherProfilePresenter(root);
         otherProfilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
-                "https://api.androidhive.info/volley/volley-image.jpg");
+                "https://api.androidhive.info/volley/volley-image.jpg", Session.getUser());
 
         Button follow = root.findViewById(R.id.otherprofile_follow);
 
         follow.setOnClickListener(v -> {
-            //show followers list
+            otherProfilePresenter.followUser(getString(R.string.base_url) + "user/" +
+                    Session.getUser() + "/followers/" + userID);
         });
 
         return root;

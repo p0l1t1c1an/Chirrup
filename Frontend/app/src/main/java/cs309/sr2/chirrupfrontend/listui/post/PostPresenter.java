@@ -159,12 +159,12 @@ public class PostPresenter implements VolleyListener {
     public void likePost(String url) {
         Button like = view.findViewById(R.id.post_like);
         if(liked) {
-            volleyRequester.setString(url.replace("#", Integer.toString(likeUserID)), null, Request.Method.DELETE);
+            volleyRequester.setString(url, null, Request.Method.DELETE);
             like.setText("Like (" + (likes - 1) + ")");
             likes--;
             liked = false;
         } else {
-            volleyRequester.setString(url.replace("#", Integer.toString(likeUserID)), null, Request.Method.POST);
+            volleyRequester.setString(url, null, Request.Method.POST);
             like.setText("Unlike (" + (likes + 1) + ")");
             likes++;
             liked = true;

@@ -1,9 +1,11 @@
 package cs309.sr2.chirrupfrontend.profile.other;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONArray;
@@ -24,9 +26,29 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 public class OtherProfilePresenter implements VolleyListener {
 
     /**
+     * volley requester for the post
+     */
+    private VolleyRequester volleyRequester;
+
+    /**
      * view of profile fragment
      */
     private View view;
+
+    /**
+     * id of user viewing this page
+     */
+    private int viewerID;
+
+    /**
+     * true if the view user followed this person
+     */
+    private boolean followed;
+
+    /**
+     * number of followers the user has
+     */
+    private int followers;
 
     /**
      * create a new presenter for the profile page
@@ -42,11 +64,13 @@ public class OtherProfilePresenter implements VolleyListener {
      *
      * @param userURL url for the user json object
      * @param imageURL url for user avatar
+     * @param viewerID id of user viewing this page
      */
-    public void loadData(String userURL, String imageURL) {
-        VolleyRequester volleyRequester = new VolleyRequester(this);
+    public void loadData(String userURL, String imageURL, int viewerID) {
+        volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(userURL);
         volleyRequester.getImage(imageURL);
+        this.viewerID = viewerID;
     }
 
     /**
@@ -71,6 +95,21 @@ public class OtherProfilePresenter implements VolleyListener {
                     e.printStackTrace();
                 }
             }
+
+            JSONArray followArray = response.getJSONArray("followers");
+            followers = followArray.length();
+            for (int i = 0; i < followers; i++) {
+                if (followArray.getInt(i) == viewerID) {
+                    followed = true;
+                    break;
+                }
+            }
+
+            if(followed) {
+                ((Button) view.findViewById(R.id.post_like)).setText("Unfollow (" + followers + ")");
+            } else {
+                ((Button) view.findViewById(R.id.post_like)).setText("Follow (" + followers + ")");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -84,5 +123,25 @@ public class OtherProfilePresenter implements VolleyListener {
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
         ((ImageView) view.findViewById(R.id.otherprofile_avatar)).setImageBitmap(response.getBitmap());
+    }
+
+    /**
+     * follow the user whose profile is being displayed
+     *
+     * @param url url used for following a user
+     */
+    public void followUser(String url) {
+        Button follow = view.findViewById(R.id.otherprofile_follow);
+        if(followed) {
+            volleyRequester.setString(url, null, Request.Method.DELETE);
+            follow.setText("Follow (" + (followers - 1) + ")");
+            followers--;
+            followed = false;
+        } else {
+            volleyRequester.setString(url, null, Request.Method.POST);
+            follow.setText("Unfollow (" + (followers + 1) + ")");
+            followers++;
+            followed = true;
+        }
     }
 }

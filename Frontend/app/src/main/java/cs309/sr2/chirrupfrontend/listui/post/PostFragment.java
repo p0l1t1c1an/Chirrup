@@ -64,8 +64,8 @@ public class PostFragment extends Fragment {
         Button comment = root.findViewById(R.id.post_comment);
 
         like.setOnClickListener(v -> {
-            postPresenter.likePost("http://coms-309-016.cs.iastate.edu:8080/api/posts/like/#/"
-                    + postID);
+            postPresenter.likePost("http://coms-309-016.cs.iastate.edu:8080/api/posts/like/" +
+                    Session.getUser() + "/" + postID);
         });
 
         share.setOnClickListener(v -> {
