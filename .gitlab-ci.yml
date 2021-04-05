@@ -26,6 +26,10 @@ maven-test:
       - Backend/server/target/*.jar
 
 autoDeploy:
+  only:
+    - tags
+    refs:
+      - master
     stage: mavendeploy
     tags:
      - springboot_runner
