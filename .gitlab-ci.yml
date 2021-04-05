@@ -36,8 +36,7 @@ autoDeploy:
      - sudo systemctl stop system-web-demo
      - sudo systemctl start system-web-demo
     only:
-      refs:
-       - master
+     - master@cs309/spring2021/sr_2
 
 android-build:
     image: javiersantos/android-ci:latest
