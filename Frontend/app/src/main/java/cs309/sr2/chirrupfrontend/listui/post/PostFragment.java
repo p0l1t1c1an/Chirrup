@@ -51,7 +51,7 @@ public class PostFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_postcard, container, false);
+        View root = inflater.inflate(R.layout.fragment_postcard, container, false);
 
         PostPresenter postPresenter = new PostPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +

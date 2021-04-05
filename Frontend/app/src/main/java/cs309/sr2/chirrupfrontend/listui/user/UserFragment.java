@@ -49,7 +49,7 @@ public class UserFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_usercard, container, false);
+        View root = inflater.inflate(R.layout.fragment_usercard, container, false);
 
         UserPresenter postPresenter = new UserPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
