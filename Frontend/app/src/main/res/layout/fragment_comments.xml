@@ -32,13 +32,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="393dp"
-        android:layout_height="49dp"
+        android:id="@+id/comments_reply"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/add_reply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

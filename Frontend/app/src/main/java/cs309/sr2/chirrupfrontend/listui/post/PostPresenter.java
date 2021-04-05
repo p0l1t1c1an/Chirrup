@@ -128,6 +128,9 @@ public class PostPresenter implements VolleyListener {
                     ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes + ")");
                 }
 
+                int comments = response.getJSONArray("comments").length();
+                ((Button) view.findViewById(R.id.post_comment)).setText("Comment (" + comments + ")");
+
                 creatorID = response.getInt("creator");
                 volleyRequester.getObject(userURL.replace("#", String.valueOf(creatorID)));
                 volleyRequester.getImage(imageURL.replace("#", String.valueOf(creatorID)));

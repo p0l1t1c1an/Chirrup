@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
-import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
+import cs309.sr2.chirrupfrontend.listui.post.comments.CommentsFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -73,7 +73,9 @@ public class PostFragment extends Fragment {
         });
 
         comment.setOnClickListener(v -> {
-            //show compose UI to add reply keeping the parent data with it
+            CommentsFragment comments = new CommentsFragment(postID);
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, comments)
+                    .addToBackStack(null).commit();
         });
 
         View.OnClickListener clickListener = v -> {
