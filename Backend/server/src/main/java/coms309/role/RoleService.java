@@ -9,23 +9,26 @@ public class RoleService
 {  
 @Autowired  
 RoleRepository roleRepository;  
+
+    //gets all roles
     public List<Role> getAllRole() {  
-        List<Role> roles = new ArrayList<Role>();  
-        roleRepository.findAll().forEach(role -> roles.add(role));  
-        return roles;  
-    }  
-    //getting a specific record  
-    public Role getRoleById(int id) {  
-        return roleRepository.findById(id).get();  
+        return roleRepository.getAllRole();
     }  
 
+    //getting a specific record  
+    public Role getRoleById(int id) {  
+        return roleRepository.getRoleById(id);  
+    }  
+
+    //save or update role
     public void saveOrUpdate(Role role)   
     {  
-        roleRepository.save(role);  
-    }  
+        roleRepository.saveOrUpdate(role);  
+    }
+
     //deleting a specific record  
     public void delete(int id)   
     {  
-        roleRepository.deleteById(id);  
+        roleRepository.deleteRoleById(id);  
     }
 }
