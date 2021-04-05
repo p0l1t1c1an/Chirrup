@@ -48,5 +48,4 @@ public class FollowersFragment extends Fragment {
 
         return root;
     }
-
 }
