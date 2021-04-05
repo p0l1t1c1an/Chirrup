@@ -41,8 +41,7 @@ public class OtherProfileFragment extends Fragment {
      * @param savedInstanceState saved instance state
      * @return full profile page view
      */
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_otherprofile, container, false);
 
         if (userID < 0) userID = Session.getUser();
