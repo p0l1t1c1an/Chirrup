@@ -110,6 +110,7 @@ public class OtherProfilePresenter implements VolleyListener {
             } else {
                 ((Button) view.findViewById(R.id.otherprofile_follow)).setText("Follow (" + followers + ")");
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
