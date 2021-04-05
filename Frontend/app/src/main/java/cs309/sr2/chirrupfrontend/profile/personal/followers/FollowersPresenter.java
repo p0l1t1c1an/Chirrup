@@ -45,7 +45,7 @@ public class FollowersPresenter implements VolleyListener {
      */
     public void loadData(String userURL) {
         volleyRequester = new VolleyRequester(this);
-        volleyRequester.getObject(userURL);
+        volleyRequester.getArray(userURL);
     }
 
     /**
@@ -66,4 +66,15 @@ public class FollowersPresenter implements VolleyListener {
         }
     }
 
+    @Override
+    public void onArrayResponse(JSONArray response) {
+        try {
+            for (int i = response.length() - 1; i >= 0; i++) {
+                UserFragment fragment = new UserFragment(response.getInt(i));
+                AppController.getFragmentManager().beginTransaction().add(R.id.follow_feed_layout, fragment).commit();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -44,7 +44,7 @@ public class FollowingFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_follow_list, container, false);
 
         FollowingPresenter followingPresenter = new FollowingPresenter(root);
-        followingPresenter.loadData(getString(R.string.base_url) + "user/" + userID);
+        followingPresenter.loadData(getString(R.string.base_url) + "user/" + userID + "/followers");
 
         return root;
     }
