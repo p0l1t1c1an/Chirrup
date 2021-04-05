@@ -56,7 +56,8 @@ public class PostFragment extends Fragment {
         PostPresenter postPresenter = new PostPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                 "posts/" + postID,AppController.getInstance().getString(R.string.base_url) +
-                "user/#","https://api.androidhive.info/volley/volley-image.jpg");
+                "user/#","https://api.androidhive.info/volley/volley-image.jpg",
+                Session.getUser());
 
         Button like = root.findViewById(R.id.post_like);
         Button share = root.findViewById(R.id.post_share);
@@ -64,7 +65,7 @@ public class PostFragment extends Fragment {
 
         like.setOnClickListener(v -> {
             postPresenter.likePost("http://coms-309-016.cs.iastate.edu:8080/api/posts/like/#/"
-                    + postID, Session.getUser());
+                    + postID);
         });
 
         share.setOnClickListener(v -> {
