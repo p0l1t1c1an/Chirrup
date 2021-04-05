@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -308,7 +309,25 @@ public class User {
                 .toString();
     }
 
-    public void removeFollowing(User unfollow) {
-        this.following.remove(unfollow);
+    public void removeFollowing(User currentUser) {
+        Iterator<User> it = this.following.iterator();
+
+        while(it.hasNext()) {
+            User c = it.next();
+            if(c.getId() == currentUser.getId()) {
+                it.remove();
+            }
+        }
+    }
+
+    public void removeFollower(User currentUser) {
+        Iterator<User> it = this.followers.iterator();
+
+        while(it.hasNext()) {
+            User c = it.next();
+            if(c.getId() == currentUser.getId()) {
+                it.remove();
+            }
+        }
     }
 }

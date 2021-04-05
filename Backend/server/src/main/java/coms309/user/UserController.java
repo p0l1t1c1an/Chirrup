@@ -190,14 +190,17 @@ public class UserController {
         @ApiResponse(code = 401, message = "not authorized!"), 
         @ApiResponse(code = 403, message = "forbidden!!!"),
         @ApiResponse(code = 404, message = "not found!!!") })
-    @PostMapping("/user/{id}/followers/{following}")
+    @PostMapping("/user/{id}/following/{following}")
     private String followUser(@PathVariable("id") int id, @PathVariable("following") int follow) {
-        User follower = userService.getUserById(id);
-        User following = userService.getUserById(follow);
-        follower.addFollowing(following);
-        userService.saveOrUpdate(follower);
-        logger.info("followed a user");
-        return "User is now following: " + following.getUsername();
+        if(id != follow) {
+            User follower = userService.getUserById(id);
+            User following = userService.getUserById(follow);
+            follower.addFollowing(following);
+            userService.saveOrUpdate(follower);
+            logger.info("followed a user");
+            return "User is now following: " + following.getUsername();
+        }
+        return "users cant follow themselves";
     }
 
     // creating delete mapping that unfollows a user
@@ -207,14 +210,16 @@ public class UserController {
         @ApiResponse(code = 401, message = "not authorized!"), 
         @ApiResponse(code = 403, message = "forbidden!!!"),
         @ApiResponse(code = 404, message = "not found!!!") })
-    @DeleteMapping("/user/{id}/followers/{following}")
+    @DeleteMapping("/user/{id}/following/{unfollowing}")
     private String unfollowUser(@PathVariable("id") int id, @PathVariable("unfollowing") int unfollow) {
         User follower = userService.getUserById(id);
         User following = userService.getUserById(unfollow);
         follower.removeFollowing(following);
+        following.removeFollower(follower);
         userService.saveOrUpdate(follower);
+        userService.saveOrUpdate(following);
         logger.info("unfollowed a user");
-        
+
         return "User is now unfollowing: " + following.getUsername();
     }
 }
