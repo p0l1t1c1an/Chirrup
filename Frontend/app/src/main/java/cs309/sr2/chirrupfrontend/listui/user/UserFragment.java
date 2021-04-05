@@ -59,7 +59,8 @@ public class UserFragment extends Fragment {
 
         view.setOnClickListener(v -> {
             OtherProfileFragment profile = new OtherProfileFragment(userID);
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile).commit();
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
+                    .addToBackStack(null).commit();
         });
 
         return root;
