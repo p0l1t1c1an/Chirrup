@@ -27,9 +27,7 @@ maven-test:
 
 autoDeploy:
   only:
-    - tags
-    refs:
-      - master
+    - master
     stage: mavendeploy
     tags:
      - springboot_runner
