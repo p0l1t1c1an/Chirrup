@@ -49,17 +49,16 @@ public class UserFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_usercard, container, false);
+        View root = inflater.inflate(R.layout.fragment_usercard, container, false);
 
         UserPresenter postPresenter = new UserPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                 "user/" + userID, "https://api.androidhive.info/volley/volley-image.jpg");
 
-        Button view = root.findViewById(R.id.user_view);
-
-        view.setOnClickListener(v -> {
+        root.setOnClickListener(v -> {
             OtherProfileFragment profile = new OtherProfileFragment(userID);
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile).commit();
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
+                    .addToBackStack(null).commit();
         });
 
         return root;

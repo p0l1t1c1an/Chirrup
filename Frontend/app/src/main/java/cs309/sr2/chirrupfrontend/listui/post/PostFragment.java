@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
+import cs309.sr2.chirrupfrontend.listui.post.comments.CommentsFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -24,7 +25,6 @@ import cs309.sr2.chirrupfrontend.utils.AppController;
  * @author Jeremy Noesen
  */
 public class PostFragment extends Fragment {
-
 
     /**
      * id of post to show
@@ -51,12 +51,13 @@ public class PostFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_postcard, container, false);
+        View root = inflater.inflate(R.layout.fragment_postcard, container, false);
 
         PostPresenter postPresenter = new PostPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                 "posts/" + postID,AppController.getInstance().getString(R.string.base_url) +
-                "user/#","https://api.androidhive.info/volley/volley-image.jpg");
+                "user/#","https://api.androidhive.info/volley/volley-image.jpg",
+                Session.getUser());
 
         Button like = root.findViewById(R.id.post_like);
         Button share = root.findViewById(R.id.post_share);
@@ -64,7 +65,7 @@ public class PostFragment extends Fragment {
 
         like.setOnClickListener(v -> {
             postPresenter.likePost("http://coms-309-016.cs.iastate.edu:8080/api/posts/like/#/"
-                    + postID, Session.getUser());
+                    + postID);
         });
 
         share.setOnClickListener(v -> {
@@ -72,8 +73,18 @@ public class PostFragment extends Fragment {
         });
 
         comment.setOnClickListener(v -> {
-            //show compose UI to add reply keeping the parent data with it
+            CommentsFragment comments = new CommentsFragment(postID);
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, comments)
+                    .addToBackStack(null).commit();
         });
+
+        View.OnClickListener clickListener = v -> {
+            postPresenter.showProfile();
+        };
+
+        root.findViewById(R.id.post_avatar).setOnClickListener(clickListener);
+        root.findViewById(R.id.post_name).setOnClickListener(clickListener);
+        root.findViewById(R.id.post_username).setOnClickListener(clickListener);
 
         return root;
     }
