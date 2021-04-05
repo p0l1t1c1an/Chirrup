@@ -54,8 +54,9 @@ public class OtherProfileFragment extends Fragment {
         Button follow = root.findViewById(R.id.otherprofile_follow);
 
         follow.setOnClickListener(v -> {
-            otherProfilePresenter.followUser(getString(R.string.base_url) + "user/" +
-                    Session.getUser() + "/followers/" + userID);
+            if (userID != Session.getUser())
+                otherProfilePresenter.followUser(getString(R.string.base_url) + "user/" +
+                        Session.getUser() + "/followers/" + userID);
         });
 
         return root;
