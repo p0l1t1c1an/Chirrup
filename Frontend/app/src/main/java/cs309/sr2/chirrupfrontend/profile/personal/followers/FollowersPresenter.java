@@ -45,14 +45,20 @@ public class FollowersPresenter implements VolleyListener {
      */
     public void loadData(String userURL) {
         volleyRequester = new VolleyRequester(this);
-        volleyRequester.getArray(userURL);
+        volleyRequester.getObject(userURL);
     }
 
+    /**
+     * fill list of users when the request comes in
+     *
+     * @param response response from request
+     */
     @Override
-    public void onArrayResponse(JSONArray response) {
+    public void onObjectResponse(JSONObject response) {
         try {
-            for (int i = response.length() - 1; i >= 0; i--) {
-                UserFragment fragment = new UserFragment(response.getInt(i));
+            JSONArray followers = response.getJSONArray("followers");
+            for (int i = followers.length() - 1; i >= 0; i--) {
+                UserFragment fragment = new UserFragment(followers.getInt(i));
                 AppController.getFragmentManager().beginTransaction().add(R.id.follow_feed_layout, fragment).commit();
             }
         } catch (JSONException e) {
