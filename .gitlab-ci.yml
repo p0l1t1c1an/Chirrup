@@ -26,6 +26,10 @@ maven-test:
        - Backend/server/target/*.jar
 
 autoDeploy:
+    only:
+      refs:
+       - master
+       - schedules
     stage: mavendeploy
     tags:
      - springboot_runner
@@ -35,8 +39,6 @@ autoDeploy:
      - sudo mv target/*.jar /target/web-demo.jar
      - sudo systemctl stop system-web-demo
      - sudo systemctl start system-web-demo
-    only:
-     - master@cs309/spring2021/sr_2
 
 android-build:
     image: javiersantos/android-ci:latest
