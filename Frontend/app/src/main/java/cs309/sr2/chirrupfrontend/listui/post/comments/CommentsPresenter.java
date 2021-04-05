@@ -57,7 +57,7 @@ public class CommentsPresenter implements VolleyListener {
     public void onObjectResponse(JSONObject response) {
         try {
             JSONArray posts = response.getJSONArray("comments");
-            for (int i = 0; i < posts.length(); i++) {
+            for (int i = posts.length() - 1; i >= 0; i--) {
                 try {
                     PostFragment post = new PostFragment(posts.getInt(i));
                     AppController.getFragmentManager().beginTransaction().add(R.id.comments_feed_layout, post).commit();

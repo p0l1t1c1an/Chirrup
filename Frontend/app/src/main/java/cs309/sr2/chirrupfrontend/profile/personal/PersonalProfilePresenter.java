@@ -63,7 +63,7 @@ public class PersonalProfilePresenter implements VolleyListener {
                     response.getString("lastname"));
 
             JSONArray posts = response.getJSONArray("posts");
-            for (int i = 0; i < posts.length(); i++) {
+            for (int i = posts.length() - 1; i >= 0; i--) {
                 try {
                     PostFragment post = new PostFragment(posts.getInt(i));
                     AppController.getFragmentManager().beginTransaction().add(R.id.personalprofile_feed_layout, post).commit();
