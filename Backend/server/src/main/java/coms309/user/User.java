@@ -218,7 +218,7 @@ public class User {
     }
 
     //get following ids
-    @JsonIgnore
+    @JsonGetter("following")
     public List<Integer> getFollowingId() {
         List<Integer> fs = new ArrayList<Integer>();
         for (User f : this.following) {
@@ -234,7 +234,7 @@ public class User {
     }
 
     //get followers ids
-    @JsonIgnore
+    @JsonGetter("followers")
     public List<Integer> getFollowersId() {
         List<Integer> fs = new ArrayList<Integer>();
         for (User f : this.followers) {
