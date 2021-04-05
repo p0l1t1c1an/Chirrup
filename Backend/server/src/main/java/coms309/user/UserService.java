@@ -32,13 +32,13 @@ UserRepository userRepository;
         userRepository.deleteById(id);  
     }
 
-    public Set<User> getFollowingById(int id) {
+    public List<Integer> getFollowingById(int id) {
         User current = this.getUserById(id);
-        return current.getFollowing();
+        return current.getFollowingId();
     }
 
-    public Set<User> getFollowersById(int id) {
+    public List<Integer> getFollowersById(int id) {
         User current = this.getUserById(id);
-        return current.getFollowers();
+        return current.getFollowersId();
     }
 }

@@ -125,7 +125,7 @@ public class UserController {
         @ApiResponse(code = 403, message = "forbidden!!!"),
         @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/user/{id}/following")
-    private Set<User> getFollowing(@PathVariable("id") int id) {
+    private List<Integer> getFollowing(@PathVariable("id") int id) {
         logger.info("returned followed users");
         return userService.getFollowingById(id);
     }
@@ -138,7 +138,7 @@ public class UserController {
         @ApiResponse(code = 403, message = "forbidden!!!"),
         @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/user/{id}/followers")
-    private Set<User> getFollowers(@PathVariable("id") int id) {
+    private List<Integer> getFollowers(@PathVariable("id") int id) {
         logger.info("returned followers");
         return userService.getFollowersById(id);
     }

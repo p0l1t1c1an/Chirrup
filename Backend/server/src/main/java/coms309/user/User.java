@@ -216,10 +216,30 @@ public class User {
         return this.following;
     }
 
+    //get following ids
+    @JsonIgnore
+    public List<Integer> getFollowingId() {
+        List<Integer> fs = new ArrayList<Integer>();
+        for (User f : this.following) {
+            fs.add(f.getId());
+        }
+        return fs;
+    }
+
     //get followers
     @JsonIgnore
     public Set<User> getFollowers() {
         return this.followers;
+    }
+
+    //get followers ids
+    @JsonIgnore
+    public List<Integer> getFollowersId() {
+        List<Integer> fs = new ArrayList<Integer>();
+        for (User f : this.followers) {
+            fs.add(f.getId());
+        }
+        return fs;
     }
 
     @JsonIgnore
