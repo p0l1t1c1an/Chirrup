@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
+import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -24,7 +25,6 @@ import cs309.sr2.chirrupfrontend.utils.AppController;
  * @author Jeremy Noesen
  */
 public class PostFragment extends Fragment {
-
 
     /**
      * id of post to show
@@ -75,6 +75,14 @@ public class PostFragment extends Fragment {
         comment.setOnClickListener(v -> {
             //show compose UI to add reply keeping the parent data with it
         });
+
+        View.OnClickListener clickListener = v -> {
+            postPresenter.showProfile();
+        };
+
+        root.findViewById(R.id.post_avatar).setOnClickListener(clickListener);
+        root.findViewById(R.id.post_name).setOnClickListener(clickListener);
+        root.findViewById(R.id.post_username).setOnClickListener(clickListener);
 
         return root;
     }

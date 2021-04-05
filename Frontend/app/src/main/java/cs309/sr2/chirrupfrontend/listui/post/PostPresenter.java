@@ -13,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
@@ -62,6 +64,11 @@ public class PostPresenter implements VolleyListener {
      * number of likes on post
      */
     private int likes;
+
+    /**
+     * id of post creator
+     */
+    private int creatorID;
 
     /**
      * create a new presenter for post
@@ -121,8 +128,9 @@ public class PostPresenter implements VolleyListener {
                     ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes + ")");
                 }
 
-                volleyRequester.getObject(userURL.replace("#", String.valueOf(response.getInt("creator"))));
-                volleyRequester.getImage(imageURL.replace("#", String.valueOf(response.getInt("creator"))));
+                creatorID = response.getInt("creator");
+                volleyRequester.getObject(userURL.replace("#", String.valueOf(creatorID)));
+                volleyRequester.getImage(imageURL.replace("#", String.valueOf(creatorID)));
                 status = 1;
             }
         } catch (JSONException e) {
@@ -158,5 +166,14 @@ public class PostPresenter implements VolleyListener {
             likes++;
             liked = true;
         }
+    }
+
+    /**
+     * show the profile of the post creator
+     */
+    public void showProfile() {
+        OtherProfileFragment profile = new OtherProfileFragment(creatorID);
+        AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
+                .addToBackStack(null).commit();
     }
 }
