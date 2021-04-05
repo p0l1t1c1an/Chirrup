@@ -12,7 +12,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,13 +29,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Entity
 public class User {
-
-    // Constants for role types
-    public final static int STANDARD = 1;
-    public final static int CHILD = 2;
-    public final static int PARENT = 3;
-    public final static int ADMIN = 4;
-
+    
     //User properties
     
     @ApiModelProperty(notes = "Id of the User",name="id",required=true)
@@ -293,31 +286,5 @@ public class User {
                 .append("biography", this.getBiography())
                 .append("birthday", this.getBirthday().toString())
                 .toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(this == obj)
-            return true;
-
-        if(obj == null || obj.getClass()!= this.getClass())
-            return false;
-
-        User u = (User) obj;
-
-        return (u.id == id && u.role == role
-                && Objects.equals(email, u.email)
-                && Objects.equals(password, u.password)
-                && Objects.equals(username, u.username)
-                && Objects.equals(firstname, u.firstname)
-                && Objects.equals(lastname, u.lastname)
-                && Objects.equals(telephone, u.telephone)
-                && Objects.equals(biography, u.biography)
-                && Objects.equals(birthday, u.birthday) );
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
     }
 }
