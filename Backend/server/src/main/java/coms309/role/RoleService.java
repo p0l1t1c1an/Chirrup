@@ -11,7 +11,7 @@ public class RoleService
 RoleRepository roleRepository;  
     public List<Role> getAllRole() {  
         List<Role> roles = new ArrayList<Role>();  
-        roleRepository.findAll().forEach(role -> roles.add(role));  
+        roleRepository.findAll().forEach(role -> roles.add(role));
         return roles;  
     }  
     //getting a specific record  

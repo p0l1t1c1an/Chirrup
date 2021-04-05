@@ -156,20 +156,12 @@ public class Post {
             com.add(p);
         }
 
-        Comparator<Post> c = new Comparator<Post>(){
-
-            @Override
-            public int compare(Post o1, Post o2) {
-                
-                return o1.getDateCreated().isBefore(o2.getDateCreated()) == true ? 1 : -1;
-            }
-            
-        };
+        Comparator<Post> c = getComparator();
         
         com.sort(c);
 
         List<Integer> comIntegers = new ArrayList<Integer>();
-        for (Post p : this.comments) {
+        for (Post p : com) {
             comIntegers.add(p.getId());
         }
 
@@ -240,6 +232,19 @@ public class Post {
     @JsonGetter("parent")
     public Integer getParentsId() {
         return this.parent == null ? null : this.parent.getId();
+    }
+
+    public static Comparator<Post> getComparator() {
+        Comparator<Post> c = new Comparator<Post>(){
+
+            @Override
+            public int compare(Post o1, Post o2) {
+                
+                return o1.getDateCreated().isBefore(o2.getDateCreated()) == true ? -1 : 1;
+            }
+            
+        };
+        return c;
     }
 
     @Override

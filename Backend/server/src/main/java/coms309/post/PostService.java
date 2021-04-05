@@ -1,6 +1,7 @@
 package coms309.post;
 
-import java.util.ArrayList;  
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;  
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ public class PostService{
     PostRepository postRepository;  
         public List<Post> getAllPost() {  
             List<Post> posts = new ArrayList<Post>();  
-            postRepository.findAll().forEach(post -> posts.add(post));  
+            postRepository.findAll().forEach(post -> posts.add(post));
             return posts;
         }
         

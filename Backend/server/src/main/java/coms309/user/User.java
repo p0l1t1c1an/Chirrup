@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -235,11 +236,21 @@ public class User {
 
     @JsonGetter("posts")
     public List<Integer> getPostsId() {
-        List<Integer> ps = new ArrayList<Integer>();
-        for (Post p : posts) {
-            ps.add(p.getId());
+        List<Post> ps = new ArrayList<Post>();
+        for (Post p : this.posts) {
+            ps.add(p);
         }
-        return ps;
+
+        Comparator<Post> c = Post.getComparator();
+        
+        ps.sort(c);
+
+        List<Integer> psIntegers = new ArrayList<Integer>();
+        for (Post p : ps) {
+            psIntegers.add(p.getId());
+        }
+
+        return psIntegers;
     }
 
     //changes all fields of a user, for put requests
