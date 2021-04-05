@@ -11,6 +11,9 @@ import android.widget.Button;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
+import cs309.sr2.chirrupfrontend.profile.personal.followers.FollowersFragment;
+import cs309.sr2.chirrupfrontend.profile.personal.following.FollowingFragment;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
  * personal profile page fragment
@@ -39,11 +42,15 @@ public class PersonalProfileFragment extends Fragment {
         Button following = root.findViewById(R.id.personalprofile_following);
 
         followers.setOnClickListener(v -> {
-            //show followers list
+            FollowersFragment followersFragment = new FollowersFragment(Session.getUser());
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, followersFragment)
+                    .addToBackStack(null).commit();
         });
 
         following.setOnClickListener(v -> {
-            //show following list
+            FollowingFragment followingFragment = new FollowingFragment(Session.getUser());
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, followingFragment)
+                    .addToBackStack(null).commit();
         });
 
         return root;

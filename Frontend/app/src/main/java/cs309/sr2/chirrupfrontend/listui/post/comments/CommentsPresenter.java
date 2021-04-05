@@ -20,12 +20,12 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 public class CommentsPresenter implements VolleyListener {
 
     /**
-     * volley requester for the post
+     * volley requester for the fragment
      */
     private VolleyRequester volleyRequester;
 
     /**
-     * view of profile fragment
+     * view of fragment
      */
     private View view;
 
@@ -39,7 +39,7 @@ public class CommentsPresenter implements VolleyListener {
     }
 
     /**
-     * load the data for the post
+     * load the data for the fragment
      *
      * @param postURL url for the parent post json object
      */
