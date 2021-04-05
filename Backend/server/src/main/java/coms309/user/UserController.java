@@ -199,4 +199,22 @@ public class UserController {
         logger.info("followed a user");
         return "User is now following: " + following.getUsername();
     }
+
+    // creating delete mapping that unfollows a user
+    @ApiOperation(value = "unfollow a user", response = String.class, tags = "unfollowUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @DeleteMapping("/user/{id}/followers/{following}")
+    private String unfollowUser(@PathVariable("id") int id, @PathVariable("unfollowing") int unfollow) {
+        User follower = userService.getUserById(id);
+        User following = userService.getUserById(unfollow);
+        follower.removeFollowing(following);
+        userService.saveOrUpdate(follower);
+        logger.info("unfollowed a user");
+        
+        return "User is now unfollowing: " + following.getUsername();
+    }
 }

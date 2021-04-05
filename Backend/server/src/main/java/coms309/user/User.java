@@ -307,4 +307,8 @@ public class User {
                 .append("birthday", this.getBirthday().toString())
                 .toString();
     }
+
+    public void removeFollowing(User unfollow) {
+        this.following.remove(unfollow);
+    }
 }
