@@ -1,11 +1,13 @@
 package coms309.user;
 
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.web.multipart.MultipartFile;
 
 import coms309.post.Post;
 import coms309.settings.Settings;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -54,6 +56,8 @@ public class User {
     private Date birthday;
     @ApiModelProperty(notes = "Biography of the User",name="biography",required=true)
     private String biography;
+    @ApiModelProperty(notes = "Profile picture path of the User",name="pfp",required=true)
+    private String pfp;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -244,6 +248,16 @@ public class User {
         }
 
         return psIntegers;
+    }
+
+    @JsonIgnore
+    public String getProfilePicturePath() {
+        return this.pfp;
+    }
+
+    @JsonIgnore
+    public void setProfilePicturePath(String path) {
+        this.pfp = path;
     }
 
     //changes all fields of a user, for put requests
