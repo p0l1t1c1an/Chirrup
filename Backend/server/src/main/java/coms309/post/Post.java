@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -150,12 +151,29 @@ public class Post {
 
     @JsonGetter("comments")
     public List<Integer> getCommentIds() {
-        List<Integer> com = new ArrayList<Integer>();
+        List<Post> com = new ArrayList<Post>();
         for (Post p : this.comments) {
-            com.add(p.id);
+            com.add(p);
         }
+
+        Comparator<Post> c = new Comparator<Post>(){
+
+            @Override
+            public int compare(Post o1, Post o2) {
+                
+                return o1.getDateCreated().isBefore(o2.getDateCreated()) == true ? 1 : -1;
+            }
+            
+        };
         
-        return com;
+        com.sort(c);
+
+        List<Integer> comIntegers = new ArrayList<Integer>();
+        for (Post p : this.comments) {
+            comIntegers.add(p.getId());
+        }
+
+        return comIntegers;
     }
 
     //likes
