@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import coms309.settings.StandardSettings;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import coms309.post.Post;
-import coms309.settings.ChildSettings;
-import coms309.settings.ParentSettings;
+import coms309.settings.UserSettings;
 
 //creating RestController  
 @Api(value = "UserController", description = "Rest APIs for user entity")
@@ -164,7 +162,7 @@ public class UserController {
         //         break;
         // }
         logger.info("created new user");
-        user.setSettings(new StandardSettings(user));
+        user.setSettings(new UserSettings(user));
         userService.saveOrUpdate(user);
         return user;
     }
