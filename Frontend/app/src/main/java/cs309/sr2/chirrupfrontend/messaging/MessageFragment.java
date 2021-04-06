@@ -55,21 +55,14 @@ public class MessageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_messaging, container, false);
 
-//        //set text fields to current user data
-//        getUser(CurrentUserData.currUser.getID());
-//
-//        root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
-//            try {
-//                readyUserToUpdate();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//
-//        root.findViewById(R.id.cancelButton).setOnClickListener((v) -> {
-//            clearUserText();
-//        });
+
 
         return root;
+    }
+
+    public void searchRecents() {
+        //get matching ID
+
+        //display conversation
     }
 }
