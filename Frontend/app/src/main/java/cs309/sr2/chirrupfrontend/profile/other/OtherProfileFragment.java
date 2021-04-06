@@ -41,20 +41,21 @@ public class OtherProfileFragment extends Fragment {
      * @param savedInstanceState saved instance state
      * @return full profile page view
      */
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_otherprofile, container, false);
 
         if (userID < 0) userID = Session.getUser();
 
         OtherProfilePresenter otherProfilePresenter = new OtherProfilePresenter(root);
         otherProfilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
-                "https://api.androidhive.info/volley/volley-image.jpg");
+                "https://api.androidhive.info/volley/volley-image.jpg", Session.getUser());
 
         Button follow = root.findViewById(R.id.otherprofile_follow);
 
         follow.setOnClickListener(v -> {
-            //show followers list
+            if (userID != Session.getUser())
+                otherProfilePresenter.followUser(getString(R.string.base_url) + "user/" +
+                        Session.getUser() + "/followers/" + userID);
         });
 
         return root;

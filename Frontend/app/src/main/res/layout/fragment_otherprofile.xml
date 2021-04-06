@@ -76,6 +76,7 @@
         android:text="@string/button_follow"
         android:textAlignment="center"
         android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/otherprofile_username" />
 
