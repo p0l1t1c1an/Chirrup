@@ -45,7 +45,7 @@ public class FollowingPresenter implements VolleyListener {
      */
     public void loadData(String userURL) {
         volleyRequester = new VolleyRequester(this);
-        volleyRequester.getArray(userURL);
+        volleyRequester.getObject(userURL);
     }
 
     /**
