@@ -12,7 +12,7 @@ RoleRepository roleRepository;
 
     //gets all roles
     public List<Role> getAllRole() {
-        return roleRepository.getAllRole();
+        return roleRepository.findAll();
     }  
 
     //getting a specific record  
@@ -23,7 +23,7 @@ RoleRepository roleRepository;
     //save or update role
     public void saveOrUpdate(Role role)   
     {  
-        roleRepository.saveOrUpdate(role);  
+        roleRepository.save(role);  
     }
 
     //deleting a specific record  

@@ -53,11 +53,11 @@ public class RoleServiceTest {
         roles.add(role2);
         roles.add(role3);
 
-		when(repo.getAllRole()).thenReturn(roles);
+		when(repo.findAll()).thenReturn(roles);
         List<Role> roleList = service.getAllRole();
 
         assertEquals(3, roleList.size());
-		verify(repo, times(1)).getAllRole();
+		verify(repo, times(1)).findAll();
 	}
 
 	@Test
@@ -66,13 +66,13 @@ public class RoleServiceTest {
         Role role = new Role(1, "role");
         roles.add(role);
 
-		doNothing().when(repo).saveOrUpdate(role);
-        when(repo.getAllRole()).thenReturn(roles);
+		doNothing().when(repo).save(role);
+        when(repo.findAll()).thenReturn(roles);
 
         service.saveOrUpdate(role);
         List<Role> roleList = service.getAllRole();
 
-		verify(repo, times(1)).saveOrUpdate(role);
+		verify(repo, times(1)).save(role);
         assertEquals(1, roleList.size());
 	}
 
@@ -82,8 +82,8 @@ public class RoleServiceTest {
         Role role = new Role(1, "role");
 
 		doNothing().when(repo).deleteRoleById(1);
-        doNothing().when(repo).saveOrUpdate(role);
-        when(repo.getAllRole()).thenReturn(roles);
+        doNothing().when(repo).save(role);
+        when(repo.findAll()).thenReturn(roles);
 
         service.delete(1);
         List<Role> roleList = service.getAllRole();

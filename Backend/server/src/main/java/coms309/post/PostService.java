@@ -12,7 +12,7 @@ public class PostService{
     PostRepository postRepository;  
 
     public List<Post> getAllPost() {  
-        return postRepository.getAllPost();
+        return postRepository.findAll();
     }
         
     //getting a specific record  
