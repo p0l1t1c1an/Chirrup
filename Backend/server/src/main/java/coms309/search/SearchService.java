@@ -26,7 +26,7 @@ public class SearchService {
     private boolean compareSearch(String stored, String searched) {
         LevenshteinDistance dist = LevenshteinDistance.getDefaultInstance();
       
-        if(stored == null) {
+        if(stored == null || stored.equals("")) {
             return false;
         }
 
@@ -36,7 +36,7 @@ public class SearchService {
 
         // Does data user's string start with the searched strings
         // and are only 5 letters different
-        return stored.startsWith(searched.substring(0, 2)) && 
+        return stored.startsWith(searched.substring(0, 1)) && 
                dist.apply(stored, searched) <= 5;
     }
 

@@ -40,7 +40,7 @@ public class FeedService {
             }
         }
 
-        Collections.sort(feed, (a, b) -> a.getDateCreated().compareTo(b.getDateCreated()));
+        Collections.sort(feed, (b, a) -> a.getDateCreated().compareTo(b.getDateCreated()));
         return feed;
     }
     
