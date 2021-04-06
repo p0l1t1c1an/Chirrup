@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -28,13 +29,15 @@ import java.nio.charset.StandardCharsets;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.volley.VolleyListener;
+import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
  * This class is the page where a user can see and update their profile data.
  *
  * @author wszogg
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements VolleyListener {
 
     //Textbox where users input a new username.
     private TextView username;
@@ -46,8 +49,8 @@ public class SettingsFragment extends Fragment {
     private TextView bio;
     //Textbox to show update status.
     private TextView testView;
-
-
+    //VolleyRequester
+    private VolleyRequester VolleyRequester;
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
@@ -95,9 +98,33 @@ public class SettingsFragment extends Fragment {
      * @throws JSONException This method creates a json object to send to the server and so it may throw a JSONException.
      */
     public void readyUserToUpdate() throws JSONException {
-        //create Json to send to the server
+//        //create Json to send to the server
+//        JSONObject toSend = new JSONObject();
+//
+//        toSend.put("email", CurrentUserData.currUser.getEmail());
+//        toSend.put("username", username.getText().toString());
+//        toSend.put("firstname", firstname.getText().toString());
+//        toSend.put("lastname", lastname.getText().toString());
+//        toSend.put("password", CurrentUserData.currUser.getPassword());
+//        toSend.put("telephone", CurrentUserData.currUser.getTelephone());
+//        toSend.put("role", CurrentUserData.currUser.getRole());
+//        toSend.put("birthday", CurrentUserData.currUser.getBirthday());
+//        toSend.put("biography", bio.getText().toString());
+//        String jsonString = toSend.toString();
+//
+//        //send to Server
+//        sendUser(jsonString, CurrentUserData.currUser.getID());
+//
+//        //update user
+//        float currTime = System.nanoTime() / 1000000;
+//        while ((System.nanoTime() / 1000000) - currTime < 100) {
+//        }
+//        getUser(CurrentUserData.currUser.getID());
+//        username.setText("");
+//        firstname.setText("");
+//        lastname.setText("");
+//        bio.setText("");
         JSONObject toSend = new JSONObject();
-
         toSend.put("email", CurrentUserData.currUser.getEmail());
         toSend.put("username", username.getText().toString());
         toSend.put("firstname", firstname.getText().toString());
@@ -108,15 +135,11 @@ public class SettingsFragment extends Fragment {
         toSend.put("birthday", CurrentUserData.currUser.getBirthday());
         toSend.put("biography", bio.getText().toString());
         String jsonString = toSend.toString();
+        VolleyRequester = new VolleyRequester(this);
+        VolleyRequester.setObject(getResources().getString(R.string.base_url), toSend, Request.Method.PUT);
 
-        //send to Server
-        sendUser(jsonString, CurrentUserData.currUser.getID());
-
-        //update user
-        float currTime = System.nanoTime() / 1000000;
-        while ((System.nanoTime() / 1000000) - currTime < 100) {
-        }
-        getUser(CurrentUserData.currUser.getID());
+        //update current user screen
+        VolleyRequester.getString(getResources().getString(R.string.base_url) + CurrentUserData.currUser.getID());
         username.setText("");
         firstname.setText("");
         lastname.setText("");
@@ -253,5 +276,69 @@ public class SettingsFragment extends Fragment {
         };
 
         requestQueue.add(stringRequest);
+    }
+
+    /**
+     * Dictates what the class should do upon receiving a string.
+     *
+     * @param response response from request
+     */
+    @Override
+    public void onStringResponse(String response) {
+        //set fields
+        username = (TextView) getView().findViewById(R.id.usernameField);
+        firstname = (TextView) getView().findViewById(R.id.firstNameField);
+        lastname = (TextView) getView().findViewById(R.id.lastNameField);
+        bio = (TextView) getView().findViewById(R.id.bioField);
+        testView = (TextView) getView().findViewById(R.id.testView);
+
+        //parse JSON
+        try {
+            if (response != null) {
+                testView.setText("Upload Successful");
+            }
+            else {
+                testView.setText("Upload Failed");
+            }
+            JSONObject res = new JSONObject(response);
+            String newUserName = res.getString("username");
+            String newFirstName = res.getString("firstname");
+
+            username.setHint(newUserName);
+            firstname.setHint(newFirstName);
+            lastname.setHint(res.getString("lastname"));
+            bio.setHint(res.getString("biography"));
+
+            //set user fields
+            CurrentUserData.currUser.setUserName(res.getString("username"));
+            CurrentUserData.currUser.setFirstName(res.getString("firstname"));
+            CurrentUserData.currUser.setLastName(res.getString("lastname"));
+            CurrentUserData.currUser.setBirthday(res.getString("birthday"));
+            CurrentUserData.currUser.setEmail(res.getString("email"));
+            CurrentUserData.currUser.setPassword(res.getString("password"));
+            CurrentUserData.currUser.setID(res.getInt("id"));
+            CurrentUserData.currUser.setRole(res.get("role").toString());
+            CurrentUserData.currUser.setBio(res.getString("biography"));
+        } catch(Exception e) {}
+    }
+
+    /**
+     * Dictates what the class should do upon receiving an object.
+     *
+     * @param response response from request
+     */
+    @Override
+    public void onObjectResponse(JSONObject response) {
+        //Nothing needed
+    }
+
+    /**
+     * Dictates what the class should do upon receiving an image.
+     *
+     * @param response response from request
+     */
+    @Override
+    public void onImageResponse(ImageLoader.ImageContainer response) {
+        //Nothing needed
     }
 }
