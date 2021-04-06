@@ -1,6 +1,7 @@
 package cs309.sr2.chirrupfrontend.profile.personal;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,7 +41,7 @@ public class PersonalProfilePresenter implements VolleyListener {
     /**
      * load the data for the profile page
      *
-     * @param userURL url for the user json object
+     * @param userURL  url for the user json object
      * @param imageURL url for user avatar
      */
     public void loadData(String userURL, String imageURL) {
@@ -71,6 +72,13 @@ public class PersonalProfilePresenter implements VolleyListener {
                     e.printStackTrace();
                 }
             }
+
+            int followers = response.getJSONArray("followers").length();
+            ((Button) view.findViewById(R.id.personalprofile_followers)).setText("Followers (" + followers + ")");
+
+            int following = response.getJSONArray("following").length();
+            ((Button) view.findViewById(R.id.personalprofile_following)).setText("Following (" + following + ")");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

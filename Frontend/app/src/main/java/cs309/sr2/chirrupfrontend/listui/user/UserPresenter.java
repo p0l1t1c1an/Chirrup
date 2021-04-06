@@ -21,17 +21,17 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 public class UserPresenter implements VolleyListener {
 
     /**
-     * volley requester for the post
+     * volley requester for the user card
      */
     private VolleyRequester volleyRequester;
 
     /**
-     * view of profile fragment
+     * view of user fragment
      */
     private View view;
 
     /**
-     * create a new presenter for post
+     * create a new presenter for user card
      *
      * @param view fragment view
      */
@@ -40,7 +40,7 @@ public class UserPresenter implements VolleyListener {
     }
 
     /**
-     * load the data for the post
+     * load the data for the user card
      *
      * @param userURL  url for the user json object with id replaced with #
      * @param imageURL url for user avatar with user id replaced with #
