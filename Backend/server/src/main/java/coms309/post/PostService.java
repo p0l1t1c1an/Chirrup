@@ -12,15 +12,13 @@ public class PostService{
     PostRepository postRepository;  
 
     public List<Post> getAllPost() {  
-        List<Post> posts = new ArrayList<Post>();  
-        postRepository.findAll().forEach(post -> posts.add(post));  
-        return posts;
+        return postRepository.getAllPost();
     }
-    
+        
     //getting a specific record  
     public Post getPostById(int id) {  
-        return postRepository.findById(id).get();  
-    }  
+        return postRepository.getPostById(id);  
+    }   
 
     public void saveOrUpdate(Post post)   
     {  
