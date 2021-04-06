@@ -18,5 +18,13 @@
         android:id="@+id/nav_messaging"
         android:name="cs309.sr2.chirrupfrontend.messaging.MessageFragment"
         android:label="Messaging" />
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="cs309.sr2.chirrupfrontend.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/nav_newProfile"
+        android:name="cs309.sr2.chirrupfrontend.login.CreateNewProfile"
+        android:label="CreateNewProfile" />
 
 </navigation>

@@ -214,10 +214,13 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         toSend.put("biography", bio.getText().toString());
         String jsonString = toSend.toString();
         VolleyRequester = new VolleyRequester(this);
-        VolleyRequester.setObject(getResources().getString(R.string.base_url), toSend, Request.Method.PUT);
+        VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID(), toSend, Request.Method.PUT);
 
         //update current user screen
-        VolleyRequester.getString(getResources().getString(R.string.base_url) + CurrentUserData.currUser.getID());
+        //wait 100 milliseconds
+        long currTime = System.currentTimeMillis();
+        while (currTime + 100 > System.currentTimeMillis()) {}
+        VolleyRequester.getString(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID());
         username.setText("");
         firstname.setText("");
         lastname.setText("");
