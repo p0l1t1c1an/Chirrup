@@ -66,7 +66,7 @@ public class SearchController {
     }
 
     @ApiOperation(value = "Search for users by user, first, and last names", response = List.class, tags = "searchUserFirstLast")
-    @GetMapping("/user/username={user}+firstname={first}")
+    @GetMapping("/user/username={user}+firstname={first}i+lastname={last}")
     private List<User> searchUserFirstLast(@PathVariable("user") String username, @PathVariable("first") String firstname, @PathVariable("last") String lastname) {
         return searchService.searchUser(username, firstname, lastname);
     }
