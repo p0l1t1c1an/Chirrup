@@ -10,25 +10,26 @@ import org.springframework.stereotype.Service;
 public class PostService{  
     @Autowired  
     PostRepository postRepository;  
-        public List<Post> getAllPost() {  
-            List<Post> posts = new ArrayList<Post>();  
-            postRepository.findAll().forEach(post -> posts.add(post));
-            return posts;
-        }
-        
-        //getting a specific record  
-        public Post getPostById(int id) {  
-            return postRepository.findById(id).get();  
-        }  
-    
-        public void saveOrUpdate(Post post)   
-        {  
-            postRepository.save(post);  
-        }
 
-        //deleting a specific record  
-        public void delete(int id)   
-        {  
-            postRepository.deleteById(id);  
-        }
+    public List<Post> getAllPost() {  
+        List<Post> posts = new ArrayList<Post>();  
+        postRepository.findAll().forEach(post -> posts.add(post));  
+        return posts;
     }
+    
+    //getting a specific record  
+    public Post getPostById(int id) {  
+        return postRepository.findById(id).get();  
+    }  
+
+    public void saveOrUpdate(Post post)   
+    {  
+        postRepository.save(post);  
+    }
+
+    //deleting a specific record  
+    public void delete(int id)   
+    {  
+        postRepository.deleteById(id);  
+    }
+}

@@ -2,6 +2,7 @@ package coms309.user;
 
 import org.springframework.core.style.ToStringCreator;
 
+import coms309.directmessage.DirectMessage;
 import coms309.post.Post;
 import coms309.settings.Settings;
 import io.swagger.annotations.ApiModelProperty;
@@ -75,6 +76,10 @@ public class User {
     @OneToMany(mappedBy = "creator", fetch= FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Post> posts = new HashSet<Post>();
+
+    @OneToMany(mappedBy = "from", fetch= FetchType.EAGER)
+    @PrimaryKeyJoinColumn
+    private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
     public User(){
         
@@ -271,6 +276,14 @@ public class User {
         }
 
         return psIntegers;
+    }
+
+    public List<Integer> getMessagesId() {
+        List<Integer> dms = new ArrayList<Integer>();
+        for (DirectMessage dm : messages) {
+            dms.add(dm.getId());
+        }
+        return dms;
     }
 
     //changes all fields of a user, for put requests
