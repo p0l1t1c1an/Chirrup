@@ -62,7 +62,7 @@ public class OtherProfilePresenter implements VolleyListener {
     /**
      * load the data for the profile page
      *
-     * @param userURL url for the user json object
+     * @param userURL  url for the user json object
      * @param imageURL url for user avatar
      * @param viewerID id of user viewing this page
      */
@@ -105,7 +105,7 @@ public class OtherProfilePresenter implements VolleyListener {
                 }
             }
 
-            if(followed) {
+            if (followed) {
                 ((Button) view.findViewById(R.id.otherprofile_follow)).setText("Unfollow (" + followers + ")");
             } else {
                 ((Button) view.findViewById(R.id.otherprofile_follow)).setText("Follow (" + followers + ")");
@@ -133,7 +133,7 @@ public class OtherProfilePresenter implements VolleyListener {
      */
     public void followUser(String url) {
         Button follow = view.findViewById(R.id.otherprofile_follow);
-        if(followed) {
+        if (followed) {
             volleyRequester.setString(url, null, Request.Method.DELETE);
             follow.setText("Follow (" + (followers - 1) + ")");
             followers--;

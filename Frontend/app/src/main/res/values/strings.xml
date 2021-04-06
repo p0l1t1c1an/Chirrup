@@ -10,7 +10,7 @@
     <string name="button_following">Following</string>
     <string name="button_follow">Follow</string>
     <string name="button_unfollow">Unfollow</string>
-    <string name="placeholder">Placeholder Text</string>
+    <string name="placeholder"> </string>
     <string name="view">View</string>
     <string name="add_reply">Add Reply</string>
     <string name="share">Share</string>
