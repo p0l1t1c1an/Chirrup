@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,6 +53,12 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     private TextView testView;
     //VolleyRequester
     private VolleyRequester VolleyRequester;
+    //Current theme settings.
+    private boolean darktheme;
+    //Current text size.
+    private int textSize;
+    //Current updateTime.
+    private int updateTime;
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
@@ -63,6 +71,9 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        Switch themeSwitch = (Switch) root.findViewById(R.id.themeSwitch);
+        Switch textSwitch = (Switch) root.findViewById(R.id.textSizeSwitch);
+        Switch updateSwitch = (Switch) root.findViewById(R.id.updateSwitch);
 
         //set text fields to current user data
         getUser(CurrentUserData.currUser.getID());
@@ -77,6 +88,73 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 
         root.findViewById(R.id.cancelButton).setOnClickListener((v) -> {
             clearUserText();
+        });
+
+        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isChecked()) {
+                if (darktheme == true) {
+                    //dark theme is already enabled and needs to be disabled
+                }
+                else {
+                    //dark theme needs to be enabled
+                }
+            }
+            else {
+                if (darktheme == true) {
+                    //dark theme is already enabled and needs to be disabled
+
+                }
+                else {
+                    //dark theme needs to be enabled
+
+                }
+            }
+        });
+
+        textSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isChecked()) {
+                if (textSize == 12) {
+                    //text size is 12 right now and needs to be increased to 15
+
+                }
+                else {
+                    //text size is not 12 and needs to become 12
+
+                }
+            }
+            else {
+                if (textSize == 12) {
+                    //text size is 12 right now and needs to be increased to 15
+
+                }
+                else {
+                    //text size is not 12 and needs to become 12
+
+                }
+            }
+        });
+
+        updateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isChecked()) {
+                if (updateTime == 5) {
+                    //update time is 5 right now and should be increased to 8?
+
+                }
+                else {
+                    //update time is not 5 and should become 5
+
+                }
+            }
+            else {
+                if (updateTime == 5) {
+                    //update time is 5 right now and should be increased to 8?
+
+                }
+                else {
+                    //update time is not 5 and should become 5
+                    
+                }
+            }
         });
 
         return root;
