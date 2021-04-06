@@ -18,5 +18,15 @@
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Messages"
             />
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Login"
+            />
+        <item
+            android:id="@+id/nav_newProfile"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Create New Profile"
+            />
     </group>
 </menu>
