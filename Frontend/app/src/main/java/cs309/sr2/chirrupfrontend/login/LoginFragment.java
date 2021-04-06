@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
@@ -26,6 +29,8 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
  */
 public class LoginFragment extends Fragment implements VolleyListener {
 
+    //staus textfield
+    private TextView status;
     //VolleyRequester
     private VolleyRequester VolleyRequester;
 
@@ -41,19 +46,18 @@ public class LoginFragment extends Fragment implements VolleyListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
 
+
         root.findViewById(R.id.loginSubmit).setOnClickListener((v) -> {
             //send login info to server and get user back (onResponse)
             try {
+                EditText usernameToGet = (EditText) root.findViewById(R.id.login_usernameText);
+
                 JSONObject toSend = new JSONObject();
-                toSend.put("email", CurrentUserData.currUser.getEmail());
-                toSend.put("password", CurrentUserData.currUser.getPassword());
+
                 VolleyRequester = new VolleyRequester(this);
-
+                VolleyRequester.getString(getResources().getString(R.string.base_url) + "user/?user={" +
+                        usernameToGet + "}&first={}&last={}");
             } catch (Exception e) {}
-        });
-
-        root.findViewById(R.id.createNewProfile).setOnClickListener((v) -> {
-            //Nothing yet
         });
 
         return root;
@@ -65,7 +69,11 @@ public class LoginFragment extends Fragment implements VolleyListener {
      * @param response response from request
      */
     public void onStringResponse(String response) {
-
+        status = getView().findViewById(R.id.loginStatusText);
+        try {
+            JSONObject res = new JSONObject(response);
+            status.setText(res.getString("username"));
+        } catch (Exception e) {}
     }
 
     /**
