@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -329,5 +330,31 @@ public class User {
                 it.remove();
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+
+        User u = (User) obj;
+
+        return (u.id == id && u.role == role
+                && Objects.equals(email, u.email)
+                && Objects.equals(password, u.password)
+                && Objects.equals(username, u.username)
+                && Objects.equals(firstname, u.firstname)
+                && Objects.equals(lastname, u.lastname)
+                && Objects.equals(telephone, u.telephone)
+                && Objects.equals(biography, u.biography)
+                && Objects.equals(birthday, u.birthday) );
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }
