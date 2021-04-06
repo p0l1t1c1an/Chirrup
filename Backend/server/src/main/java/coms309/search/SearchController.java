@@ -29,7 +29,7 @@ public class SearchController {
 
     @ApiOperation(value = "Search for users by user, first, and last names", response = List.class, tags = "searchUserFirstLast")
     @GetMapping("/user/")
-    private List<User> searchUserFirstLast(@RequestParam String user, @RequestParam String first, @RequestParam String last) {
+    private List<User> searchUserFirstLast(@RequestParam(required = false) String user, @RequestParam(required = false) String first, @RequestParam(required = false) String last) {
         return searchService.searchUser(user, first, last);
     }
 }
