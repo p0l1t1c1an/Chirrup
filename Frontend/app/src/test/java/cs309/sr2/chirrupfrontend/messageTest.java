@@ -61,4 +61,22 @@ public class messageTest {
 
         assertFalse(display.equals(conversationTest.getMessages()));
     }
+
+    @Test
+    public void messageNotChanged() {
+        conversationTest = mock(SingleThread.class);
+
+        conversationTest.getMessages();
+        verify(conversationTest, times(0)).setMessages(conversation);
+    }
+
+    @Test
+    public void noMatchingIDs() {
+        conversationTest = mock(SingleThread.class);
+        currentTestData = mock(NewProfileData.class);
+        when(conversationTest.getToID()).thenReturn(25);
+        when(currentTestData.getID()).thenReturn(22);
+
+        assertNotEquals(conversationTest.getToID(), currentTestData.getID());
+    }
 }
