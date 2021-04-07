@@ -104,7 +104,7 @@ public class SettingsServiceTest {
             .thenAnswer(x -> {
                 UserSettings s = x.getArgument(0);
                 settings.add(s);
-                return null;
+                return s;
             });
 
         service.saveSettings(settings1);
@@ -112,23 +112,6 @@ public class SettingsServiceTest {
 
         assertEquals(1, settingsList.size());
 		verify(settingsRepo, times(1)).save(settings1);
-	}
-
-    @Test
-	public void deleteSettingsTest() {
-        List<UserSettings> settings = new ArrayList<UserSettings>();
-        UserSettings settings1 = new UserSettings();
-        
-        settings.add(settings1);
-
-		doNothing().when(settingsRepo).deleteById(1);
-        when(settingsRepo.findAll()).thenReturn(settings);
-
-        service.deleteSettingsById(1);
-        List<UserSettings> settingsList = service.getAllSettings();
-
-		verify(settingsRepo, times(1)).deleteById(1);
-        assertEquals(0, settingsList.size());
 	}
 
     // More Complex Mockito Test for the creation of a child account
@@ -143,9 +126,10 @@ public class SettingsServiceTest {
 
         when(settingsRepo.findById(1)).thenReturn(Optional.of(parentSettings)); 
         when(userRepo.findById(1)).thenReturn(Optional.of(parent));
-        
-        doNothing().when(userRepo).save((User)any(User.class));
-        doNothing().when(settingsRepo).save((UserSettings)any(UserSettings.class));
+
+        when(userRepo.save((User)any(User.class))).thenAnswer(x -> { return (User) x.getArgument(0); });
+        when(settingsRepo.save((UserSettings)any(UserSettings.class)))
+            .thenAnswer(x -> {return (UserSettings) x.getArgument(0); });
 
         service.createChildOfParent(1, child);
 
