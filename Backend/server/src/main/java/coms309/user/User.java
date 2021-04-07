@@ -213,7 +213,12 @@ public class User {
         this.biography = biography;
     }
 
-    //add someone to this users following list
+   //settings
+   @JsonIgnore
+   public Settings getSettings() {
+        return this.settings;
+   }
+
     public void setSettings(Settings settings) {
         this.settings = settings;
     }
