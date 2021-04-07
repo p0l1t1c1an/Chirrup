@@ -66,7 +66,7 @@ public class RoleServiceTest {
         Role role = new Role(1, "role");
         roles.add(role);
 
-		doNothing().when(repo).save(role);
+		when(repo.save(role)).thenReturn(role);
         when(repo.findAll()).thenReturn(roles);
 
         service.saveOrUpdate(role);
@@ -79,10 +79,7 @@ public class RoleServiceTest {
     @Test
 	public void deleteRoleTest() {
         List<Role> roles = new ArrayList<Role>();
-        Role role = new Role(1, "role");
-
 		doNothing().when(repo).deleteRoleById(1);
-        doNothing().when(repo).save(role);
         when(repo.findAll()).thenReturn(roles);
 
         service.delete(1);
