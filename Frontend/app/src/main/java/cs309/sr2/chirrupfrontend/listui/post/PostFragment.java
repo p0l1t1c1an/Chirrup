@@ -132,4 +132,22 @@ public class PostFragment extends Fragment {
     public void setPostPresenter(PostPresenter postPresenter) {
         this.postPresenter = postPresenter;
     }
+
+    /**
+     * get the post presenter for the fragment
+     *
+     * @return fragment's post presenter
+     */
+    public PostPresenter getPostPresenter() {
+        return postPresenter;
+    }
+
+    /**
+     * get the id of the post
+     *
+     * @return id of post
+     */
+    public int getPostID() {
+        return postID;
+    }
 }
