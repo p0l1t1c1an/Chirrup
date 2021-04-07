@@ -87,10 +87,7 @@ public class RoleServiceTest {
     @Test
 	public void deleteRoleTest() {
         List<Role> roles = new ArrayList<Role>();
-        Role role = new Role(1, "role");
-
 		doNothing().when(repo).deleteRoleById(1);
-        when(repo.save(role)).thenReturn(role);
         when(repo.findAll()).thenReturn(roles);
 
         service.delete(1);
