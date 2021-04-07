@@ -6,4 +6,18 @@ package cs309.sr2.chirrupfrontend.messaging;
  * @author wszogg
  */
 public class GroupThread extends MessageThread {
+    @Override
+    public String[] getMessages() {
+        return new String[0];
+    }
+
+    @Override
+    public int getUserID() {
+        return 0;
+    }
+
+    @Override
+    public int getToID() {
+        return 0;
+    }
 }

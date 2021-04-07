@@ -5,7 +5,31 @@ package cs309.sr2.chirrupfrontend.messaging;
  *
  * @author wszogg
  */
-public class MessageThread {
-    
+public abstract class MessageThread {
 
+    /**
+     * Constructor to display a conversation
+     */
+    public MessageThread() {}
+
+    /**
+     * Get messages with specific contact.
+     *
+     * @return an array of messages
+     */
+    abstract public String[] getMessages();
+
+    /**
+     * Return user's ID
+     *
+     * @return user's ID
+     */
+    abstract public int getUserID();
+
+    /**
+     * Return to ID
+     *
+     * @return to ID
+     */
+    abstract public int getToID();
 }
