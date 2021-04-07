@@ -53,7 +53,7 @@ public class UserFragment extends Fragment {
 
         UserPresenter postPresenter = new UserPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
-                "user/" + userID, "https://api.androidhive.info/volley/volley-image.jpg");
+                "user/" + userID, "http://www.newdesignfile.com/postpic/2014/07/generic-profile-avatar_352864.jpg");
 
         root.setOnClickListener(v -> {
             OtherProfileFragment profile = new OtherProfileFragment(userID);
