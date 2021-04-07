@@ -13,14 +13,22 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import coms309.role.Role;
 import coms309.role.RoleRepository;
 import coms309.role.RoleService;
 
+import coms309.ServerApplication;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ServerApplication.class)
 public class RoleServiceTest {
     @InjectMocks
 	RoleService service;
