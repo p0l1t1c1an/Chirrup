@@ -25,4 +25,11 @@ public abstract class MessageThread {
      * @return user's ID
      */
     abstract public int getUserID();
+
+    /**
+     * Return to ID
+     *
+     * @return to ID
+     */
+    abstract public int getToID();
 }

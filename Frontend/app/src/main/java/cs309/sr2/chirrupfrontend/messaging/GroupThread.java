@@ -15,4 +15,9 @@ public class GroupThread extends MessageThread {
     public int getUserID() {
         return 0;
     }
+
+    @Override
+    public int getToID() {
+        return 0;
+    }
 }

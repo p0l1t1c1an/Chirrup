@@ -90,7 +90,16 @@ public class MessageFragment extends Fragment implements VolleyListener {
 
         root.findViewById(R.id.sendMessageButton).setOnClickListener((v) -> {
             //send the message that the user has composed to the server (Message Thread)
-
+            //get the message
+            String messageToSend = createMessage.getText().toString();
+            try {
+                //create JSON object for message
+                JSONObject toSend = new JSONObject();
+                toSend.put("content", messageToSend);
+                //send the message to the server
+                VolleyRequester.setObject(getResources().getString(R.string.base_url) + "directmessages/" +
+                        userConversation.getUserID() + "/" + userConversation.getToID(), toSend, Request.Method.POST);
+            } catch (Exception e){}
         });
 
         return root;
@@ -116,6 +125,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                 toDisplay += messages[i];
                 toDisplay += "\n";
             }
+            userConversation = new SingleThread(Integer.parseInt(searchText.getText().toString()), messages);
             messageView.setText(toDisplay);
         } catch (Exception e) {}
 

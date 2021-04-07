@@ -29,6 +29,11 @@ public class SingleThread extends MessageThread {
 
     @Override
     public int getUserID() {
+        return this.fromID;
+    }
+
+    @Override
+    public int getToID() {
         return this.toID;
     }
 }
