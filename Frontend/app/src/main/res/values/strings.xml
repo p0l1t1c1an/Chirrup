@@ -16,7 +16,7 @@
     <string name="share">Share</string>
     <string name="like">Like</string>
     <string name="comment">Comment</string>
-    <string name="newpost">Create New Post</string>
+    <string name="newpost">New Post</string>
 
     <string name="menu_profile">Profile</string>
     <string name="base_url">http://coms-309-016.cs.iastate.edu:8080/api/</string>
