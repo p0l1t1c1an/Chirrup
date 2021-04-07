@@ -78,7 +78,7 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
                 toSend.put("password", password.getText().toString());
                 toSend.put("username", username.getText().toString());
                 toSend.put("firstname", firstname.getText().toString());
-                toSend.put("lastname", firstname.getText().toString());
+                toSend.put("lastname", lastname.getText().toString());
                 toSend.put("telephone", phoneNumber.getText().toString());
                 toSend.put("biography", bio.getText().toString());
                 toSend.put("birthday", birthday.getText().toString());
