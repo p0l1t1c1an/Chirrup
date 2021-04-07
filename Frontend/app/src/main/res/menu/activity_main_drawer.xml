@@ -6,27 +6,28 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_newPost"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/newpost" />
+        <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/menu_profile" />
         <item
+            android:id="@+id/nav_messaging"
+            android:icon="@android:drawable/ic_menu_send"
+            android:title="Messages" />
+        <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:icon="@android:drawable/ic_menu_manage"
             android:title="@string/action_settings" />
         <item
-            android:id="@+id/nav_messaging"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Messages"
-            />
-        <item
             android:id="@+id/nav_login"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Login"
-            />
+            android:icon="@android:drawable/ic_menu_upload"
+            android:title="Login" />
         <item
             android:id="@+id/nav_newProfile"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="Create New Profile"
-            />
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="New Profile" />
     </group>
 </menu>

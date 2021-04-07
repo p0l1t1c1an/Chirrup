@@ -89,14 +89,6 @@ public class PostFragmentTest {
     }
 
     /**
-     * test show comments method. normally shows another fragment, so nothing to really assert
-     */
-    @Test
-    public void showCommentsTest() {
-        postFragment.showComments();
-    }
-
-    /**
      * test that updating the post presenter works
      */
     @Test

@@ -114,6 +114,10 @@ public class VolleyRequester {
                 response -> {}, error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "String set error: "
                         + error.getMessage())) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
 
             @Override
             public byte[] getBody() {
@@ -136,6 +140,10 @@ public class VolleyRequester {
                 null, response -> {}, error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Array set error: "
                         + error.getMessage())) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
 
             @Override
             public byte[] getBody() {
@@ -158,6 +166,10 @@ public class VolleyRequester {
                 jsonObject, response -> {}, error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object set error: "
                         + error.getMessage())) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
 
             @Override
             public byte[] getBody() {
