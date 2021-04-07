@@ -13,14 +13,22 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import coms309.role.Role;
 import coms309.role.RoleRepository;
 import coms309.role.RoleService;
 
+import coms309.ServerApplication;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ServerApplication.class)
 public class RoleServiceTest {
     @InjectMocks
 	RoleService service;
@@ -66,7 +74,7 @@ public class RoleServiceTest {
         Role role = new Role(1, "role");
         roles.add(role);
 
-		doNothing().when(repo).save(role);
+		when(repo.save(role)).thenReturn(role);
         when(repo.findAll()).thenReturn(roles);
 
         service.saveOrUpdate(role);
@@ -82,7 +90,7 @@ public class RoleServiceTest {
         Role role = new Role(1, "role");
 
 		doNothing().when(repo).deleteRoleById(1);
-        doNothing().when(repo).save(role);
+        when(repo.save(role)).thenReturn(role);
         when(repo.findAll()).thenReturn(roles);
 
         service.delete(1);
