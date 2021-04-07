@@ -32,6 +32,11 @@ public class PostFragment extends Fragment {
     private int postID;
 
     /**
+     * presenter for post ui
+     */
+    private PostPresenter postPresenter;
+
+    /**
      * create a post UI card from the post id
      *
      * @param postID id of post to show
@@ -53,19 +58,14 @@ public class PostFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_postcard, container, false);
 
-        PostPresenter postPresenter = new PostPresenter(root);
-        postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
-                "posts/" + postID,AppController.getInstance().getString(R.string.base_url) +
-                "user/#","https://api.androidhive.info/volley/volley-image.jpg",
-                Session.getUser());
+        loadData(root);
 
         Button like = root.findViewById(R.id.post_like);
         Button share = root.findViewById(R.id.post_share);
         Button comment = root.findViewById(R.id.post_comment);
 
         like.setOnClickListener(v -> {
-            postPresenter.likePost("http://coms-309-016.cs.iastate.edu:8080/api/posts/like/" +
-                    Session.getUser() + "/" + postID);
+            likePost();
         });
 
         share.setOnClickListener(v -> {
@@ -73,13 +73,11 @@ public class PostFragment extends Fragment {
         });
 
         comment.setOnClickListener(v -> {
-            CommentsFragment comments = new CommentsFragment(postID);
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, comments)
-                    .addToBackStack(null).commit();
+            showComments();
         });
 
         View.OnClickListener clickListener = v -> {
-            postPresenter.showProfile();
+            showProfile();
         };
 
         root.findViewById(R.id.post_avatar).setOnClickListener(clickListener);
@@ -87,5 +85,51 @@ public class PostFragment extends Fragment {
         root.findViewById(R.id.post_username).setOnClickListener(clickListener);
 
         return root;
+    }
+
+    /**
+     * load the data from the database
+     *
+     * @param view fragment view
+     */
+    public void loadData(View view) {
+        if (postPresenter == null) postPresenter = new PostPresenter(view);
+        postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
+                        "posts/" + postID, AppController.getInstance().getString(R.string.base_url) +
+                        "user/#", "https://api.androidhive.info/volley/volley-image.jpg",
+                Session.getUser());
+    }
+
+    /**
+     * like or dislike the post by the current user
+     */
+    public void likePost() {
+        postPresenter.likePost("http://coms-309-016.cs.iastate.edu:8080/api/posts/like/" +
+                Session.getUser() + "/" + postID);
+    }
+
+    /**
+     * show the comments on this post
+     */
+    public void showComments() {
+        CommentsFragment comments = new CommentsFragment(postID);
+        AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, comments)
+                .addToBackStack(null).commit();
+    }
+
+    /**
+     * show the profile of the post creator
+     */
+    public void showProfile() {
+        postPresenter.showProfile();
+    }
+
+    /**
+     * set the post presenter manually
+     *
+     * @param postPresenter post presenter
+     */
+    public void setPostPresenter(PostPresenter postPresenter) {
+        this.postPresenter = postPresenter;
     }
 }

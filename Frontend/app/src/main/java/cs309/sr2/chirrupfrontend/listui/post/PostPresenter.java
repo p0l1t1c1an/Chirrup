@@ -1,9 +1,12 @@
 package cs309.sr2.chirrupfrontend.listui.post;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
@@ -71,6 +74,21 @@ public class PostPresenter implements VolleyListener {
     private int creatorID;
 
     /**
+     * user avatar
+     */
+    private Bitmap avatar;
+
+    /**
+     * data about the post
+     */
+    private JSONObject postData;
+
+    /**
+     * data about the post creator
+     */
+    private JSONObject userData;
+
+    /**
      * create a new presenter for post
      *
      * @param view fragment view
@@ -105,35 +123,10 @@ public class PostPresenter implements VolleyListener {
     public void onObjectResponse(JSONObject response) {
         try {
             if (status == 1) {
-                ((TextView) view.findViewById(R.id.post_username)).setText(response.getString("username"));
-                ((TextView) view.findViewById(R.id.post_name)).setText(response.getString("firstname")
-                        + " " + response.getString("lastname"));
+                setUserData(response);
                 status = 2;
             } else {
-                ((TextView) view.findViewById(R.id.post_body)).setText(response.getString("content"));
-                ((TextView) view.findViewById(R.id.post_timestamp)).setText(response.getString("dateCreated"));
-
-                JSONArray likesArray = response.getJSONArray("likes");
-                likes = likesArray.length();
-                for (int i = 0; i < likes; i++) {
-                    if (likesArray.getInt(i) == likeUserID) {
-                        liked = true;
-                        break;
-                    }
-                }
-
-                if(liked) {
-                    ((Button) view.findViewById(R.id.post_like)).setText("Unlike (" + likes + ")");
-                } else {
-                    ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes + ")");
-                }
-
-                int comments = response.getJSONArray("comments").length();
-                ((Button) view.findViewById(R.id.post_comment)).setText("Comment (" + comments + ")");
-
-                creatorID = response.getInt("creator");
-                volleyRequester.getObject(userURL.replace("#", String.valueOf(creatorID)));
-                volleyRequester.getImage(imageURL.replace("#", String.valueOf(creatorID)));
+                setPostData(response);
                 status = 1;
             }
         } catch (JSONException e) {
@@ -148,7 +141,7 @@ public class PostPresenter implements VolleyListener {
      */
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.post_avatar)).setImageBitmap(response.getBitmap());
+        setAvatar(response.getBitmap());
     }
 
     /**
@@ -156,19 +149,81 @@ public class PostPresenter implements VolleyListener {
      *
      * @param url post liking url
      */
-    public void likePost(String url) {
+    public void likePost(@Nullable String url) {
+        likePostLocal();
+        likePostRemote(url);
+    }
+
+    /**
+     * like a post locally, but not remotely
+     */
+    public void likePostLocal() {
         Button like = view.findViewById(R.id.post_like);
         if(liked) {
-            volleyRequester.setString(url, null, Request.Method.DELETE);
             like.setText("Like (" + (likes - 1) + ")");
             likes--;
             liked = false;
         } else {
-            volleyRequester.setString(url, null, Request.Method.POST);
             like.setText("Unlike (" + (likes + 1) + ")");
             likes++;
             liked = true;
         }
+    }
+
+    /**
+     * add or remove like in the server
+     *
+     * @param url url for like request
+     */
+    public void likePostRemote(String url) {
+        if(liked) {
+            volleyRequester.setString(url, null, Request.Method.POST);
+        } else {
+            volleyRequester.setString(url, null, Request.Method.DELETE);
+        }
+    }
+
+    /**
+     * get the number of likes on the post
+     *
+     * @return number of likes on post
+     */
+    public int getLikes() {
+        return likes;
+    }
+
+    /**
+     * cehck if the post was liked by the current user
+     *
+     * @return true if the post was liked by the current user
+     */
+    public boolean isLiked() {
+        return liked;
+    }
+
+    /**
+     * get the number of likes this post has, and if the current user has previously liked it already
+     *
+     * @param postData post the likes are on
+     * @throws JSONException
+     */
+    public void loadLikeData(JSONObject postData) throws JSONException {
+        JSONArray likesArray = postData.getJSONArray("likes");
+        likes = likesArray.length();
+        for (int i = 0; i < likes; i++) {
+            if (likesArray.getInt(i) == likeUserID) {
+                liked = true;
+                break;
+            }
+        }
+
+        try {
+            if (liked) {
+                ((Button) view.findViewById(R.id.post_like)).setText("Unlike (" + likes + ")");
+            } else {
+                ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes + ")");
+            }
+        } catch (NullPointerException ignored) {}
     }
 
     /**
@@ -178,5 +233,85 @@ public class PostPresenter implements VolleyListener {
         OtherProfileFragment profile = new OtherProfileFragment(creatorID);
         AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
                 .addToBackStack(null).commit();
+    }
+
+    /**
+     * get the user avatar bitmap from the post
+     *
+     * @return user avatar bitmap
+     */
+    public Bitmap getAvatar() {
+        return avatar;
+    }
+
+    /**
+     * set the user's avatar for the post
+     *
+     * @param image bitmap image
+     */
+    public void setAvatar(Bitmap image) {
+        avatar = image;
+        ((ImageView) view.findViewById(R.id.post_avatar)).setImageBitmap(image);
+    }
+
+    /**
+     * get the json object data for the post
+     *
+     * @return json data for the post
+     */
+    public JSONObject getPostData() {
+        return postData;
+    }
+
+    /**
+     * set the data of the post
+     *
+     * @param postData post data to set
+     * @throws JSONException
+     */
+    public void setPostData(JSONObject postData) throws JSONException {
+        this.postData = postData;
+        ((TextView) view.findViewById(R.id.post_body)).setText(postData.getString("content"));
+        ((TextView) view.findViewById(R.id.post_timestamp)).setText(postData.getString("dateCreated"));
+
+        loadLikeData(postData);
+
+        int comments = postData.getJSONArray("comments").length();
+        ((Button) view.findViewById(R.id.post_comment)).setText("Comment (" + comments + ")");
+
+        creatorID = postData.getInt("creator");
+        volleyRequester.getObject(userURL.replace("#", String.valueOf(creatorID)));
+        volleyRequester.getImage(imageURL.replace("#", String.valueOf(creatorID)));
+    }
+
+    /**
+     * get the user data for the post creator
+     *
+     * @return user json data
+     */
+    public JSONObject getUserData() {
+        return userData;
+    }
+
+    /**
+     * set the user data for the post
+     *
+     * @param userData user data to set
+     * @throws JSONException
+     */
+    public void setUserData(JSONObject userData) throws JSONException {
+        this.userData = userData;
+        ((TextView) view.findViewById(R.id.post_username)).setText(userData.getString("username"));
+        ((TextView) view.findViewById(R.id.post_name)).setText(userData.getString("firstname")
+                + " " + userData.getString("lastname"));
+    }
+
+    /**
+     * set the view for the presenter
+     *
+     * @param view view for presenter
+     */
+    public void setView(View view) {
+        this.view = view;
     }
 }
