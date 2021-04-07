@@ -182,6 +182,41 @@ public class PostPresenter implements VolleyListener {
     }
 
     /**
+     * get the number of likes on the post
+     *
+     * @return number of likes on post
+     */
+    public int getLikes() {
+        return likes;
+    }
+
+    /**
+     * cehck if the post was liked by the current user
+     *
+     * @return true if the post was liked by the current user
+     */
+    public boolean isLiked() {
+        return liked;
+    }
+
+    /**
+     * get the number of likes this post has, and if the current user has previously liked it already
+     *
+     * @param postData post the likes are on
+     * @throws JSONException
+     */
+    public void loadLikeData(JSONObject postData) throws JSONException {
+        JSONArray likesArray = postData.getJSONArray("likes");
+        likes = likesArray.length();
+        for (int i = 0; i < likes; i++) {
+            if (likesArray.getInt(i) == likeUserID) {
+                liked = true;
+                break;
+            }
+        }
+    }
+
+    /**
      * show the profile of the post creator
      */
     public void showProfile() {
@@ -209,23 +244,27 @@ public class PostPresenter implements VolleyListener {
         ((ImageView) view.findViewById(R.id.post_avatar)).setImageBitmap(image);
     }
 
+    /**
+     * get the json object data for the post
+     *
+     * @return json data for the post
+     */
     public JSONObject getPostData() {
         return postData;
     }
 
+    /**
+     * set the data of the post
+     *
+     * @param postData post data to set
+     * @throws JSONException
+     */
     public void setPostData(JSONObject postData) throws JSONException {
         this.postData = postData;
         ((TextView) view.findViewById(R.id.post_body)).setText(postData.getString("content"));
         ((TextView) view.findViewById(R.id.post_timestamp)).setText(postData.getString("dateCreated"));
 
-        JSONArray likesArray = postData.getJSONArray("likes");
-        likes = likesArray.length();
-        for (int i = 0; i < likes; i++) {
-            if (likesArray.getInt(i) == likeUserID) {
-                liked = true;
-                break;
-            }
-        }
+        loadLikeData(postData);
 
         if(liked) {
             ((Button) view.findViewById(R.id.post_like)).setText("Unlike (" + likes + ")");
@@ -241,10 +280,21 @@ public class PostPresenter implements VolleyListener {
         volleyRequester.getImage(imageURL.replace("#", String.valueOf(creatorID)));
     }
 
+    /**
+     * get the user data for the post creator
+     *
+     * @return user json data
+     */
     public JSONObject getUserData() {
         return userData;
     }
 
+    /**
+     * set the user data for the post
+     *
+     * @param userData user data to set
+     * @throws JSONException
+     */
     public void setUserData(JSONObject userData) throws JSONException {
         this.userData = userData;
         ((TextView) view.findViewById(R.id.post_username)).setText(userData.getString("username"));
