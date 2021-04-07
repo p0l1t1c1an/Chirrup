@@ -48,7 +48,7 @@ public class OtherProfileFragment extends Fragment {
 
         OtherProfilePresenter otherProfilePresenter = new OtherProfilePresenter(root);
         otherProfilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
-                "http://www.newdesignfile.com/postpic/2014/07/generic-profile-avatar_352864.jpg", Session.getUser());
+                "https://api.androidhive.info/volley/volley-image.jpg", Session.getUser());
 
         Button follow = root.findViewById(R.id.otherprofile_follow);
 
