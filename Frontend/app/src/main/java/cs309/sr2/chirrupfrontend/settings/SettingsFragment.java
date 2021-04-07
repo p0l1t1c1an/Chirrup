@@ -76,17 +76,16 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         Switch themeSwitch = (Switch) root.findViewById(R.id.themeSwitch);
         Switch textSwitch = (Switch) root.findViewById(R.id.textSizeSwitch);
         Switch updateSwitch = (Switch) root.findViewById(R.id.updateSwitch);
-        username = (TextView) getView().findViewById(R.id.usernameField);
-        firstname = (TextView) getView().findViewById(R.id.firstNameField);
-        lastname = (TextView) getView().findViewById(R.id.lastNameField);
-        bio = (TextView) getView().findViewById(R.id.bioField);
-        testView = (TextView) getView().findViewById(R.id.testView);
+        username = (TextView) root.findViewById(R.id.usernameField);
+        firstname = (TextView) root.findViewById(R.id.firstNameField);
+        lastname = (TextView) root.findViewById(R.id.lastNameField);
+        bio = (TextView) root.findViewById(R.id.bioField);
+        testView = (TextView) root.findViewById(R.id.testView);
         VolleyRequester = new VolleyRequester(this);
 
         //set text fields to current user data
-        getUser(CurrentUserData.currUser.getID());
+        VolleyRequester.getString(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID());
 
-        //get settings
         //get settings
         VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
                 CurrentUserData.currUser.getID());
@@ -441,33 +440,29 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     @Override
     public void onStringResponse(String response) {
         this.response = response;
-//        try {
-//            if (response != null) {
-//                testView.setText("Upload Successful");
-//            }
-//            else {
-//                testView.setText("Upload Failed");
-//            }
-//            JSONObject res = new JSONObject(response);
-//            String newUserName = res.getString("username");
-//            String newFirstName = res.getString("firstname");
-//
-//            username.setHint(newUserName);
-//            firstname.setHint(newFirstName);
-//            lastname.setHint(res.getString("lastname"));
-//            bio.setHint(res.getString("biography"));
-//
-//            //set user fields
-//            CurrentUserData.currUser.setUserName(res.getString("username"));
-//            CurrentUserData.currUser.setFirstName(res.getString("firstname"));
-//            CurrentUserData.currUser.setLastName(res.getString("lastname"));
-//            CurrentUserData.currUser.setBirthday(res.getString("birthday"));
-//            CurrentUserData.currUser.setEmail(res.getString("email"));
-//            CurrentUserData.currUser.setPassword(res.getString("password"));
-//            CurrentUserData.currUser.setID(res.getInt("id"));
-//            CurrentUserData.currUser.setRole(res.get("role").toString());
-//            CurrentUserData.currUser.setBio(res.getString("biography"));
-//        } catch(Exception e) {}
+        try {
+            JSONObject res = new JSONObject(response);
+
+            //delay for screen
+            long currTime = System.currentTimeMillis();
+            while (currTime + 50 > System.currentTimeMillis()) {}
+
+            username.setHint(res.getString("username"));
+            firstname.setHint(res.getString("firstname"));
+            lastname.setHint(res.getString("lastname"));
+            bio.setHint(res.getString("biography"));
+
+            //set user fields
+            CurrentUserData.currUser.setUserName(res.getString("username"));
+            CurrentUserData.currUser.setFirstName(res.getString("firstname"));
+            CurrentUserData.currUser.setLastName(res.getString("lastname"));
+            CurrentUserData.currUser.setBirthday(res.getString("birthday"));
+            CurrentUserData.currUser.setEmail(res.getString("email"));
+            CurrentUserData.currUser.setPassword(res.getString("password"));
+            CurrentUserData.currUser.setID(res.getInt("id"));
+            CurrentUserData.currUser.setRole(res.get("role").toString());
+            CurrentUserData.currUser.setBio(res.getString("biography"));
+        } catch(Exception e) {}
     }
 
     /**
