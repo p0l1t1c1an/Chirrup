@@ -33,9 +33,10 @@ public class NewPostPresenter implements VolleyListener {
     public void createPost(String url) {
         VolleyRequester volleyRequester = new VolleyRequester(this);
         String postBody = ((EditText) view.findViewById(R.id.newpost_textbox)).getText().toString();
-        ((EditText) view.findViewById(R.id.newpost_textbox)).setText("test");
         if(!postBody.isEmpty()) {
             volleyRequester.setString(url, postBody, Request.Method.POST);
+            ((EditText) view.findViewById(R.id.newpost_textbox)).setText("");
+            ((EditText) view.findViewById(R.id.newpost_textbox)).setHint("Post created!");
         }
     }
 

@@ -52,9 +52,9 @@ public class NewPostFragment extends Fragment {
 
         createPost.setOnClickListener(v -> {
             if (parentID == -1)
-                newPostPresenter.createPost(getString(R.string.base_url) + "/posts/" + Session.getUser());
+                newPostPresenter.createPost(getString(R.string.base_url) + "posts/" + Session.getUser());
             else
-                newPostPresenter.createPost(getString(R.string.base_url) + "/posts/" + Session.getUser() + "/" + parentID);
+                newPostPresenter.createPost(getString(R.string.base_url) + "posts/" + Session.getUser() + "/" + parentID);
         });
 
         return root;
