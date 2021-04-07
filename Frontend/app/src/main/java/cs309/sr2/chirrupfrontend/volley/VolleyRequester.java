@@ -111,7 +111,7 @@ public class VolleyRequester {
      */
     public void setString(String url, String string, int method) {
         StringRequest stringRequest = new StringRequest(method, url,
-                response -> {}, error ->
+                response -> volleyListener.onStringResponse(response), error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "String set error: "
                         + error.getMessage())) {
             @Override
@@ -129,15 +129,15 @@ public class VolleyRequester {
     }
 
     /**
-     * set an array in the database using PATCH
+     * set an array in the database
      *
      * @param url request url
      * @param jsonArray json array to set
      * @param method method to use for setting, Request.Method.
      */
     public void setArray(String url, JSONArray jsonArray, int method) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url,
-                null, response -> {}, error ->
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(method, url,
+                null, response -> volleyListener.onArrayResponse(response), error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Array set error: "
                         + error.getMessage())) {
             @Override
@@ -151,11 +151,11 @@ public class VolleyRequester {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest);
+        AppController.getInstance().addToRequestQueue(jsonArrayRequest);
     }
 
     /**
-     * set an object in the database using PATCH
+     * set an object in the database
      *
      * @param url request url
      * @param jsonObject json object to set
@@ -163,7 +163,7 @@ public class VolleyRequester {
      */
     public void setObject(String url, JSONObject jsonObject, int method) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url,
-                jsonObject, response -> {}, error ->
+                jsonObject, response -> volleyListener.onObjectResponse(response), error ->
                 VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object set error: "
                         + error.getMessage())) {
             @Override
