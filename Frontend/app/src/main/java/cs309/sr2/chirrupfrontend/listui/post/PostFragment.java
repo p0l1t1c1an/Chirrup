@@ -58,6 +58,8 @@ public class PostFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_postcard, container, false);
 
+        loadData(root);
+
         Button like = root.findViewById(R.id.post_like);
         Button share = root.findViewById(R.id.post_share);
         Button comment = root.findViewById(R.id.post_comment);
@@ -91,7 +93,7 @@ public class PostFragment extends Fragment {
      * @param view fragment view
      */
     public void loadData(View view) {
-        postPresenter = new PostPresenter(view);
+        if (postPresenter == null) postPresenter = new PostPresenter(view);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                         "posts/" + postID, AppController.getInstance().getString(R.string.base_url) +
                         "user/#", "https://api.androidhive.info/volley/volley-image.jpg",
@@ -120,5 +122,14 @@ public class PostFragment extends Fragment {
      */
     public void showProfile() {
         postPresenter.showProfile();
+    }
+
+    /**
+     * set the post presenter manually
+     *
+     * @param postPresenter post presenter
+     */
+    public void setPostPresenter(PostPresenter postPresenter) {
+        this.postPresenter = postPresenter;
     }
 }

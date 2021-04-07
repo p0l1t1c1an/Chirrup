@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 
@@ -124,7 +126,7 @@ public class PostPresenter implements VolleyListener {
                 setUserData(response);
                 status = 2;
             } else {
-                setPostData(postData);
+                setPostData(response);
                 status = 1;
             }
         } catch (JSONException e) {
@@ -147,7 +149,7 @@ public class PostPresenter implements VolleyListener {
      *
      * @param url post liking url
      */
-    public void likePost(String url) {
+    public void likePost(@Nullable String url) {
         likePostLocal();
         likePostRemote(url);
     }
@@ -175,9 +177,9 @@ public class PostPresenter implements VolleyListener {
      */
     public void likePostRemote(String url) {
         if(liked) {
-            volleyRequester.setString(url, null, Request.Method.DELETE);
-        } else {
             volleyRequester.setString(url, null, Request.Method.POST);
+        } else {
+            volleyRequester.setString(url, null, Request.Method.DELETE);
         }
     }
 
@@ -214,6 +216,14 @@ public class PostPresenter implements VolleyListener {
                 break;
             }
         }
+
+        try {
+            if (liked) {
+                ((Button) view.findViewById(R.id.post_like)).setText("Unlike (" + likes + ")");
+            } else {
+                ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes + ")");
+            }
+        } catch (NullPointerException ignored) {}
     }
 
     /**
@@ -266,12 +276,6 @@ public class PostPresenter implements VolleyListener {
 
         loadLikeData(postData);
 
-        if(liked) {
-            ((Button) view.findViewById(R.id.post_like)).setText("Unlike (" + likes + ")");
-        } else {
-            ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes + ")");
-        }
-
         int comments = postData.getJSONArray("comments").length();
         ((Button) view.findViewById(R.id.post_comment)).setText("Comment (" + comments + ")");
 
@@ -300,5 +304,14 @@ public class PostPresenter implements VolleyListener {
         ((TextView) view.findViewById(R.id.post_username)).setText(userData.getString("username"));
         ((TextView) view.findViewById(R.id.post_name)).setText(userData.getString("firstname")
                 + " " + userData.getString("lastname"));
+    }
+
+    /**
+     * set the view for the presenter
+     *
+     * @param view view for presenter
+     */
+    public void setView(View view) {
+        this.view = view;
     }
 }
