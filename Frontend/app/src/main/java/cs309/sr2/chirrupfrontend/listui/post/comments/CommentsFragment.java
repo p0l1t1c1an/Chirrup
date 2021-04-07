@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.newpost.NewPostFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -54,7 +55,11 @@ public class CommentsFragment extends Fragment {
         Button reply = root.findViewById(R.id.comments_reply);
 
         reply.setOnClickListener(v -> {
-            //show compose UI to add reply keeping the parent data with it
+
+            NewPostFragment newPostFragment = new NewPostFragment(postID);
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, newPostFragment)
+                    .addToBackStack(null).commit();
+
         });
 
         return root;
