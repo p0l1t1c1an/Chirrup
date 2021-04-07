@@ -5,6 +5,9 @@ import android.widget.EditText;
 
 import com.android.volley.Request;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
@@ -34,9 +37,15 @@ public class NewPostPresenter implements VolleyListener {
         VolleyRequester volleyRequester = new VolleyRequester(this);
         String postBody = ((EditText) view.findViewById(R.id.newpost_textbox)).getText().toString();
         if(!postBody.isEmpty()) {
-            volleyRequester.setString(url, postBody, Request.Method.POST);
-            ((EditText) view.findViewById(R.id.newpost_textbox)).setText("");
-            ((EditText) view.findViewById(R.id.newpost_textbox)).setHint("Post created!");
+            try {
+                JSONObject post = new JSONObject();
+                post.put("content", postBody);
+                volleyRequester.setObject(url, post, Request.Method.POST);
+                ((EditText) view.findViewById(R.id.newpost_textbox)).setText("");
+                ((EditText) view.findViewById(R.id.newpost_textbox)).setHint("Post created!");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
