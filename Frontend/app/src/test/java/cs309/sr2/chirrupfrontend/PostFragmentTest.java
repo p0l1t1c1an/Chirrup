@@ -10,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-
 import cs309.sr2.chirrupfrontend.listui.post.PostFragment;
 import cs309.sr2.chirrupfrontend.listui.post.PostPresenter;
 
@@ -44,9 +42,9 @@ public class PostFragmentTest {
         likes.put(7);
         postData.put("likes", likes);
 
-        doCallRealMethod().when(postPresenter).loadLikeData(postData);
-        doNothing().when(postPresenter).likePostRemote(anyString());
-        doCallRealMethod().when(postPresenter).likePost(anyString());
+//        doCallRealMethod().when(postPresenter).loadLikeData(postData);
+//        doNothing().when(postPresenter).likePostRemote(anyString());
+//        doCallRealMethod().when(postPresenter).likePost(anyString());
         doCallRealMethod().when(postPresenter).getLikes();
         doCallRealMethod().when(postPresenter).isLiked();
 
