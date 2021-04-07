@@ -17,9 +17,9 @@ public class SingleThread extends MessageThread {
     private String[] messages;
 
     public SingleThread(int toID, String[] messages) {
-        this.fromID = CurrentUserData.currUser.getID();
         this.toID = toID;
         this.messages = messages;
+        this.fromID = CurrentUserData.currUser.getID();
     }
 
     @Override
@@ -27,9 +27,17 @@ public class SingleThread extends MessageThread {
         return this.messages;
     }
 
+    public void setMessages(String[] messages) {
+        this.messages = messages;
+    }
+
     @Override
     public int getUserID() {
         return this.fromID;
+    }
+
+    public void setUserID(int toSet) {
+        fromID = toSet;
     }
 
     @Override

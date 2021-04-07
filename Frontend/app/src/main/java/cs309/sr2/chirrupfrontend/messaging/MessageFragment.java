@@ -116,16 +116,15 @@ public class MessageFragment extends Fragment implements VolleyListener {
             //create a json from our response
             JSONObject userMessage = new JSONObject(response);
             //get the messages
-            String[] messages = (String[]) userMessage.get("messagesID");
             //create message thread based on received information
-            userConversation = new SingleThread(Integer.parseInt(searchText.getText().toString()), messages);
+            userConversation = new SingleThread(Integer.parseInt(searchText.getText().toString()), (String[]) userMessage.get("messagesId"));
             String toDisplay = "";
             //put messages into a string to display
+            String[] messages = userConversation.getMessages();
             for (int i = 0; i < messages.length; ++i) {
                 toDisplay += messages[i];
                 toDisplay += "\n";
             }
-            userConversation = new SingleThread(Integer.parseInt(searchText.getText().toString()), messages);
             messageView.setText(toDisplay);
         } catch (Exception e) {}
 

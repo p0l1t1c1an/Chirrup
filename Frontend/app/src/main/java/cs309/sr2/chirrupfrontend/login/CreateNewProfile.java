@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.settings.CurrentUserData;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
@@ -45,6 +47,8 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
     private EditText bio;
     //birthday text
     private EditText birthday;
+    //message field
+    private TextView showResult;
 
 
     /**
@@ -78,12 +82,12 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
                 toSend.put("password", password.getText().toString());
                 toSend.put("username", username.getText().toString());
                 toSend.put("firstname", firstname.getText().toString());
-                toSend.put("lastname", firstname.getText().toString());
+                toSend.put("lastname", lastname.getText().toString());
                 toSend.put("telephone", phoneNumber.getText().toString());
                 toSend.put("biography", bio.getText().toString());
                 toSend.put("birthday", birthday.getText().toString());
 
-                VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + 123, toSend, Request.Method.POST);
+                VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/", toSend, Request.Method.POST);
             } catch (Exception e) {}
         });
 
@@ -105,7 +109,10 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
      * @param response response from request
      */
     public void onObjectResponse(JSONObject response) {
-
+        try {
+            CurrentUserData.currUser.setID(response.getInt("userID"));
+            showResult.setText(CurrentUserData.currUser.getID());
+        } catch (Exception e) {}
     }
 
     /**

@@ -59,6 +59,8 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     private int textSize;
     //Current updateTime.
     private int updateTime;
+    //response string volley gives
+    private String response;
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
@@ -74,9 +76,46 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         Switch themeSwitch = (Switch) root.findViewById(R.id.themeSwitch);
         Switch textSwitch = (Switch) root.findViewById(R.id.textSizeSwitch);
         Switch updateSwitch = (Switch) root.findViewById(R.id.updateSwitch);
+        username = (TextView) root.findViewById(R.id.usernameField);
+        firstname = (TextView) root.findViewById(R.id.firstNameField);
+        lastname = (TextView) root.findViewById(R.id.lastNameField);
+        bio = (TextView) root.findViewById(R.id.bioField);
+        testView = (TextView) root.findViewById(R.id.testView);
+        VolleyRequester = new VolleyRequester(this);
 
         //set text fields to current user data
-        getUser(CurrentUserData.currUser.getID());
+        VolleyRequester.getString(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID());
+
+        //get settings
+        VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
+                CurrentUserData.currUser.getID());
+        //create a JSON object to parse settings from
+        try {
+            JSONObject toParse = new JSONObject(response);
+            darktheme = toParse.getBoolean("darkMode");
+            textSize = toParse.getInt("textSize");
+            updateTime = toParse.getInt("updateTime");
+
+            //set Fields
+            if (darktheme == true) {
+                themeSwitch.setText("Dark Mode");
+            }
+            else {
+                themeSwitch.setText("Light Mode");
+            }
+            if (textSize == 12) {
+                textSwitch.setText("Small Text");
+            }
+            else {
+                textSwitch.setText("Big Text");
+            }
+            if (updateTime == 5) {
+                updateSwitch.setText("Short Wait");
+            }
+            else {
+                updateSwitch.setText("Long Wait");
+            }
+        } catch(Exception e) {}
 
         root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
             try {
@@ -91,68 +130,103 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         });
 
         themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //get settings
+            VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
+                    CurrentUserData.currUser.getID());
+            //create a JSON object to parse settings from
+            try {
+                JSONObject toParse = new JSONObject(response);
+                darktheme = toParse.getBoolean("darkMode");
+            } catch(Exception e) {}
+
             if (buttonView.isChecked()) {
                 if (darktheme == true) {
                     //dark theme is already enabled and needs to be disabled
+                    darktheme = false;
+                    themeSwitch.setText("Light Mode");
                 }
                 else {
                     //dark theme needs to be enabled
+                    darktheme = true;
+                    themeSwitch.setText("Dark Mode");
                 }
             }
             else {
                 if (darktheme == true) {
                     //dark theme is already enabled and needs to be disabled
-
+                    darktheme = false;
+                    themeSwitch.setText("Light Mode");
                 }
                 else {
                     //dark theme needs to be enabled
-
+                    darktheme = true;
+                    themeSwitch.setText("Dark Mode");
                 }
             }
         });
 
         textSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //get settings
+            VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
+                    CurrentUserData.currUser.getID());
+            //create a JSON object to parse settings from
+            try {
+                JSONObject toParse = new JSONObject(response);
+                textSize = toParse.getInt("textSize");
+            } catch(Exception e) {}
             if (buttonView.isChecked()) {
                 if (textSize == 12) {
                     //text size is 12 right now and needs to be increased to 15
-
+                    textSize = 15;
+                    textSwitch.setText("Big Text");
                 }
                 else {
                     //text size is not 12 and needs to become 12
-
+                    textSize = 12;
+                    textSwitch.setText("Small Text");
                 }
             }
             else {
                 if (textSize == 12) {
                     //text size is 12 right now and needs to be increased to 15
-
+                    textSize = 15;
+                    textSwitch.setText("Big Text");
                 }
                 else {
                     //text size is not 12 and needs to become 12
-
+                    textSize = 12;
+                    textSwitch.setText("Small Text");
                 }
             }
         });
 
         updateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            try {
+                JSONObject toParse = new JSONObject(response);
+                updateTime = toParse.getInt("updateTime");
+            } catch(Exception e) {}
             if (buttonView.isChecked()) {
                 if (updateTime == 5) {
                     //update time is 5 right now and should be increased to 8?
-
+                    updateTime = 8;
+                    updateSwitch.setText("Long Wait");
                 }
                 else {
                     //update time is not 5 and should become 5
-
+                    updateTime = 5;
+                    updateSwitch.setText("Short Wait");
                 }
             }
             else {
                 if (updateTime == 5) {
                     //update time is 5 right now and should be increased to 8?
-
+                    updateTime = 8;
+                    updateSwitch.setText("Long Wait");
                 }
                 else {
                     //update time is not 5 and should become 5
-                    
+                    updateTime = 5;
+                    updateSwitch.setText("Short Wait");
                 }
             }
         });
@@ -213,7 +287,6 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         toSend.put("birthday", CurrentUserData.currUser.getBirthday());
         toSend.put("biography", bio.getText().toString());
         String jsonString = toSend.toString();
-        VolleyRequester = new VolleyRequester(this);
         VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID(), toSend, Request.Method.PUT);
 
         //update current user screen
@@ -366,27 +439,16 @@ public class SettingsFragment extends Fragment implements VolleyListener {
      */
     @Override
     public void onStringResponse(String response) {
-        //set fields
-        username = (TextView) getView().findViewById(R.id.usernameField);
-        firstname = (TextView) getView().findViewById(R.id.firstNameField);
-        lastname = (TextView) getView().findViewById(R.id.lastNameField);
-        bio = (TextView) getView().findViewById(R.id.bioField);
-        testView = (TextView) getView().findViewById(R.id.testView);
-
-        //parse JSON
+        this.response = response;
         try {
-            if (response != null) {
-                testView.setText("Upload Successful");
-            }
-            else {
-                testView.setText("Upload Failed");
-            }
             JSONObject res = new JSONObject(response);
-            String newUserName = res.getString("username");
-            String newFirstName = res.getString("firstname");
 
-            username.setHint(newUserName);
-            firstname.setHint(newFirstName);
+            //delay for screen
+            long currTime = System.currentTimeMillis();
+            while (currTime + 50 > System.currentTimeMillis()) {}
+
+            username.setHint(res.getString("username"));
+            firstname.setHint(res.getString("firstname"));
             lastname.setHint(res.getString("lastname"));
             bio.setHint(res.getString("biography"));
 
