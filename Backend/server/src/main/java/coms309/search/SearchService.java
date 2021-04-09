@@ -7,6 +7,7 @@ import coms309.settings.SettingsService;
 import java.util.ArrayList;  
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 
 import org.hibernate.query.criteria.internal.path.SetAttributeJoin;
 import org.springframework.beans.factory.annotation.Autowired;  
@@ -37,21 +38,19 @@ public class SearchService {
         // Does data user's string start with the searched strings
         // and are only 5 letters different
         return stored.startsWith(searched.substring(0, 1)) && 
-               dist.apply(stored, searched) <= 5;
+               dist.apply(stored, searched) <= 3;
     }
 
-    public List<User> searchUser(String username, String firstname, String lastname) {
-        List<User> matching = new ArrayList<User>(); 
-        
-        for(User u : userService.getAllUser()) {
-            if(compareSearch(u.getUsername(), username) &&
-               compareSearch(u.getFirstname(), firstname) &&
-               compareSearch(u.getLastname(), lastname))
-            {
-                matching.add(u);
-            }
-        }
-        return matching;
+    public List<User> searchUser(Map<String, String> params, boolean isExact) {
+        // TODO: Check if map is not null and then if isExact is true
+        //      Then, we run with either .equals or my compareSearch
+        return null; // so it will compile
     }
     
+    public List<User> searchUserOr(Map<String, List<String>> params, boolean isExact) {
+      // TODO: Do the same thing as searchUser but muliple values can be sent for the
+      //        same tag. Add all matching users into list.
+        return null;
+    }
+
 }

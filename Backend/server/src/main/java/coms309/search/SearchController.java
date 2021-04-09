@@ -2,6 +2,7 @@ package coms309.search;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +28,27 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    @ApiOperation(value = "Search for users by user, first, and last names", response = List.class, tags = "searchUserFirstLast")
-    @GetMapping("/user/")
-    private List<User> searchUserFirstLast(@RequestParam(required = false) String user, @RequestParam(required = false) String first, @RequestParam(required = false) String last) {
-        return searchService.searchUser(user, first, last);
+    @ApiOperation(value = "Search for users by similar values", response = List.class, tags = "searchUserFirstLast")
+    @GetMapping("/user/fuzzy")
+    private List<User> searchFuzzy(@RequestParam(required = false) Map<String, String> params) {
+        return searchService.searchUser(params, false);
+    }
+
+    @ApiOperation(value = "Search for users by their exact values", response = List.class, tags = "searchUserFirstLast")
+    @GetMapping("/user/exact")
+    private List<User> searchExact(@RequestParam(required = false) Map<String, String> params) {
+        return searchService.searchUser(params, true);
+    }
+
+    @ApiOperation(value = "Search for users that share one or more similar values", response = List.class, tags = "searchUserFirstLast")
+    @GetMapping("/user/exactOr")
+    private List<User> searchFuzzyOr(@RequestParam(required = false) Map<String, List<String>> params) {
+        return searchService.searchUserOr(params, false);
+    }
+
+    @ApiOperation(value = "Search for users that share one or more exact values", response = List.class, tags = "searchUserFirstLast")
+    @GetMapping("/user/exactOr")
+    private List<User> searchExactOr(@RequestParam(required = false) Map<String, List<String>> params) {
+        return searchService.searchUserOr(params, true);
     }
 }
