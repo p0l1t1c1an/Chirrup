@@ -69,11 +69,14 @@ public class SettingsService {
             Optional<Integer> textSize, Optional<Boolean> locked, Optional<Integer> timeLimit) 
     {
         UserSettings s = userSettingsRepository.findById(id).get();
-        darkMode.ifPresent( d -> s.setDarkMode(d));
-        updateTime.ifPresent( u -> s.setUpdateTime(u));
+        
+        darkMode.ifPresent(d -> s.setDarkMode(d));
+        updateTime.ifPresent(u -> s.setUpdateTime(u));
         textSize.ifPresent(t -> s.setTextSize(t));
         locked.ifPresent(l -> s.setLocked(l));
         timeLimit.ifPresent(t -> s.setTimeLimit(t));
+        
+        userSettingsRepository.save(s);
     }
 
     public void addChildToParent(int id, int child) {
