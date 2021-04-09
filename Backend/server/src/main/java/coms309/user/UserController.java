@@ -181,11 +181,14 @@ public class UserController {
     private String followUser(@PathVariable("id") int id, @PathVariable("following") int follow) {
         if(id != follow) {
             User follower = userService.getUserById(id);
-            User following = userService.getUserById(follow);
-            follower.addFollowing(following);
-            userService.saveOrUpdate(follower);
-            logger.info("followed a user");
-            return "User is now following: " + following.getUsername();
+            User following = userService.getUserById(follow); 
+            if(!follower.getBlocking().contains(following)) {
+                follower.addFollowing(following);
+                userService.saveOrUpdate(follower);
+                logger.info("followed a user");
+                return "User is now following: " + following.getUsername();
+            }
+            return "User can't follow someone they're blocking";
         }
         return "users cant follow themselves";
     }
