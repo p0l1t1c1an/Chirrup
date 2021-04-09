@@ -81,6 +81,13 @@ public class User {
     @PrimaryKeyJoinColumn
     private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> blocking = new HashSet<User>();
+
+    @ManyToMany(mappedBy = "blocking", fetch = FetchType.EAGER)
+    private Set<User> blockers = new HashSet<User>();
+
+
     public User(){
         
     }
@@ -257,6 +264,51 @@ public class User {
             fs.add(f.getId());
         }
         return fs;
+    }
+
+	public void addBlocking(User block) {
+        this.blocking.add(block);
+	}
+
+    public void removeBlocking(User unblock) {
+        this.blocking.remove(unblock);
+    }
+
+    //get blocking
+    @JsonIgnore
+    public Set<User> getBlocking() {
+        return this.blocking;
+    }
+
+    //get blocking ids
+    @JsonGetter("blocking")
+    public List<Integer> getBlockingId() {
+        List<Integer> blocked = new ArrayList<Integer>();
+        for (User b : this.blocking) {
+            blocked.add(b.getId());
+        }
+        return blocked;
+    }
+
+    public void removeBlocker(User unblock) {
+        this.blockers.remove(unblock);
+    }
+
+
+    //get blockers
+    @JsonIgnore
+    public Set<User> getBlockers() {
+        return this.blockers;
+    }
+
+    //get blockers ids
+    @JsonGetter("blockers")
+    public List<Integer> getBlockersId() {
+        List<Integer> blocks = new ArrayList<Integer>();
+        for (User b : this.blockers) {
+            blocks.add(b.getId());
+        }
+        return blocks;
     }
 
     @JsonIgnore

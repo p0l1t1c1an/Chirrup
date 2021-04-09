@@ -41,4 +41,14 @@ UserRepository userRepository;
         User current = this.getUserById(id);
         return current.getFollowersId();
     }
+
+    public List<Integer> getBlockingById(int id) {
+        User current = this.getUserById(id);
+        return current.getBlockingId();
+    }
+
+    public List<Integer> getBlockersById(int id) {
+        User current = this.getUserById(id);
+        return current.getBlockersId();
+    }
 }
