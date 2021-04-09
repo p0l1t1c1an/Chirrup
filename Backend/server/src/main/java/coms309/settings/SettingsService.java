@@ -1,7 +1,8 @@
 package coms309.settings;  
 
 import java.util.ArrayList;  
-import java.util.List;  
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class SettingsService {
         userSettingsRepository.deleteById(id);  
     }
  
-     public List<Integer> getBlockedIds(int id){
+    public List<Integer> getBlockedIds(int id){
         List<Integer> blocked = new ArrayList<Integer>();
         for(User b : userSettingsRepository.findById(id).get().getBlocked()) {
             blocked.add(b.getId()); 
@@ -62,6 +63,17 @@ public class SettingsService {
         }
 
         return children;
+    }
+
+    public void modifySettings(int id, Optional<Boolean> darkMode, Optional<Integer> updateTime, 
+            Optional<Integer> textSize, Optional<Boolean> locked, Optional<Integer> timeLimit) 
+    {
+        UserSettings s = userSettingsRepository.findById(id).get();
+        darkMode.ifPresent( d -> s.setDarkMode(d));
+        updateTime.ifPresent( u -> s.setUpdateTime(u));
+        textSize.ifPresent(t -> s.setTextSize(t));
+        locked.ifPresent(l -> s.setLocked(l));
+        timeLimit.ifPresent(t -> s.setTimeLimit(t));
     }
 
     public void addChildToParent(int id, int child) {
