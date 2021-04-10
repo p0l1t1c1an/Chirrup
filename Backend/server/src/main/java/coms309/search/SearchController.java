@@ -41,7 +41,7 @@ public class SearchController {
     }
 
     @ApiOperation(value = "Search for users that share one or more similar values", response = List.class, tags = "searchUserFirstLast")
-    @GetMapping("/user/exactOr")
+    @GetMapping("/user/fuzzyOr")
     private List<User> searchFuzzyOr(@RequestParam(required = false) Map<String, List<String>> params) {
         return searchService.searchUserOr(params, false);
     }
