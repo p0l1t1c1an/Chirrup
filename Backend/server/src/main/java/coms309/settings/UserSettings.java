@@ -38,11 +38,6 @@ public class UserSettings extends Settings {
     @ApiModelProperty(notes = "Size of the user's text in px", name="textSize", required=true)
     private int textSize;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<User> blockedUsers = new HashSet<User>();
-
-
     // Child Settings
     @ApiModelProperty(notes = "Is the child locked out?", name="locked", required=true)
     private boolean locked;
@@ -122,20 +117,6 @@ public class UserSettings extends Settings {
 
     public void setTextSize(Integer t) {
         textSize = t;
-    }
-
-    // Child Controls
-    @JsonIgnore
-    public Set<User> getBlocked() {
-        return blockedUsers;
-    }
-
-    public void addBlocked(User u) {
-        blockedUsers.add(u);
-    }
-
-    public void removeBlocked(User u) {
-        blockedUsers.remove(u);
     }
 
     //Locked

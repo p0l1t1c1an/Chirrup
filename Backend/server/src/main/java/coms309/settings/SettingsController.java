@@ -68,45 +68,13 @@ public class SettingsController {
         settingsService.saveSettings(s);
         return s.getId();
     }
- 
-    @ApiOperation(value = "Get a list of Users' Ids that are blocked", response = List.class, tags = "getBlockedUserIds")
-    @GetMapping("/settings/{id}/blocked/ids")
-    private List<Integer> getBlockedUserIds(@PathVariable("id") int id) {
-        return settingsService.getBlockedIds(id);
-    }
-
-    @ApiOperation(value = "Get a list of Users that are blocked", response = Set.class, tags = "getBlockedUsers")
-    @GetMapping("/settings/{id}/blocked")
-    private Set<User> getBlockedUsers(@PathVariable("id") int id) {
-        return settingsService.getSettingsById(id).getBlocked();
-    }
-
-    
-    @ApiOperation(value = "Block a user from your feed & search", response = void.class, tags = "blockUser")
-    @PutMapping("/settings/{id}/block/{blocked}")
-    private void blockUser(@PathVariable("id") int id, @PathVariable("blocked") int blocked) {
-        UserSettings s =  settingsService.getSettingsById(id);
-        s.addBlocked(userService.getUserById(blocked));
-        settingsService.saveSettings(s);
-    }
-
-
-    @ApiOperation(value = "Unblock a user from your feed & search", response = void.class, tags = "unblockUser")
-    @DeleteMapping("/settings/{id}/unblock/{unblocked}")
-    private void unblockUser(@PathVariable("id") int id, @PathVariable("unblocked") int unblocked) {
-        UserSettings s = settingsService.getSettingsById(id);
-        s.removeBlocked(userService.getUserById(unblocked));
-        settingsService.saveSettings(s);
-    }
-
- 
+   
     @ApiOperation(value = "Get a list of the roles in whitelist", response = List.class, tags = "getRoleWhitelist")
     @GetMapping("/settings/child/{id}/whitelist")
     private List<Integer> getRoleWhitelist(@PathVariable("id") int id) {
         return settingsService.getSettingsById(id).getWhitelist();
     }
-
-    
+   
     @ApiOperation(value = "Add a role to the role Whitelist", response = void.class, tags = "addRole")
     @PutMapping("/settings/child/{id}/whitelist/{role}")
     private void addRole(@PathVariable("id") int id, @PathVariable("role") int role) {
@@ -114,7 +82,6 @@ public class SettingsController {
         c.addToWhitelist(role);
         settingsService.saveSettings(c);
     }
-
 
     @ApiOperation(value = "Remove a role from the Role Whitelist", response = void.class, tags = "removeRole")
     @DeleteMapping("/settings/child/{id}/whitelist/{role}")

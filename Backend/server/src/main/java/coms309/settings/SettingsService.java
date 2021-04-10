@@ -37,15 +37,6 @@ public class SettingsService {
         userSettingsRepository.deleteById(id);  
     }
  
-     public List<Integer> getBlockedIds(int id){
-        List<Integer> blocked = new ArrayList<Integer>();
-        for(User b : userSettingsRepository.findById(id).get().getBlocked()) {
-            blocked.add(b.getId()); 
-        }
-
-        return blocked;
-    }
-
     public List<Integer> getParentIds(int id){
         List<Integer> parents = new ArrayList<Integer>();
         for(UserSettings p : userSettingsRepository.findById(id).get().getParents()) {
