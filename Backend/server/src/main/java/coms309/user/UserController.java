@@ -150,17 +150,6 @@ public class UserController {
         @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/user")
     private User saveUser(@RequestBody User user) {
-        // switch (user.getRole()) {
-        //     case 2: 
-        //         user.setSettings(new ChildSettings(user));
-        //         break;
-        //     case 3:
-        //         user.setSettings(new ParentSettings(user));
-        //         break; 
-        //     default:
-        //         user.setSettings(new StandardSettings(user));
-        //         break;
-        // }
         logger.info("created new user");
         user.setSettings(new UserSettings(user));
         userService.saveOrUpdate(user);
@@ -192,11 +181,14 @@ public class UserController {
     private String followUser(@PathVariable("id") int id, @PathVariable("following") int follow) {
         if(id != follow) {
             User follower = userService.getUserById(id);
-            User following = userService.getUserById(follow);
-            follower.addFollowing(following);
-            userService.saveOrUpdate(follower);
-            logger.info("followed a user");
-            return "User is now following: " + following.getUsername();
+            User following = userService.getUserById(follow); 
+            if(!follower.getBlocking().contains(following)) {
+                follower.addFollowing(following);
+                userService.saveOrUpdate(follower);
+                logger.info("followed a user");
+                return "User is now following: " + following.getUsername();
+            }
+            return "User can't follow someone they're blocking";
         }
         return "users cant follow themselves";
     }
@@ -232,5 +224,74 @@ public class UserController {
         User user = userService.getUserById(userId);
         logger.info("got all messages from user");
         return user.getMessagesId();
+    }
+
+    // creating get mapping that returns who a user is blocking
+    @ApiOperation(value = "get users blocking user by id", response = Iterable.class, tags = "getBlocking")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @GetMapping("/user/{id}/blocking")
+    private List<Integer> getBlocking(@PathVariable("id") int id) {
+        logger.info("returned blocked users");
+        return userService.getBlockingById(id);
+    }
+
+    // creating get mapping that returns who a user is being blocked by
+    @ApiOperation(value = "get users blockers by id", response = Iterable.class, tags = "getBlockers")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @GetMapping("/user/{id}/blockers")
+    private List<Integer> getBlockers(@PathVariable("id") int id) {
+        logger.info("returned blockers");
+        return userService.getBlockersById(id);
+    }
+ 
+    // creating post mapping that blocks a user
+    @ApiOperation(value = "block a user", response = String.class, tags = "blockUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @PostMapping("/user/{id}/blocking/{blocking}")
+    private String blockUser(@PathVariable("id") int id, @PathVariable("blocking") int block) {
+        if(id != block) {
+            User blocker = userService.getUserById(id);
+            User blocking = userService.getUserById(block);
+            blocker.addBlocking(blocking);
+            blocker.removeFollowing(blocking);
+            blocking.removeFollower(blocker);
+            userService.saveOrUpdate(blocker);
+            userService.saveOrUpdate(blocking);
+            logger.info("blocked a user");
+            return "User is now blocking: " + blocking.getUsername();
+        }
+        return "users cant block themselves";
+    }
+
+    // creating delete mapping that unblocks a user
+    @ApiOperation(value = "unblock a user", response = String.class, tags = "unblockUser")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @DeleteMapping("/user/{id}/blocking/{unblocking}")
+    private String unblockUser(@PathVariable("id") int id, @PathVariable("unblocking") int unblock) {
+        User blocker = userService.getUserById(id);
+        User blocking = userService.getUserById(unblock);
+        blocker.removeBlocking(blocking);
+        blocking.removeBlocker(blocker);
+        userService.saveOrUpdate(blocker);
+        userService.saveOrUpdate(blocking);
+        logger.info("unblocked a user");
+
+        return "User is now unblocking: " + blocking.getUsername();
     }
 }
