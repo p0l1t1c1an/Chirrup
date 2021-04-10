@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.util.MultiValueMap;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -42,13 +44,13 @@ public class SearchController {
 
     @ApiOperation(value = "Search for users that share one or more similar values", response = List.class, tags = "searchUserFirstLast")
     @GetMapping("/user/fuzzyOr")
-    private List<User> searchFuzzyOr(@RequestParam(required = false) Map<String, List<String>> params) {
+    private List<User> searchFuzzyOr(@RequestParam(required = false) MultiValueMap<String, String> params) {
         return searchService.searchUserOr(params, false);
     }
 
     @ApiOperation(value = "Search for users that share one or more exact values", response = List.class, tags = "searchUserFirstLast")
     @GetMapping("/user/exactOr")
-    private List<User> searchExactOr(@RequestParam(required = false) Map<String, List<String>> params) {
+    private List<User> searchExactOr(@RequestParam(required = false) MultiValueMap<String, String> params) {
         return searchService.searchUserOr(params, true);
     }
 }

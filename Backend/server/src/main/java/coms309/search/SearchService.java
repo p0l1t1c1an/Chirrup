@@ -5,6 +5,7 @@ import coms309.user.UserService;
 
 import java.util.ArrayList;  
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Objects;
@@ -12,6 +13,8 @@ import java.util.Objects;
 import org.hibernate.query.criteria.internal.path.SetAttributeJoin;
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;  
+
+import org.springframework.util.MultiValueMap;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
@@ -112,18 +115,21 @@ public class SearchService {
         return new ArrayList<User>();
     }
     
-    public List<User> searchUserOr(Map<String, List<String>> params, boolean isExact) {
+    public List<User> searchUserOr(MultiValueMap<String, String> params, boolean isExact) {
          if(params != null && !params.isEmpty()) {
-            List<User> users = userService.getAllUser();   
+            List<User> users = userService.getAllUser();
             for(int i = 0; i < USER_TAGS.length; ++i) {
                 final int iFinal = i;
                 users = users.stream()
                         .filter(x -> {
                             boolean save = false;
-                            for(String param : params.get(USER_TAGS[iFinal])) {
-                                save = save || compareUser(x, iFinal, param, isExact); 
+                            if(params.get(USER_TAGS[iFinal]) != null) {
+                                for(String param : params.get(USER_TAGS[iFinal])) {
+                                    save = save || compareUser(x, iFinal, param, isExact); 
+                                }
+                                return save;
                             }
-                            return save;
+                            return true;
                         })
                         .collect(Collectors.toList());
             }
