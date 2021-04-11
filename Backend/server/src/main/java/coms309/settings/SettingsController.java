@@ -6,6 +6,7 @@ import coms309.user.UserService;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -61,7 +63,15 @@ public class SettingsController {
         settingsService.saveSettings(update);
         return update.getId();
     }
- 
+
+    @ApiOperation(value = "Modify any amount of values of a specific Settings", response = void.class, tags = "settingsToggle")
+    @PutMapping("/settings/{id}/toggle")
+    private void settingsToggle(@PathVariable("id") int id, @RequestParam Optional<Boolean> darkMode, @RequestParam Optional<Integer> updateTime,
+            @RequestParam Optional<Integer> textSize, @RequestParam Optional<Boolean> locked, @RequestParam Optional<Integer> timeLimit)
+    {
+        settingsService.modifySettings(id, darkMode, updateTime, textSize, locked, timeLimit);    
+    }
+
     @ApiOperation(value = "Create a Settings", response = int.class, tags = "saveSettings")
     @PostMapping("/settings")
     private int saveSettings(@RequestBody UserSettings s) {

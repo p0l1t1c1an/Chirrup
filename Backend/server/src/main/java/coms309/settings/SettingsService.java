@@ -1,7 +1,8 @@
 package coms309.settings;  
 
 import java.util.ArrayList;  
-import java.util.List;  
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class SettingsService {
     public void deleteSettingsById(int id){  
         userSettingsRepository.deleteById(id);  
     }
- 
+
     public List<Integer> getParentIds(int id){
         List<Integer> parents = new ArrayList<Integer>();
         for(UserSettings p : userSettingsRepository.findById(id).get().getParents()) {
@@ -53,6 +54,20 @@ public class SettingsService {
         }
 
         return children;
+    }
+
+    public void modifySettings(int id, Optional<Boolean> darkMode, Optional<Integer> updateTime, 
+            Optional<Integer> textSize, Optional<Boolean> locked, Optional<Integer> timeLimit) 
+    {
+        UserSettings s = userSettingsRepository.findById(id).get();
+        
+        darkMode.ifPresent(d -> s.setDarkMode(d));
+        updateTime.ifPresent(u -> s.setUpdateTime(u));
+        textSize.ifPresent(t -> s.setTextSize(t));
+        locked.ifPresent(l -> s.setLocked(l));
+        timeLimit.ifPresent(t -> s.setTimeLimit(t));
+        
+        userSettingsRepository.save(s);
     }
 
     public void addChildToParent(int id, int child) {
