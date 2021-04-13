@@ -2,6 +2,7 @@ package coms309.directmessage;
 
 import org.springframework.core.style.ToStringCreator;
 
+import coms309.group.Group;
 import coms309.user.User;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -21,7 +22,7 @@ public class DirectMessage {
     @ApiModelProperty(notes = "Id of the message",name="id",required=true)
     @Id
     @GeneratedValue
-    private int id;
+    private int message_id;
 
     @ApiModelProperty(notes = "User who sent the dm",name="from",required=true)
     @ManyToOne
@@ -31,7 +32,7 @@ public class DirectMessage {
     @ApiModelProperty(notes = "User who recieved the dm",name="to",required=true)
     @ManyToOne
     @JoinColumn(name = "to_id")
-    private User to;
+    private Group to;
 
     @ApiModelProperty(notes = "Content of the message",name="message",required=true)
     private String message;
@@ -44,15 +45,15 @@ public class DirectMessage {
     }
 
     public DirectMessage(DirectMessage dm) {
-        this.id = dm.id;
+        this.message_id = dm.message_id;
         this.from = dm.from;
         this.to = dm.to;
         this.message = dm.message;
         this.dateSent = dm.dateSent;
     }
 
-    public DirectMessage(int id, User from, User to, LocalDateTime dateSent, String message) {
-        this.id = id;
+    public DirectMessage(int id, User from, Group to, LocalDateTime dateSent, String message) {
+        this.message_id = id;
         this.from = from;
         this.to = to;
         this.message = message;
@@ -61,11 +62,11 @@ public class DirectMessage {
 
     //id
     public int getId() {
-        return id;
+        return message_id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.message_id = id;
     }
 
     //from
@@ -84,17 +85,17 @@ public class DirectMessage {
     }
 
     //to
-    public User getTo() {
+    public Group getTo() {
         return this.to;
     }
 
-    public void setTo(User to) {
+    public void setTo(Group to) {
         this.to = to;
     }
 
     @JsonGetter("to")
     public int getToId() {
-        return this.to.getId();
+        return this.to.getGroup_id();
     }
 
     //message
@@ -127,7 +128,7 @@ public class DirectMessage {
     @Override
     public String toString() {
         return new ToStringCreator(this)
-                .append("id", this.getId())
+                .append("message_id", this.getId())
                 .append("from", this.getFrom())
                 .append("to", this.getTo())
                 .append("message", this.getMessage())
