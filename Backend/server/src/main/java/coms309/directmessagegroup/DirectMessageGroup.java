@@ -41,6 +41,10 @@ public class DirectMessageGroup {
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
+    public DirectMessageGroup() {
+        
+    }
+
     public DirectMessageGroup(String name) {
         this.name = name;
     }
@@ -106,5 +110,15 @@ public class DirectMessageGroup {
 
     public void dismissMembers() {
         this.members.clear();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getId() == ((DirectMessageGroup) obj).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.group_id;
     }
 }

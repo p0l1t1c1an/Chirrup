@@ -18,7 +18,7 @@ public class DirectMessageGroupService {
     }
 
     public DirectMessageGroup getGroupById(int id) {
-        return groupRepository.findById(id).get();
+        return groupRepository.findById(id).isPresent() ? groupRepository.findById(id).get() : null;
     }
 
     public void saveOrUpdate(DirectMessageGroup group) {

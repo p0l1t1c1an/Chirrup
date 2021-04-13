@@ -97,6 +97,10 @@ public class DirectMessageGroupController {
             return "User not found";
         }
 
+        if(group.getMembers().contains(user)) {
+            return "User is already in this group";
+        }
+
         group.addMemberToGroup(user);
         user.addGroup(group);
         groupService.saveOrUpdate(group);
@@ -118,6 +122,8 @@ public class DirectMessageGroupController {
         }
 
         group.removeMemberFromGroup(user);
+        user.removeFromGroup(group);
+        userService.saveOrUpdate(user);
         groupService.saveOrUpdate(group);
         return "User " + user.getId() + " removed from group " + group.getName();
     }
