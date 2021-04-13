@@ -1,4 +1,4 @@
-package coms309.group;
+package coms309.directmessagegroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,21 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GroupService {
+public class DirectMessageGroupService {
     @Autowired
-    GroupRepository groupRepository;
+    DirectMessageGroupRepository groupRepository;
 
-    public List<Group> getAllGroups() {
-        List<Group> groups = new ArrayList<Group>();
+    public List<DirectMessageGroup> getAllGroups() {
+        List<DirectMessageGroup> groups = new ArrayList<DirectMessageGroup>();
         groupRepository.findAll().forEach(group -> groups.add(group));
         return groups;
     }
 
-    public Group getGroupById(int id) {
+    public DirectMessageGroup getGroupById(int id) {
         return groupRepository.findById(id).get();
     }
 
-    public void saveOrUpdate(Group group) {
+    public void saveOrUpdate(DirectMessageGroup group) {
         groupRepository.save(group);
     }
 

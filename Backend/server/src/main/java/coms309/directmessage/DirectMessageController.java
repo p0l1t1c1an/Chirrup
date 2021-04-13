@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import coms309.group.Group;
-import coms309.group.GroupService;
+import coms309.directmessagegroup.DirectMessageGroup;
+import coms309.directmessagegroup.DirectMessageGroupService;
 import coms309.user.User;
 import coms309.user.UserService;
 
@@ -36,7 +36,7 @@ public class DirectMessageController {
     UserService userService;
 
     @Autowired
-    GroupService groupService;
+    DirectMessageGroupService groupService;
 
     Logger logger = LoggerFactory.getLogger(DirectMessageController.class);
 
@@ -71,7 +71,7 @@ public class DirectMessageController {
     @PostMapping("/{fromId}/{toId}")
     private String saveDirectMessage(@RequestBody DirectMessage dm, @PathVariable(value = "fromId") int fromId, @PathVariable(value = "toId") int toId) {
         User from = userService.getUserById(fromId);
-        Group to = groupService.getGroupById(toId);
+        DirectMessageGroup to = groupService.getGroupById(toId);
         LocalDateTime now = LocalDateTime.now();
         
         dm.setDateSent(now);

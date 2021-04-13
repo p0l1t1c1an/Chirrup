@@ -2,7 +2,7 @@ package coms309.user;
 
 import org.springframework.core.style.ToStringCreator;
 
-import coms309.group.Group;
+import coms309.directmessagegroup.DirectMessageGroup;
 import coms309.post.Post;
 import coms309.settings.Settings;
 import io.swagger.annotations.ApiModelProperty;
@@ -79,13 +79,13 @@ public class User {
     @PrimaryKeyJoinColumn
     private Set<Post> posts = new HashSet<Post>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
       name = "group_user",
       joinColumns = @JoinColumn(name = "user_id"), 
       inverseJoinColumns = @JoinColumn(name = "group_id")
     )
-    private Set<Group> groups = new HashSet<Group>();
+    private Set<DirectMessageGroup> groups = new HashSet<DirectMessageGroup>();
 
     // @OneToMany(mappedBy = "from", fetch= FetchType.EAGER)
     // @PrimaryKeyJoinColumn
@@ -365,6 +365,23 @@ public class User {
         }
     }
 
+    //groups
+    @JsonIgnore
+    public Set<DirectMessageGroup> getGroups() {
+        return groups;
+    }
+
+    @JsonGetter("groups")
+    public List<Integer> getGroupsId() {
+        List<Integer> groupsId = new ArrayList<Integer>();
+        this.groups.forEach(group -> groupsId.add(group.getId()));
+        return groupsId;
+    }
+
+    public void setGroups(Set<DirectMessageGroup> groups) {
+        this.groups = groups;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(this == obj)
@@ -389,5 +406,13 @@ public class User {
     @Override
     public int hashCode() {
         return user_id;
+    }
+
+    public void addGroup(DirectMessageGroup group) {
+        this.groups.add(group);
+    }
+
+    public void removeFromGroup(DirectMessageGroup group) {
+        this.groups.remove(group);
     }
 }

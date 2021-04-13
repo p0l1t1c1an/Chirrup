@@ -2,7 +2,7 @@ package coms309.directmessage;
 
 import org.springframework.core.style.ToStringCreator;
 
-import coms309.group.Group;
+import coms309.directmessagegroup.DirectMessageGroup;
 import coms309.user.User;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -31,8 +31,7 @@ public class DirectMessage {
 
     @ApiModelProperty(notes = "User who recieved the dm",name="to",required=true)
     @ManyToOne
-    //@JoinColumn(name = "to_id")
-    private Group to;
+    private DirectMessageGroup to;
 
     @ApiModelProperty(notes = "Content of the message",name="message",required=true)
     private String message;
@@ -52,7 +51,7 @@ public class DirectMessage {
         this.dateSent = dm.dateSent;
     }
 
-    public DirectMessage(int id, User from, Group to, LocalDateTime dateSent, String message) {
+    public DirectMessage(int id, User from, DirectMessageGroup to, LocalDateTime dateSent, String message) {
         this.message_id = id;
         this.from = from;
         this.to = to;
@@ -85,11 +84,11 @@ public class DirectMessage {
     }
 
     //to
-    public Group getTo() {
+    public DirectMessageGroup getTo() {
         return this.to;
     }
 
-    public void setTo(Group to) {
+    public void setTo(DirectMessageGroup to) {
         this.to = to;
     }
 
