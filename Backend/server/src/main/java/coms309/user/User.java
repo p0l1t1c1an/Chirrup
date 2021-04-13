@@ -2,7 +2,7 @@ package coms309.user;
 
 import org.springframework.core.style.ToStringCreator;
 
-import coms309.directmessage.DirectMessage;
+import coms309.group.Group;
 import coms309.post.Post;
 import coms309.settings.Settings;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,6 +21,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -40,7 +42,7 @@ public class User {
 
     //User properties
     
-    @ApiModelProperty(notes = "Id of the User",name="user_id",required=true)
+    @ApiModelProperty(notes = "Id of the User",name="id",required=true)
     @Id
     @GeneratedValue
     private int user_id;
@@ -77,9 +79,17 @@ public class User {
     @PrimaryKeyJoinColumn
     private Set<Post> posts = new HashSet<Post>();
 
-    @OneToMany(mappedBy = "from", fetch= FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-    private Set<DirectMessage> messages = new HashSet<DirectMessage>();
+    @ManyToMany
+    @JoinTable(
+      name = "group_user",
+      joinColumns = @JoinColumn(name = "user_id"), 
+      inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<Group> groups = new HashSet<Group>();
+
+    // @OneToMany(mappedBy = "from", fetch= FetchType.EAGER)
+    // @PrimaryKeyJoinColumn
+    // private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
     public User(){
         
@@ -283,13 +293,13 @@ public class User {
         return psIntegers;
     }
 
-    public List<Integer> getMessagesId() {
-        List<Integer> dms = new ArrayList<Integer>();
-        for (DirectMessage dm : messages) {
-            dms.add(dm.getId());
-        }
-        return dms;
-    }
+    // public List<Integer> getMessagesId() {
+    //     List<Integer> dms = new ArrayList<Integer>();
+    //     for (DirectMessage dm : messages) {
+    //         dms.add(dm.getId());
+    //     }
+    //     return dms;
+    // }
 
     //changes all fields of a user, for put requests
     void updateInfo(User user) {

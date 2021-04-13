@@ -41,7 +41,7 @@ public class GroupController {
     }
 
     @ApiOperation(value = "gets a group by id", response = Group.class, tags = "getGroup")
-    @GetMapping
+    @GetMapping("/{groupId}")
     private Group getGroup(@PathVariable("groupId") int id) {
         logger.info("got group by id");
         return groupService.getGroupById(id);
@@ -79,7 +79,7 @@ public class GroupController {
 
         group.addMemberToGroup(user);
         groupService.saveOrUpdate(group);
-        return "User " + user.getId() + " added to group " + group.getGroup_name();
+        return "User " + user.getId() + " added to group " + group.getName();
     }
 
     @ApiOperation(value = "removes a member from a group", response = String.class, tags = "removeMemberFromGroup")
@@ -98,6 +98,6 @@ public class GroupController {
 
         group.removeMemberFromGroup(user);
         groupService.saveOrUpdate(group);
-        return "User " + user.getId() + " removed from group " + group.getGroup_name();
+        return "User " + user.getId() + " removed from group " + group.getName();
     }
 }

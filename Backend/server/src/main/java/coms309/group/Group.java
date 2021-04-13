@@ -6,11 +6,13 @@ import coms309.user.User;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.springframework.core.style.ToStringCreator;
 
@@ -18,35 +20,36 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Group {
-    @ApiModelProperty(notes = "Id of the message",name="group_id",required=true)
+    @ApiModelProperty(notes = "Id of the group",name="group_id",required=true)
     @Id
     @GeneratedValue
     private int group_id;
 
-    private String group_name;
+    private String name;
 
-    @ManyToMany(mappedBy = "user_id")
+    @ManyToMany(mappedBy = "groups")
     private Set<User> members = new HashSet<User>();
 
-    @OneToMany(mappedBy = "from_id")
+    @PrimaryKeyJoinColumn
+    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
     private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
     //group_id
-    public int getGroup_id() {
+    public int getId() {
         return group_id;
     }
 
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
+    public void setId(int id) {
+        this.group_id = id;
     }
 
     //group_name
-    public String getGroup_name() {
-        return group_name;
+    public String getName() {
+        return name;
     }
 
-    public void setGroup_name(String group_name) {
-        this.group_name = group_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     //members
@@ -78,7 +81,7 @@ public class Group {
     @Override
     public String toString() {
         return new ToStringCreator(this)
-            .append("group_id", this.getGroup_id())
-            .append("group_name", this.getGroup_name()).toString();
+            .append("id", this.getId())
+            .append("name", this.getName()).toString();
     }
 }

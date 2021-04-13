@@ -31,7 +31,7 @@ public class DirectMessage {
 
     @ApiModelProperty(notes = "User who recieved the dm",name="to",required=true)
     @ManyToOne
-    @JoinColumn(name = "to_id")
+    //@JoinColumn(name = "to_id")
     private Group to;
 
     @ApiModelProperty(notes = "Content of the message",name="message",required=true)
@@ -95,7 +95,7 @@ public class DirectMessage {
 
     @JsonGetter("to")
     public int getToId() {
-        return this.to.getGroup_id();
+        return this.to.getId();
     }
 
     //message

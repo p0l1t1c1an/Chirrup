@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GroupRepository extends CrudRepository<Group, Integer> {
-    Group getGroupById(int id);
-    List<Group> getAllGroup();
-    void deleteGroupById(int id);
+    // Group getGroupById(int id);
+    // List<Group> getAllGroup();
+    // void deleteGroupById(int id);
 }

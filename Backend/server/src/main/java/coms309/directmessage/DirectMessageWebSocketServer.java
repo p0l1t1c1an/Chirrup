@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@ServerEndpoint("/api/directmessages/")
-@Component
+//@ServerEndpoint("/api/directmessages/")
+//@Component
 public class DirectMessageWebSocketServer {
 
 	// Store all socket session and their corresponding username.
