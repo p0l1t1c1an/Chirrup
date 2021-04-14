@@ -2,6 +2,7 @@ package coms309.search;
 
 import coms309.user.User;
 import coms309.user.UserService;
+import coms309.user.UserRepository;
 
 import java.util.ArrayList;  
 import java.util.List;
@@ -23,6 +24,9 @@ public class SearchService {
     
     @Autowired  
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     private static final double MIN_DIFF = 60.0;
    
@@ -104,7 +108,7 @@ public class SearchService {
             List<User> users = userService.getAllUser();
            
             // Remove from search if user is blocking someone
-            if(id > 0) {
+            if(id > 0 && userRepository.existsById(id)) {
                 User searcher = userService.getUserById(id);
                 users = users.stream()
                         .filter(x -> !searcher.getBlocking().contains(x))
@@ -128,7 +132,7 @@ public class SearchService {
             List<User> users = userService.getAllUser();
             
             // Remove from search if user is blocking someone
-            if(id > 0) {
+            if(id > 0 && userRepository.existsById(id)) {
                 User searcher = userService.getUserById(id);
                 users = users.stream()
                         .filter(x -> !searcher.getBlocking().contains(x))
