@@ -32,25 +32,25 @@ public class SearchController {
 
     @ApiOperation(value = "Search for users by similar values", response = List.class, tags = "searchUserFirstLast")
     @GetMapping("/user/fuzzy")
-    private List<User> searchFuzzy(@RequestParam(required = false) Map<String, String> params) {
-        return searchService.searchUser(params, false);
+    private List<User> searchFuzzy(@RequestParam(defaultValue = "-1") int myId, @RequestParam(required = false) Map<String, String> params) {
+        return searchService.searchUser(myId, params, false);
     }
 
     @ApiOperation(value = "Search for users by their exact values", response = List.class, tags = "searchUserFirstLast")
     @GetMapping("/user/exact")
-    private List<User> searchExact(@RequestParam(required = false) Map<String, String> params) {
-        return searchService.searchUser(params, true);
+    private List<User> searchExact(@RequestParam(defaultValue = "-1") int myId, @RequestParam(required = false) Map<String, String> params) {
+        return searchService.searchUser(myId, params, true);
     }
 
     @ApiOperation(value = "Search for users that share one or more similar values", response = List.class, tags = "searchUserFirstLast")
     @GetMapping("/user/fuzzyOr")
-    private List<User> searchFuzzyOr(@RequestParam(required = false) MultiValueMap<String, String> params) {
-        return searchService.searchUserOr(params, false);
+    private List<User> searchFuzzyOr(@RequestParam(defaultValue = "-1") int myId, @RequestParam(required = false) MultiValueMap<String, String> params) {
+        return searchService.searchUserOr(myId, params, false);
     }
 
     @ApiOperation(value = "Search for users that share one or more exact values", response = List.class, tags = "searchUserFirstLast")
     @GetMapping("/user/exactOr")
-    private List<User> searchExactOr(@RequestParam(required = false) MultiValueMap<String, String> params) {
-        return searchService.searchUserOr(params, true);
+    private List<User> searchExactOr(@RequestParam(defaultValue = "-1") int myId, @RequestParam(required = false) MultiValueMap<String, String> params) {
+        return searchService.searchUserOr(myId, params, true);
     }
 }
