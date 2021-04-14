@@ -6,7 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,9 +26,16 @@ public class FeedController {
     @Autowired
     FeedService feedService;
 
-    @ApiOperation(value = "Generate a feed based on pass user id value", response = List.class, tags = "generateFeed")
+    @ApiOperation(value = "Generate a feed based by a user's id value", response = List.class, tags = "generateFeed")
     @GetMapping("/feed/{id}")
-    private List<Post> generateFeed(@PathVariable("id") int id) {
-        return feedService.feedById(id);
+    private List<Integer> generateFeedById(@PathVariable("id") int id, @RequestParam(defaultValue = "false") boolean mostLiked) {
+        return feedService.feedById(id, mostLiked);
     }
+
+    @ApiOperation(value = "Generate a generic feed based", response = List.class, tags = "generateFeed")
+    @GetMapping("/feed")
+    private List<Integer> generateFeed(@RequestParam(defaultValue = "false") boolean mostLiked) {
+        return feedService.feedAll(mostLiked);
+    }
+
 }
