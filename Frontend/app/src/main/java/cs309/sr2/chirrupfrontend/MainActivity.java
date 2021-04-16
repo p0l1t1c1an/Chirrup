@@ -54,19 +54,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * add elements to the options menu when it is created
-     *
-     * @param menu menu created
-     * @return true
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    /**
      * This method is called whenever the user chooses to navigate Up within your application's
      * activity hierarchy from the action bar.
      *
