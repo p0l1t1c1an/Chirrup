@@ -56,7 +56,7 @@ public class MainFeedPresenter implements VolleyListener {
     @Override
     public void onArrayResponse(JSONArray response) {
         try {
-            for (int i = response.length() - 1; i >= 0; i--) {
+            for (int i = 0; i < response.length(); i++) {
                 PostFragment post = new PostFragment(response.getInt(i));
                 AppController.getFragmentManager().beginTransaction().add(R.id.main_feed_layout, post).commit();
             }
