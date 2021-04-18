@@ -10,94 +10,72 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
 
-//@ServerEndpoint("/api/directmessages/")
-//@Component
+
+import javax.websocket.server.ServerEndpoint;
+
+@ServerEndpoint("/dm/{username}")
+@Component
 public class DirectMessageWebSocketServer {
 
-	// Store all socket session and their corresponding username.
-    private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
-    private static Map<String, Session> usernameSessionMap = new Hashtable<>();
+  // Store all socket session and their corresponding username.
+  private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
+  private static Map<String, Session> usernameSessionMap = new Hashtable<>();
 
-    private final Logger logger = LoggerFactory.getLogger(DirectMessageWebSocketServer.class);
+  private final Logger logger = LoggerFactory.getLogger(DirectMessageWebSocketServer.class);
 
-    @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) throws IOException
-    {
-        logger.info("Entered into Open");
+  @OnOpen
+  public void onOpen(Session session, @PathParam("username") String username)
+  throws IOException {
+    logger.info("Entered into Open");
+    sessionUsernameMap.put(session, username);
+    usernameSessionMap.put(username, session);
+  }
 
-        sessionUsernameMap.put(session, username);
-        usernameSessionMap.put(username, session);
+  @OnMessage
+  public void onMessage(Session session, String message) throws IOException {
+    try {
+        JSONObject jsonMessage = new JSONObject(message);
+        logger.info("Entered into Message: Got Message:" + message);
 
-        String message = "User:" + username + " has Joined the Chat";
-        broadcast(message);
-    }
+        JSONArray groupsJsonArray = jsonMessage.getJSONArray("to");
+        String toSend = jsonMessage.getString("message");
 
-    @OnMessage
-    public void onMessage(Session session, int fromId, String message) throws IOException
-    {
-        // Handle new messages
-    	logger.info("Entered into Message: Got Message:"+message);
-    	String username = sessionUsernameMap.get(session);
-
-    	if (message.startsWith("@")) // Direct message to a user using the format "@username <message>"
-    	{
-    		String destUsername = message.split(" ")[0].substring(1); // don't do this in your code!
-    		sendMessageToPArticularUser(destUsername, "[DM] " + username + ": " + message);
-    		sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
-    	}
-    	else // Message to whole chat
-    	{
-	    	broadcast(username + ": " + message);
-    	}
-    }
-
-    @OnClose
-    public void onClose(Session session) throws IOException
-    {
-    	logger.info("Entered into Close");
-
-    	String username = sessionUsernameMap.get(session);
-    	sessionUsernameMap.remove(session);
-    	usernameSessionMap.remove(username);
-
-    	String message= username + " disconnected";
-        broadcast(message);
-    }
-
-    @OnError
-    public void onError(Session session, Throwable throwable)
-    {
-        // Do error handling here
-    	logger.info("Entered into Error");
-    }
-
-	  private void sendMessageToPArticularUser(String username, String message)
-    {
-    	  try {
-    		  usernameSessionMap.get(username).getBasicRemote().sendText(message);
-        } catch (IOException e) {
-        	logger.info("Exception: " + e.getMessage().toString());
-          e.printStackTrace();
+        for (int i = 0; i < groupsJsonArray.length(); i++) {
+            String username = groupsJsonArray.get(i).toString();
+            sendMessageToParticularUser(username, toSend);
         }
+    } catch (JSONException e) {
+        logger.error("Invalid message format");
     }
+  }
+  @OnClose
+  public void onClose(Session session) throws IOException {
+    logger.info("Entered into Close");
 
-    private void broadcast(String message)
-		{
-			  sessionUsernameMap.forEach((session, username)->{
-					try {
-								session.getBasicRemote().sendText(message);
-					} catch (IOException e) {
-								logger.info("Exception: " + e.getMessage().toString());
-								e.printStackTrace();
-					}
+    String username = sessionUsernameMap.get(session);
+    sessionUsernameMap.remove(session);
+    usernameSessionMap.remove(username);
+  }
 
-				});
+  @OnError
+  public void onError(Session session, Throwable throwable) {
+    logger.info("Entered into Error");
+  }
 
+  private void sendMessageToParticularUser(String username, String message) {
+    try {
+      usernameSessionMap.get(username).getBasicRemote().sendText(message);
+    } catch (IOException e) {
+      logger.info("Exception: " + e.getMessage().toString());
+      e.printStackTrace();
     }
+  }
 }

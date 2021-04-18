@@ -101,6 +101,14 @@ public class DirectMessageGroup {
         this.messages = messages;
     }
 
+    public void addMessage(DirectMessage message) {
+        this.messages.add(message);
+    }
+
+    public void removeMessage(int id) {
+        this.messages.removeIf(message -> message.getId() == id);
+    }
+
     @Override
     public String toString() {
         return new ToStringCreator(this)

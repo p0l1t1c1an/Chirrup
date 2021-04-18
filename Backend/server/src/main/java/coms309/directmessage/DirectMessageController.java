@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @Api(value = "DirectMessageController", description = "REST APIs for directmessage entity")
 @RequestMapping("/api/directmessages")
@@ -73,13 +71,10 @@ public class DirectMessageController {
         User from = userService.getUserById(fromId);
         DirectMessageGroup to = groupService.getGroupById(toId);
         LocalDateTime now = LocalDateTime.now();
-        
         dm.setDateSent(now);
         dm.setFrom(from);
         dm.setTo(to);
-
         dmService.saveOrUpdate(dm);
-        
         logger.info("created a new dm");
         return "dm created: " + dm.getId();
     }

@@ -59,6 +59,8 @@ public class DirectMessage {
         this.dateSent = dateSent;
     }
 
+
+
     //id
     public int getId() {
         return message_id;
