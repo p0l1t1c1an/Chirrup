@@ -42,5 +42,24 @@ public class AdminService {
         
         return posts.stream().map(x -> x.getId()).collect(Collectors.toList());
     }
-    
+
+    public void solveEditPost(int id, Post newPost) {
+        Post p = postService.getPostById(id);
+
+        p.getReports().clear();
+        p.updatePartialInfo(newPost);
+
+        postService.saveOrUpdate(p);
+    }
+
+    public void solveIgnorePost(int id) {
+        Post p = postService.getPostById(id);
+        p.getReports().clear();
+        postService.saveOrUpdate(p);
+    }
+
+    public void solveDeletePost(int id) {
+        postService.delete(id);
+    }
+
 }
