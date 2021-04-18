@@ -60,6 +60,9 @@ public class Post {
     @ManyToMany(fetch= FetchType.EAGER)
     private Set<User> likes = new HashSet<User>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> reports = new HashSet<User>();
+
     public Post() {
 
     }
@@ -246,6 +249,20 @@ public class Post {
         };
         return c;
     }
+
+    //likes
+    @JsonIgnore
+    public Set<User> getReports() {
+        return reports;
+    }
+
+    public void addReport(User currentUser) {
+        this.reports.add(currentUser);
+    }
+
+    public void removeReport(User u) {
+        this.reports.remove(u);
+    } 
 
     @Override
     public String toString() {
