@@ -2,6 +2,7 @@ package coms309.search;
 
 import coms309.user.User;
 import coms309.user.UserService;
+import coms309.user.UserRepository;
 
 import java.util.ArrayList;  
 import java.util.List;
@@ -24,6 +25,9 @@ public class SearchService {
     @Autowired  
     UserService userService;
 
+    @Autowired
+    UserRepository userRepository;
+
     private static final double MIN_DIFF = 60.0;
    
     // Adding to this means that compareUser function must also be modified
@@ -42,7 +46,7 @@ public class SearchService {
 
         // Percent Similar = # of characters that don't have to change / total chars 
         // Can be negative in case of searched > stored with many cahracters to change
-        // Plus one is for small length words to be easier to find
+        // Plus one is for small length words to be easier to find (bit of a hack)
 
         return 100.0 * (stored.length() + 1 - dist.apply(stored, searched)) / stored.length();
     }
@@ -99,10 +103,18 @@ public class SearchService {
 
     }
 
-    public List<User> searchUser(Map<String, String> params, boolean isExact) {
+    public List<User> searchUser(int id, Map<String, String> params, boolean isExact) {
         if(params != null && !params.isEmpty()) {
-            //System.out.println(params.get(USER_TAGS[0]));
-            List<User> users = userService.getAllUser();   
+            List<User> users = userService.getAllUser();
+           
+            // Remove from search if user is blocking someone
+            if(id > 0 && userRepository.existsById(id)) {
+                User searcher = userService.getUserById(id);
+                users = users.stream()
+                        .filter(x -> !searcher.getBlocking().contains(x))
+                        .collect(Collectors.toList());
+            }
+
             for(int i = 0; i < USER_TAGS.length; ++i) {
                 final int iFinal = i;
                 users = users.stream() // This is odd and I don't understand why I can't just pass i
@@ -115,9 +127,18 @@ public class SearchService {
         return new ArrayList<User>();
     }
     
-    public List<User> searchUserOr(MultiValueMap<String, String> params, boolean isExact) {
+    public List<User> searchUserOr(int id, MultiValueMap<String, String> params, boolean isExact) {
          if(params != null && !params.isEmpty()) {
             List<User> users = userService.getAllUser();
+            
+            // Remove from search if user is blocking someone
+            if(id > 0 && userRepository.existsById(id)) {
+                User searcher = userService.getUserById(id);
+                users = users.stream()
+                        .filter(x -> !searcher.getBlocking().contains(x))
+                        .collect(Collectors.toList());
+            }
+
             for(int i = 0; i < USER_TAGS.length; ++i) {
                 final int iFinal = i;
                 users = users.stream()
