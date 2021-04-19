@@ -2,7 +2,7 @@ package coms309.user;
 
 import org.springframework.core.style.ToStringCreator;
 
-import coms309.directmessage.DirectMessage;
+import coms309.directmessagegroup.DirectMessageGroup;
 import coms309.post.Post;
 import coms309.settings.Settings;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,6 +21,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -43,7 +45,7 @@ public class User {
     @ApiModelProperty(notes = "Id of the User",name="id",required=true)
     @Id
     @GeneratedValue
-    private int id;
+    private int user_id;
     @ApiModelProperty(notes = "Email of the User",name="email",required=true)
     private String email;
     @ApiModelProperty(notes = "Password of the User",name="password",required=true)
@@ -77,9 +79,17 @@ public class User {
     @PrimaryKeyJoinColumn
     private Set<Post> posts = new HashSet<Post>();
 
-    @OneToMany(mappedBy = "from", fetch= FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-    private Set<DirectMessage> messages = new HashSet<DirectMessage>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+      name = "group_user",
+      joinColumns = @JoinColumn(name = "user_id"), 
+      inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<DirectMessageGroup> groups = new HashSet<DirectMessageGroup>();
+
+    // @OneToMany(mappedBy = "from", fetch= FetchType.EAGER)
+    // @PrimaryKeyJoinColumn
+    // private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> blocking = new HashSet<User>();
@@ -93,7 +103,7 @@ public class User {
     }
 
     public User(User user){
-        this.id = user.id;
+        this.user_id = user.user_id;
         this.email = user.email;
         this.password = user.password;
         this.username = user.username;
@@ -107,7 +117,7 @@ public class User {
     }
 
     public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, Date birthday, Settings settings, String biography) {
-        this.id = id;
+        this.user_id = id;
         this.email = email;
         this.password = password;
         this.username = username;
@@ -122,11 +132,11 @@ public class User {
 
     //id
     public Integer getId() {
-        return id;
+        return user_id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.user_id = id;
     }
 
     //email
@@ -335,13 +345,13 @@ public class User {
         return psIntegers;
     }
 
-    public List<Integer> getMessagesId() {
-        List<Integer> dms = new ArrayList<Integer>();
-        for (DirectMessage dm : messages) {
-            dms.add(dm.getId());
-        }
-        return dms;
-    }
+    // public List<Integer> getMessagesId() {
+    //     List<Integer> dms = new ArrayList<Integer>();
+    //     for (DirectMessage dm : messages) {
+    //         dms.add(dm.getId());
+    //     }
+    //     return dms;
+    // }
 
     //changes all fields of a user, for put requests
     void updateInfo(User user) {
@@ -407,6 +417,23 @@ public class User {
         }
     }
 
+    //groups
+    @JsonIgnore
+    public Set<DirectMessageGroup> getGroups() {
+        return groups;
+    }
+
+    @JsonGetter("groups")
+    public List<Integer> getGroupsId() {
+        List<Integer> groupsId = new ArrayList<Integer>();
+        this.groups.forEach(group -> groupsId.add(group.getId()));
+        return groupsId;
+    }
+
+    public void setGroups(Set<DirectMessageGroup> groups) {
+        this.groups = groups;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(this == obj)
@@ -417,7 +444,7 @@ public class User {
 
         User u = (User) obj;
 
-        return (u.id == id && u.role == role
+        return (u.user_id == user_id && u.role == role
                 && Objects.equals(email, u.email)
                 && Objects.equals(password, u.password)
                 && Objects.equals(username, u.username)
@@ -430,6 +457,14 @@ public class User {
 
     @Override
     public int hashCode() {
-        return id;
+        return user_id;
+    }
+
+    public void addGroup(DirectMessageGroup group) {
+        this.groups.add(group);
+    }
+
+    public void removeFromGroup(DirectMessageGroup group) {
+        this.groups.remove(group);
     }
 }

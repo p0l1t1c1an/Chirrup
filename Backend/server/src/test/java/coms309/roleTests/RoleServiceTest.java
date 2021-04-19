@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import coms309.role.Role;
@@ -28,7 +29,8 @@ import coms309.role.RoleService;
 import coms309.ServerApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ServerApplication.class)
+@SpringBootTest(classes = ServerApplication.class, 
+                webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RoleServiceTest {
     @InjectMocks
 	RoleService service;

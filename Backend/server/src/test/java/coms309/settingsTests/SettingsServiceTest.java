@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import org.mockito.InjectMocks;
@@ -42,7 +43,8 @@ import coms309.settings.UserSettingsRepository;
 import coms309.ServerApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ServerApplication.class)
+@SpringBootTest(classes = ServerApplication.class, 
+                webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SettingsServiceTest { 
 
     @InjectMocks
