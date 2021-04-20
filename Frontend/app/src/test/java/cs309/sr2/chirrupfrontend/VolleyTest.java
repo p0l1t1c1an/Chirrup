@@ -22,7 +22,7 @@ public class VolleyTest {
      * test that get string returns the right string
      */
     @Test
-    public void getStringTestPass() {
+    public void getStringTest1() {
         String correct = "test string";
 
         VolleyListener volleyListener = new VolleyListener() {
@@ -46,7 +46,7 @@ public class VolleyTest {
      * test that get string gets a different string
      */
     @Test
-    public void getStringTestFail() {
+    public void getStringTest2() {
         String correct = "test string";
         String wrong = "another string";
 
@@ -65,6 +65,55 @@ public class VolleyTest {
         }).when(volleyRequester).getString(anyString());
 
         volleyRequester.getString(anyString());
+    }
+
+    /**
+     * test that set string returns the right string
+     */
+    @Test
+    public void setStringTest1() {
+        String correct = "test string";
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onStringResponse(String response) {
+                assertEquals(response, correct);
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onStringResponse(correct);
+            return null;
+        }).when(volleyRequester).setString(anyString(), anyString(), anyInt());
+
+        volleyRequester.setString(anyString(), anyString(), anyInt());
+    }
+
+    /**
+     * test that set string gets a different string
+     */
+    @Test
+    public void setStringTest2() {
+        String correct = "test string";
+        String wrong = "another string";
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onStringResponse(String response) {
+                assertNotEquals(response, correct);
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onStringResponse(wrong);
+            return null;
+        }).when(volleyRequester).setString(anyString(), anyString(), anyInt());
+
+        volleyRequester.setString(anyString(), anyString(), anyInt());
     }
 
 }
