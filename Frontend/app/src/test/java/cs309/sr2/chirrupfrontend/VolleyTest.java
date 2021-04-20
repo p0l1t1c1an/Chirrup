@@ -1,13 +1,13 @@
 package cs309.sr2.chirrupfrontend;
 
+import com.android.volley.toolbox.ImageLoader;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.ArrayList;
 
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
@@ -339,6 +339,54 @@ public class VolleyTest {
         }).when(volleyRequester).setObject(anyString(), any(), anyInt());
 
         volleyRequester.setObject(anyString(), any(), anyInt());
+    }
+
+    /**
+     * test that get image returns the right image
+     */
+    @Test
+    public void getImageTest1() {
+        ImageLoader.ImageContainer imageContainer = mock(ImageLoader.ImageContainer.class);
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onImageResponse(ImageLoader.ImageContainer response) {
+                assertEquals(response, imageContainer);
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onImageResponse(imageContainer);
+            return null;
+        }).when(volleyRequester).getImage(anyString());
+
+        volleyRequester.getImage(anyString());
+    }
+
+    /**
+     * test that get image returns a different image
+     */
+    @Test
+    public void getImageTest2() {
+        ImageLoader.ImageContainer imageContainer = mock(ImageLoader.ImageContainer.class);
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onImageResponse(ImageLoader.ImageContainer response) {
+                assertNotEquals(response, null);
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onImageResponse(imageContainer);
+            return null;
+        }).when(volleyRequester).getImage(anyString());
+
+        volleyRequester.getImage(anyString());
     }
 
 }
