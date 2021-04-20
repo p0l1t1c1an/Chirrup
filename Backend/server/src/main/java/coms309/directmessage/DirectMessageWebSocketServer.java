@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/dm/{username}")
+@ServerEndpoint("/api/dm/{username}")
 @Component
 public class DirectMessageWebSocketServer {
 
@@ -46,7 +46,7 @@ public class DirectMessageWebSocketServer {
         logger.info("Entered into Message: Got Message:" + message);
 
         JSONArray groupsJsonArray = jsonMessage.getJSONArray("to");
-        String toSend = jsonMessage.getString("message");
+        String toSend = jsonMessage.getInt("message") + "";
 
         for (int i = 0; i < groupsJsonArray.length(); i++) {
             String username = groupsJsonArray.get(i).toString();
@@ -56,6 +56,7 @@ public class DirectMessageWebSocketServer {
         logger.error("Invalid message format");
     }
   }
+
   @OnClose
   public void onClose(Session session) throws IOException {
     logger.info("Entered into Close");
@@ -72,7 +73,10 @@ public class DirectMessageWebSocketServer {
 
   private void sendMessageToParticularUser(String username, String message) {
     try {
-      usernameSessionMap.get(username).getBasicRemote().sendText(message);
+      Session s = usernameSessionMap.get(username);
+      if(s != null) {
+        s.getBasicRemote().sendText(message);
+      }
     } catch (IOException e) {
       logger.info("Exception: " + e.getMessage().toString());
       e.printStackTrace();
