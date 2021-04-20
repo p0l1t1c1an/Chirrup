@@ -81,11 +81,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
         VolleyRequester = new VolleyRequester(this);
 
         root.findViewById(R.id.searchButton).setOnClickListener((v) -> {
-            //send user ID to the server and bring back the messages that user has with the specific ID
-            String toFind = searchText.getText().toString();
-            //user VolleyRequester to ask for a user from the server
-            VolleyRequester.getString(getResources().getString(R.string.base_url) + "user/" + toFind);
-            //Volley Requester will call onStringResponse
+
         });
 
         root.findViewById(R.id.sendMessageButton).setOnClickListener((v) -> {
@@ -93,12 +89,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
             //get the message
             String messageToSend = createMessage.getText().toString();
             try {
-                //create JSON object for message
-                JSONObject toSend = new JSONObject();
-                toSend.put("content", messageToSend);
-                //send the message to the server
-                VolleyRequester.setObject(getResources().getString(R.string.base_url) + "directmessages/" +
-                        userConversation.getUserID() + "/" + userConversation.getToID(), toSend, Request.Method.POST);
+
             } catch (Exception e){}
         });
 
