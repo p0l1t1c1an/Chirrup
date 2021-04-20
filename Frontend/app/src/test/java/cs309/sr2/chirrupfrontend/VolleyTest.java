@@ -1,9 +1,13 @@
 package cs309.sr2.chirrupfrontend;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
 
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
@@ -197,9 +201,9 @@ public class VolleyTest {
         doAnswer((invocation) -> {
             volleyListener.onArrayResponse(array);
             return null;
-        }).when(volleyRequester).setArray(anyString(), any(JSONArray.class), anyInt());
+        }).when(volleyRequester).setArray(anyString(), any(), anyInt());
 
-        volleyRequester.setArray(anyString(), any(JSONArray.class), anyInt());
+        volleyRequester.setArray(anyString(), any(), anyInt());
     }
 
     /**
@@ -224,9 +228,117 @@ public class VolleyTest {
         doAnswer((invocation) -> {
             volleyListener.onArrayResponse(array);
             return null;
-        }).when(volleyRequester).setArray(anyString(), any(JSONArray.class), anyInt());
+        }).when(volleyRequester).setArray(anyString(), any(), anyInt());
 
-        volleyRequester.setArray(anyString(), any(JSONArray.class), anyInt());
+        volleyRequester.setArray(anyString(), any(), anyInt());
+    }
+
+    /**
+     * test that get object returns the right object
+     */
+    @Test
+    public void getObjectTest1() throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("field1", 1);
+        object.put("field2", "test");
+        object.put("field3", 12.45);
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onObjectResponse(JSONObject response) {
+                assertEquals(response, object);
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onObjectResponse(object);
+            return null;
+        }).when(volleyRequester).getObject(anyString());
+
+        volleyRequester.getObject(anyString());
+    }
+
+    /**
+     * test that get object gets a different object
+     */
+    @Test
+    public void getObjectTest2() throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("field1", 1);
+        object.put("field2", "test");
+        object.put("field3", 12.45);
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onObjectResponse(JSONObject response) {
+                assertNotEquals(response, new JSONObject());
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onObjectResponse(object);
+            return null;
+        }).when(volleyRequester).getObject(anyString());
+
+        volleyRequester.getObject(anyString());
+    }
+
+    /**
+     * test that set object returns the right object
+     */
+    @Test
+    public void setObjectTest1() throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("field1", 1);
+        object.put("field2", "test");
+        object.put("field3", 12.45);
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onObjectResponse(JSONObject response) {
+                assertEquals(response, object);
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onObjectResponse(object);
+            return null;
+        }).when(volleyRequester).setObject(anyString(), any(), anyInt());
+
+        volleyRequester.setObject(anyString(), any(), anyInt());
+    }
+
+    /**
+     * test that set object gets a different object
+     */
+    @Test
+    public void setObjectTest2() throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("field1", 1);
+        object.put("field2", "test");
+        object.put("field3", 12.45);
+
+        VolleyListener volleyListener = new VolleyListener() {
+            @Override
+            public void onObjectResponse(JSONObject response) {
+                assertNotEquals(response, new JSONObject());
+            }
+        };
+
+        VolleyRequester volleyRequester = mock(VolleyRequester.class);
+
+        doAnswer((invocation) -> {
+            volleyListener.onObjectResponse(object);
+            return null;
+        }).when(volleyRequester).setObject(anyString(), any(), anyInt());
+
+        volleyRequester.setObject(anyString(), any(), anyInt());
     }
 
 }
