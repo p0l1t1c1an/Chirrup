@@ -189,4 +189,22 @@ public class PostController {
         postService.saveOrUpdate(current);
         return "post updated: " + current.getId();
     }
+
+    //creating post mapping the creates a new report
+    @ApiOperation(value = "creates a new report", response = String.class, tags = "saveReport")
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Suceess|OK"),
+        @ApiResponse(code = 401, message = "not authorized!"), 
+        @ApiResponse(code = 403, message = "forbidden!!!"),
+        @ApiResponse(code = 404, message = "not found!!!") })
+    @PostMapping("/posts/report/{userId}/{postId}")
+    private String saveReport(@PathVariable(value = "userId") int id, @PathVariable(value = "postId") int postId) {
+        User currentUser = userService.getUserById(id);
+        Post post = postService.getPostById(postId);
+        post.addReport(currentUser);
+        logger.info("created a new report");
+        postService.saveOrUpdate(post);
+        return "report created on post: " + post.getId();
+    }
+
 }

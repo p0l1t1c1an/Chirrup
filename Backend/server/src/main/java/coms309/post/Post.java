@@ -60,6 +60,9 @@ public class Post {
     @ManyToMany(fetch= FetchType.EAGER)
     private Set<User> likes = new HashSet<User>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> reports = new HashSet<User>();
+
     public Post() {
 
     }
@@ -137,7 +140,7 @@ public class Post {
         this.content = post.content;
     }
 
-    void updatePartialInfo(Post post) {
+    public void updatePartialInfo(Post post) {
         this.creator = post.creator == null ? this.creator : post.creator;
         this.dateCreated = post.dateCreated == null ? this.dateCreated : post.dateCreated;
         this.content = post.content == null ? this.content : post.content;
@@ -246,6 +249,20 @@ public class Post {
         };
         return c;
     }
+
+    //likes
+    @JsonIgnore
+    public Set<User> getReports() {
+        return reports;
+    }
+
+    public void addReport(User currentUser) {
+        this.reports.add(currentUser);
+    }
+
+    public void removeReport(User u) {
+        this.reports.remove(u);
+    } 
 
     @Override
     public String toString() {
