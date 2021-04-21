@@ -45,7 +45,7 @@ public class User {
     @ApiModelProperty(notes = "Id of the User",name="id",required=true)
     @Id
     @GeneratedValue
-    private int user_id;
+    private int id;
     @ApiModelProperty(notes = "Email of the User",name="email",required=true)
     private String email;
     @ApiModelProperty(notes = "Password of the User",name="password",required=true)
@@ -103,7 +103,7 @@ public class User {
     }
 
     public User(User user){
-        this.user_id = user.user_id;
+        this.id = user.id;
         this.email = user.email;
         this.password = user.password;
         this.username = user.username;
@@ -117,7 +117,7 @@ public class User {
     }
 
     public User(int id, String email, String password, String username, String firstname, String lastname, int role, String telephone, Date birthday, Settings settings, String biography) {
-        this.user_id = id;
+        this.id = id;
         this.email = email;
         this.password = password;
         this.username = username;
@@ -132,11 +132,11 @@ public class User {
 
     //id
     public Integer getId() {
-        return user_id;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.user_id = id;
+        this.id = id;
     }
 
     //email
@@ -444,7 +444,7 @@ public class User {
 
         User u = (User) obj;
 
-        return (u.user_id == user_id && u.role == role
+        return (u.id == id && u.role == role
                 && Objects.equals(email, u.email)
                 && Objects.equals(password, u.password)
                 && Objects.equals(username, u.username)
@@ -457,7 +457,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return user_id;
+        return id;
     }
 
     public void addGroup(DirectMessageGroup group) {
