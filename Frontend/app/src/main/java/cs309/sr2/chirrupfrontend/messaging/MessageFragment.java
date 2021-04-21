@@ -22,6 +22,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,7 +91,27 @@ public class MessageFragment extends Fragment implements VolleyListener {
             //get the message
             String messageToSend = createMessage.getText().toString();
             try {
+                WebSocketClient cc = new WebSocketClient() {
+                    @Override
+                    public void onOpen(ServerHandshake serverHandshake) {
 
+                    }
+
+                    @Override
+                    public void onMessage(String s) {
+
+                    }
+
+                    @Override
+                    public void onClose(int i, String s, boolean b) {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }
             } catch (Exception e){}
         });
 
