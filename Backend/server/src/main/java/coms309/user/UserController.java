@@ -1,10 +1,22 @@
 package coms309.user;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +40,13 @@ import coms309.settings.UserSettings;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
     Logger logger = LoggerFactory.getLogger(UserController.class);    
+
+    private static String profilePicturePath = "/files/profilepictures/";
 
     //creating a get mapping to retrieve all the users in the db
     @ApiOperation(value = "get all users", response = Iterable.class, tags = "getUsers")
@@ -199,4 +219,85 @@ public class UserController {
     //     logger.info("got all messages from user");
     //     return user.getMessagesId();
     // }
+
+    //create a mapping for uploading an image for a profile picture
+    @ApiOperation(value = "upload profile picture", response = String.class, tags = "uploadProfilePicture")
+    @PostMapping("/user/{userId}/profilePicture")
+    private String uploadProfilePicture(@PathVariable("userId") int id, @RequestParam("profile_picture") MultipartFile pfp) throws IOException {
+        User user = userService.getUserById(id);
+
+        if(pfp.isEmpty()) {
+            return "profile picture not given";
+        }
+
+        String path = httpServletRequest.getServletContext().getRealPath(profilePicturePath);
+
+        if (!new File(path).exists()) {
+            new File(path).mkdir();
+        }
+
+        String[] parts = pfp.getOriginalFilename().toString().split("\\.");
+        String ext = "im";
+
+        if(parts.length >= 2) {
+            ext = parts[parts.length-1];
+        }
+
+        path += ("profile_pic_" +  id + "." + ext);
+
+        if (path != null){        
+            File currentPfp = new File(path);
+            if(currentPfp.exists()) {
+                currentPfp.delete();
+            }
+        }
+
+        File toSave = new File(path);
+        toSave.createNewFile();
+
+        pfp.transferTo(toSave);
+        user.setProfilePicturePath(path);
+        userService.saveOrUpdate(user);
+        return "profile picture changed";
+    }
+
+    @ApiOperation(value = "get profile picture", response = String.class, tags = "getProfilePicture")
+    @GetMapping(path = "/user/{id}/profilePicture")
+    ResponseEntity<Resource> getProfilePicture(@PathVariable int id) throws IOException {
+        User user = userService.getUserById(id);
+
+        // if laptop id not found it cannot have an invoice associated with it
+        if(user == null) {
+            return null;
+        }
+
+        // Check the file if it exists and load it into the memory
+        File file = new File(user.getProfilePicturePath());
+        if(!file.exists()) {
+            return null;
+        }
+
+        String[] splitPath = user.getProfilePicturePath().split("/");
+        String fileName = splitPath[splitPath.length-1];
+        
+        // add headers to state that a file is being downloaded
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        // convert the file into bytearrayresource format to send to the front end with the file
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource data = new ByteArrayResource(Files.readAllBytes(path));
+
+        // send the response entity back to the front end with the 
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(data);
+    }
+
 }
+
