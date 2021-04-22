@@ -46,7 +46,7 @@ public class UserController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);    
 
-    private static String profilePicturePath = "/files/profilepictures/";
+    private static String profilePicturePath = "D:/Desktop/"; //"/files/profilepictures/";
     private static String defaultPic = "default_picture.png";
 
     //creating a get mapping to retrieve all the users in the db
@@ -270,9 +270,9 @@ public class UserController {
             return null;
         }
 
-        // Check the file if it exists and load it into the memory
-        File file = new File(user.getProfilePicturePath());
-        if(!file.exists()) {
+
+        if(user.getProfilePicturePath() == null) {
+            File file = new File(profilePicturePath + defaultPic);
             String[] splitPath = (profilePicturePath + defaultPic).split("/");
             String fileName = splitPath[splitPath.length-1];
             
@@ -294,6 +294,8 @@ public class UserController {
                     .contentType(MediaType.parseMediaType("application/octet-stream"))
                     .body(data);
         }
+
+        File file = new File(user.getProfilePicturePath());
 
         String[] splitPath = user.getProfilePicturePath().split("/");
         String fileName = splitPath[splitPath.length-1];
