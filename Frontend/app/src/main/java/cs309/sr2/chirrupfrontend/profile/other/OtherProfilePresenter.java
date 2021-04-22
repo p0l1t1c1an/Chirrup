@@ -116,9 +116,9 @@ public class OtherProfilePresenter implements VolleyListener {
                 ((Button) view.findViewById(R.id.otherprofile_follow)).setText("Follow (" + followers + ")");
             }
 
-            JSONArray blockedArray = response.getJSONArray("blocking");
+            JSONArray blockedArray = response.getJSONArray("blockers");
             for (int i = 0; i < blockedArray.length(); i++) {
-                if (blockedArray.getInt(i) == response.getInt("id")) {
+                if (blockedArray.getInt(i) == viewerID) {
                     blocked = true;
                     break;
                 }
