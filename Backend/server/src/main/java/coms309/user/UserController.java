@@ -230,12 +230,6 @@ public class UserController {
             return "profile picture not given";
         }
 
-        String path = httpServletRequest.getServletContext().getRealPath(profilePicturePath);
-
-        if (!new File(path).exists()) {
-            new File(path).mkdir();
-        }
-
         String[] parts = pfp.getOriginalFilename().toString().split("\\.");
         String ext = "im";
 
@@ -243,20 +237,24 @@ public class UserController {
             ext = parts[parts.length-1];
         }
 
-        path += ("profile_pic_" +  id + "." + ext);
+        String serverFilePath = profilePicturePath;
 
-        if (path != null){        
-            File currentPfp = new File(path);
+        serverFilePath += ("profile_pic_" +  id + "." + ext);
+
+        if (serverFilePath != null){        
+            File currentPfp = new File(serverFilePath);
             if(currentPfp.exists()) {
                 currentPfp.delete();
             }
         }
 
-        File toSave = new File(path);
+        logger.info("saving profile picture at: " + serverFilePath);
+
+        File toSave = new File(serverFilePath);
         toSave.createNewFile();
 
         pfp.transferTo(toSave);
-        user.setProfilePicturePath(path);
+        user.setProfilePicturePath(serverFilePath);
         userService.saveOrUpdate(user);
         return "profile picture changed";
     }
