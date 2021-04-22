@@ -82,7 +82,7 @@ public class VolleyRequester {
     public void getArray(String url) {
         JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET, url,
                 null, response -> volleyListener.onArrayResponse(response), error ->
-                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Object get error: "
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "JSON Array get error: "
                         + error.getMessage()));
 
         AppController.getInstance().addToRequestQueue(jsonArrReq);

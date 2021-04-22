@@ -96,15 +96,15 @@ public class PostFragment extends Fragment {
         if (postPresenter == null) postPresenter = new PostPresenter(view);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                         "posts/" + postID, AppController.getInstance().getString(R.string.base_url) +
-                        "user/#", AppController.getInstance().getString(R.string.base_url) + "user/#/profilePicture",
-                Session.getUser());
+                        "user/#", AppController.getInstance().getString(R.string.base_url) +
+                        "user/#/profilePicture", Session.getUser());
     }
 
     /**
      * like or dislike the post by the current user
      */
     public void likePost() {
-        postPresenter.likePost("http://coms-309-016.cs.iastate.edu:8080/api/posts/like/" +
+        postPresenter.likePost(AppController.getInstance().getString(R.string.base_url) + "posts/like/" +
                 Session.getUser() + "/" + postID);
     }
 
