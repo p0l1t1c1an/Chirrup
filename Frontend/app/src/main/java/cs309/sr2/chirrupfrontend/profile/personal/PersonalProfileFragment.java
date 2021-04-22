@@ -35,7 +35,8 @@ public class PersonalProfileFragment extends Fragment {
 
         PersonalProfilePresenter personalProfilePresenter = new PersonalProfilePresenter(root);
         personalProfilePresenter.loadData(getString(R.string.base_url) + "user/" + Session.getUser(),
-                "https://api.androidhive.info/volley/volley-image.jpg");
+                AppController.getInstance().getString(R.string.base_url) + "user/" +
+                        Session.getUser() + "/profilePicture");
 
         Button followers = root.findViewById(R.id.personalprofile_followers);
         Button following = root.findViewById(R.id.personalprofile_following);

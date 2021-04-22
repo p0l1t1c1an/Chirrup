@@ -96,7 +96,7 @@ public class PostFragment extends Fragment {
         if (postPresenter == null) postPresenter = new PostPresenter(view);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
                         "posts/" + postID, AppController.getInstance().getString(R.string.base_url) +
-                        "user/#", "https://api.androidhive.info/volley/volley-image.jpg",
+                        "user/#", AppController.getInstance().getString(R.string.base_url) + "user/#/profilePicture",
                 Session.getUser());
     }
 
