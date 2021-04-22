@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     android:label="menu_profile"
-    app:startDestination="@+id/nav_profile">
+    app:startDestination="@+id/nav_mainFeed">
 
+    <fragment
+        android:id="@+id/nav_mainFeed"
+        android:name="cs309.sr2.chirrupfrontend.mainfeed.MainFeedFragment"
+        android:label="@string/mainfeed" />
     <fragment
         android:id="@+id/nav_profile"
         android:name="cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment"
