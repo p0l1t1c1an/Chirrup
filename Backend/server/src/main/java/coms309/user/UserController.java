@@ -47,6 +47,7 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);    
 
     private static String profilePicturePath = "/files/profilepictures/";
+    private static String defaultPic = "default_picture.png";
 
     //creating a get mapping to retrieve all the users in the db
     @ApiOperation(value = "get all users", response = Iterable.class, tags = "getUsers")
@@ -272,7 +273,26 @@ public class UserController {
         // Check the file if it exists and load it into the memory
         File file = new File(user.getProfilePicturePath());
         if(!file.exists()) {
-            return null;
+            String[] splitPath = (profilePicturePath + defaultPic).split("/");
+            String fileName = splitPath[splitPath.length-1];
+            
+            // add headers to state that a file is being downloaded
+            HttpHeaders header = new HttpHeaders();
+            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+            header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            header.add("Pragma", "no-cache");
+            header.add("Expires", "0");
+
+            // convert the file into bytearrayresource format to send to the front end with the file
+            Path path = Paths.get(file.getAbsolutePath());
+            ByteArrayResource data = new ByteArrayResource(Files.readAllBytes(path));
+
+            // send the response entity back to the front end with the 
+            return ResponseEntity.ok()
+                    .headers(header)
+                    .contentLength(file.length())
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(data);
         }
 
         String[] splitPath = user.getProfilePicturePath().split("/");
