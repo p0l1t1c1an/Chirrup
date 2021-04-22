@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
@@ -53,7 +54,8 @@ public class UserFragment extends Fragment {
 
         UserPresenter postPresenter = new UserPresenter(root);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
-                "user/" + userID, "https://api.androidhive.info/volley/volley-image.jpg");
+                "user/" + userID, AppController.getInstance().getString(R.string.base_url)
+                + "user/" + userID + "/profilePicture");
 
         root.setOnClickListener(v -> {
             OtherProfileFragment profile = new OtherProfileFragment(userID);

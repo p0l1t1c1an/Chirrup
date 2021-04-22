@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
  * other user profile page fragment
@@ -48,7 +49,8 @@ public class OtherProfileFragment extends Fragment {
 
         OtherProfilePresenter otherProfilePresenter = new OtherProfilePresenter(root);
         otherProfilePresenter.loadData(getString(R.string.base_url) + "user/" + userID,
-                "https://api.androidhive.info/volley/volley-image.jpg", Session.getUser());
+                AppController.getInstance().getString(R.string.base_url) + "user/" + userID
+                        + "/profilePicture", Session.getUser());
 
         Button follow = root.findViewById(R.id.otherprofile_follow);
 
