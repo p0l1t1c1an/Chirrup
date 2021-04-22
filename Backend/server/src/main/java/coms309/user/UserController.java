@@ -46,7 +46,7 @@ public class UserController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);    
 
-    private static String profilePicturePath = "D:/Desktop/"; //"/files/profilepictures/";
+    private static String profilePicturePath = "/files/profilepictures/";
     private static String defaultPic = "default_picture.png";
 
     //creating a get mapping to retrieve all the users in the db
