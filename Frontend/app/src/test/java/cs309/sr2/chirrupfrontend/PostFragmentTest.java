@@ -60,8 +60,6 @@ public class PostFragmentTest {
 
         when(postPresenter.getLikes()).thenReturn(likeCount[0]);
         when(postPresenter.isLiked()).thenReturn(liked[0]);
-        doNothing().when(postPresenter).likePostRemote(anyString());
-        doNothing().when(postPresenter).likePostLocal();
         doAnswer(invocation -> {
 
             if (liked[0]) {
