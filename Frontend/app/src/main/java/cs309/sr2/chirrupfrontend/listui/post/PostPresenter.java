@@ -40,6 +40,11 @@ public class PostPresenter implements VolleyListener {
     private View view;
 
     /**
+     * url for post object
+     */
+    private String postURL;
+
+    /**
      * url for the user json object with id replaced with #
      */
     private String userURL;
@@ -109,6 +114,7 @@ public class PostPresenter implements VolleyListener {
     public void loadData(String postURL, String userURL, String imageURL, int likeUserID) {
         volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(postURL);
+        this.postURL = postURL;
         this.userURL = userURL;
         this.imageURL = imageURL;
         this.likeUserID = likeUserID;
@@ -328,12 +334,16 @@ public class PostPresenter implements VolleyListener {
 
     /**
      * report or delete a post, depending on who is viewing the post
+     *
+     * @param reportURL url for reporting
+     * @param deleteURL url for deleting
      */
-    public void reportOrDelete() {
+    public void reportOrDelete(String reportURL, String deleteURL) {
         if (creatorID == likeUserID) {
-            //delete
+            volleyRequester.setString(deleteURL, null, Request.Method.DELETE);
         } else {
-            //report
+            volleyRequester.setString(reportURL, null, Request.Method.POST);
         }
+        view.setVisibility(View.GONE);
     }
 }
