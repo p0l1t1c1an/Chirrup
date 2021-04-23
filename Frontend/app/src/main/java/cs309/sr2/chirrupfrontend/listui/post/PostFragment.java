@@ -61,7 +61,7 @@ public class PostFragment extends Fragment {
         loadData(root);
 
         Button like = root.findViewById(R.id.post_like);
-        Button share = root.findViewById(R.id.post_share);
+        Button share = root.findViewById(R.id.post_report_delete);
         Button comment = root.findViewById(R.id.post_comment);
 
         like.setOnClickListener(v -> {

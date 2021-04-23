@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/post_avatar" />
 
     <Button
-        android:id="@+id/post_share"
+        android:id="@+id/post_report_delete"
         android:layout_width="68dp"
         android:layout_height="37dp"
         android:layout_marginStart="16dp"
@@ -100,7 +100,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/post_like"
-        app:layout_constraintStart_toEndOf="@+id/post_share"
+        app:layout_constraintStart_toEndOf="@+id/post_report_delete"
         app:layout_constraintTop_toBottomOf="@+id/post_body" />
 
     <Button
@@ -125,7 +125,7 @@
         android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_share">
+        app:layout_constraintTop_toBottomOf="@+id/post_report_delete">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
