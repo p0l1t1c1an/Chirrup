@@ -61,15 +61,15 @@ public class PostFragment extends Fragment {
         loadData(root);
 
         Button like = root.findViewById(R.id.post_like);
-        Button share = root.findViewById(R.id.post_report_delete);
+        Button report = root.findViewById(R.id.post_report_delete);
         Button comment = root.findViewById(R.id.post_comment);
 
         like.setOnClickListener(v -> {
             likePost();
         });
 
-        share.setOnClickListener(v -> {
-            //show ui to send as a message
+        report.setOnClickListener(v -> {
+            reportOrDelete();
         });
 
         comment.setOnClickListener(v -> {
@@ -149,5 +149,12 @@ public class PostFragment extends Fragment {
      */
     public int getPostID() {
         return postID;
+    }
+
+    /**
+     * report or delete post. if the viewer is the creator, it will delete, otherwise, it will report.
+     */
+    public void reportOrDelete() {
+        postPresenter.reportOrDelete();
     }
 }
