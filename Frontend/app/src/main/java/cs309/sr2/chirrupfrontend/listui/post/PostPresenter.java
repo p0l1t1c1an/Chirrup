@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
+import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
@@ -230,9 +231,15 @@ public class PostPresenter implements VolleyListener {
      * show the profile of the post creator
      */
     public void showProfile() {
-        OtherProfileFragment profile = new OtherProfileFragment(creatorID);
-        AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
-                .addToBackStack(null).commit();
+        if(creatorID == likeUserID) {
+            PersonalProfileFragment profile = new PersonalProfileFragment();
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
+                    .addToBackStack(null).commit();
+        } else {
+            OtherProfileFragment profile = new OtherProfileFragment(creatorID);
+            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
+                    .addToBackStack(null).commit();
+        }
     }
 
     /**
