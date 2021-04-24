@@ -4,7 +4,8 @@ import coms309.user.User;
 import coms309.user.UserService;
 import coms309.user.UserRepository;
 
-import java.util.ArrayList;  
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class SearchService {
     // Adding to this means that compareUser function must also be modified
     private static final String[] USER_TAGS = {"user", "first", "last", "role", "phone"};
 
-    private double percentSimilar(String stored, String searched) {
+    private double percentSimilar(String stored, String searched, boolean isOr) {
         LevenshteinDistance dist = LevenshteinDistance.getDefaultInstance();
       
         if(stored == null || stored.equals("")) {
@@ -41,7 +42,7 @@ public class SearchService {
         }
 
         if(searched == null || searched.equals("")) {
-            return 100;
+            return isOr ? 0 : 100;
         }
 
         // Percent Similar = # of characters that don't have to change / total chars 
@@ -51,12 +52,10 @@ public class SearchService {
         return 100.0 * (stored.length() + 1 - dist.apply(stored, searched)) / stored.length();
     }
     
-    private boolean exactSearch(String stored, String searched) { 
+    private boolean exactSearch(String stored, String searched, boolean isOr) { 
         if(searched == null || searched.equals("")) {
-            return true;
+            return !isOr;
         }
-        
-        //System.out.println(stored +" : "+searched);
 
         return Objects.equals(stored, searched);
     }
@@ -71,36 +70,30 @@ public class SearchService {
         }
     }
 
-    private boolean compareUser(User u, int tagPos, String param, boolean isExact) {
-        boolean ret = false;
-        
+    private boolean compareUser(User u, int tagPos, String param, boolean isExact, boolean isOr) {
         switch(tagPos) {
             // Only names can use fuzzy search
             case 0:
-                ret = isExact ? exactSearch(u.getUsername(), param) : percentSimilar(u.getUsername(), param) >= MIN_DIFF; 
-                break;
+                return isExact ? 
+                    exactSearch(u.getUsername(),  param, isOr) : 
+                    percentSimilar(u.getUsername(),  param, isOr) >= MIN_DIFF; 
             case 1:
-                ret = isExact ? exactSearch(u.getFirstname(), param) : percentSimilar(u.getFirstname(), param) >= MIN_DIFF; 
-                break;
+                return isExact ? 
+                    exactSearch(u.getFirstname(), param, isOr) : 
+                    percentSimilar(u.getFirstname(), param, isOr) >= MIN_DIFF; 
             case 2:
-                ret = isExact ? exactSearch(u.getLastname(), param) : percentSimilar(u.getLastname(), param) >= MIN_DIFF; 
-                break;
+                return isExact ? 
+                    exactSearch(u.getLastname(),  param, isOr) : 
+                    percentSimilar(u.getLastname(),  param, isOr) >= MIN_DIFF; 
 
             // The rest are always exact
             case 3:
-                ret = u.getRole() == tryParseInt(param, u.getRole()); //If no role given, then it won't effect search
-                break;
+                return u.getRole() == tryParseInt(param, isOr ? -1 : u.getRole()); //If no role given, then it won't effect search
             case 4:
-                ret = exactSearch(u.getTelephone(), param);
-                break;
+                return exactSearch(u.getTelephone(), param, isOr);
             default:
-                ret = false;
-                break;
+                return !isOr;
         }
-
-        //System.out.println(param + " : " + ret);
-        return ret;
-
     }
 
     public List<User> searchUser(int id, Map<String, String> params, boolean isExact) {
@@ -118,7 +111,7 @@ public class SearchService {
             for(int i = 0; i < USER_TAGS.length; ++i) {
                 final int iFinal = i;
                 users = users.stream() // This is odd and I don't understand why I can't just pass i
-                        .filter(x -> compareUser(x, iFinal, params.get(USER_TAGS[iFinal]), isExact))
+                        .filter(x -> compareUser(x, iFinal, params.get(USER_TAGS[iFinal]), isExact, false))
                         .collect(Collectors.toList());
             }
             return users; 
@@ -127,10 +120,11 @@ public class SearchService {
         return new ArrayList<User>();
     }
     
-    public List<User> searchUserOr(int id, MultiValueMap<String, String> params, boolean isExact) {
+    public Set<User> searchUserOr(int id, Map<String, String> params, boolean isExact) {
          if(params != null && !params.isEmpty()) {
             List<User> users = userService.getAllUser();
-            
+            Set<User> matched = new HashSet<User>();
+
             // Remove from search if user is blocking someone
             if(id > 0 && userRepository.existsById(id)) {
                 User searcher = userService.getUserById(id);
@@ -141,23 +135,14 @@ public class SearchService {
 
             for(int i = 0; i < USER_TAGS.length; ++i) {
                 final int iFinal = i;
-                users = users.stream()
-                        .filter(x -> {
-                            boolean save = false;
-                            if(params.get(USER_TAGS[iFinal]) != null) {
-                                for(String param : params.get(USER_TAGS[iFinal])) {
-                                    save = save || compareUser(x, iFinal, param, isExact); 
-                                }
-                                return save;
-                            }
-                            return true;
-                        })
-                        .collect(Collectors.toList());
+                matched.addAll(users.stream()
+                        .filter(x -> compareUser(x, iFinal, params.get(USER_TAGS[iFinal]), isExact, true))
+                        .collect(Collectors.toSet()));
             }
-            return users; 
+            return matched; 
         }
 
-        return new ArrayList<User>();
+        return new HashSet<User>();
     }
 
 }
