@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -34,7 +33,10 @@ public class SearchFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
 
         SearchPresenter searchPresenter = new SearchPresenter(root);
-        searchPresenter.loadData(AppController.getInstance().getString(R.string.base_url) + "");
+        searchPresenter.loadData(AppController.getInstance().getString(R.string.base_url)
+                + "search/user/fuzzyOr/?user=#&first=#&last=#");
+
+        root.findViewById(R.id.search_button).setOnClickListener(v -> searchPresenter.search());
 
         return root;
     }

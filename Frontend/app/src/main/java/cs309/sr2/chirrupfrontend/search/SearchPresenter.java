@@ -1,12 +1,13 @@
 package cs309.sr2.chirrupfrontend.search;
 
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.listui.post.PostFragment;
 import cs309.sr2.chirrupfrontend.listui.user.UserFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
@@ -30,6 +31,11 @@ public class SearchPresenter implements VolleyListener {
     private View view;
 
     /**
+     * url for searching
+     */
+    private String searchURL;
+
+    /**
      * create a new presenter for searching
      *
      * @param view fragment view
@@ -45,7 +51,19 @@ public class SearchPresenter implements VolleyListener {
      */
     public void loadData(String searchURL) {
         volleyRequester = new VolleyRequester(this);
-        volleyRequester.getArray(searchURL);
+        this.searchURL = searchURL;
+    }
+
+    /**
+     * search based on input from the search box
+     */
+    public void search() {
+        LinearLayout layout = view.findViewById(R.id.search_feed_layout);
+        for (View view1 : layout.getTouchables()) {
+            view1.setVisibility(View.GONE);
+        }
+        String query = ((EditText) view.findViewById(R.id.search_textbox)).getText().toString();
+        volleyRequester.getArray(searchURL.replace("#", query));
     }
 
     /**
