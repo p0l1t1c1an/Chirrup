@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -74,7 +76,8 @@ public class SearchPresenter implements VolleyListener {
         try {
             for (int i = 0; i < response.length(); i++) {
                 UserFragment user = new UserFragment(response.getInt(i));
-                AppController.getFragmentManager().beginTransaction().add(R.id.search_feed_layout, user).commit();
+                AppController.getFragmentManager().beginTransaction().add(R.id.search_feed_layout, user)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
         } catch (JSONException e) {
             e.printStackTrace();

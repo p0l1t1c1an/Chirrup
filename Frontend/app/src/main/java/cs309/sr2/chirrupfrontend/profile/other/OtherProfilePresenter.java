@@ -5,6 +5,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 
@@ -95,7 +97,8 @@ public class OtherProfilePresenter implements VolleyListener {
             for (int i = posts.length() - 1; i >= 0; i--) {
                 try {
                     PostFragment post = new PostFragment(posts.getInt(i));
-                    AppController.getFragmentManager().beginTransaction().add(R.id.otherprofile_feed_layout, post).commit();
+                    AppController.getFragmentManager().beginTransaction().add(R.id.otherprofile_feed_layout, post)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -2,6 +2,8 @@ package cs309.sr2.chirrupfrontend.profile.personal.following;
 
 import android.view.View;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +61,8 @@ public class FollowingPresenter implements VolleyListener {
             JSONArray following = response.getJSONArray("following");
             for (int i = following.length() - 1; i >= 0; i--) {
                 UserFragment fragment = new UserFragment(following.getInt(i));
-                AppController.getFragmentManager().beginTransaction().add(R.id.follow_feed_layout, fragment).commit();
+                AppController.getFragmentManager().beginTransaction().add(R.id.follow_feed_layout, fragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -20,7 +20,7 @@ import cs309.sr2.chirrupfrontend.utils.AppController;
  * was posted, and likes. a post can be added to a layout easily by doing:
  * <br>
  * <code>PostFragment fragment = new PostFragment(userID);
- * AppController.getFragmentManager().beginTransaction().add(R.id.container, fragment).commit();</code>
+ * AppController.showFragment(fragment);</code>
  *
  * @author Jeremy Noesen
  */
@@ -113,8 +113,7 @@ public class PostFragment extends Fragment {
      */
     public void showComments() {
         CommentsFragment comments = new CommentsFragment(postID);
-        AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, comments)
-                .addToBackStack(null).commit();
+        AppController.showFragment(comments);
     }
 
     /**

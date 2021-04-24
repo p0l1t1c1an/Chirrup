@@ -3,12 +3,16 @@ package cs309.sr2.chirrupfrontend.utils;
 import android.app.Application;
 import android.text.TextUtils;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+
+import cs309.sr2.chirrupfrontend.R;
 
 /**
  * this class is from https://git.linux.iastate.edu/cs309/tutorials/blob/android_unit2_1_volley/AndroidVolley/app/src/main/java/com/example/sumon/androidvolley/app/AppController.java
@@ -138,5 +142,26 @@ public class AppController extends Application {
      */
     public static void setFragmentManager(FragmentManager fragmentManager) {
         AppController.fragmentManager = fragmentManager;
+    }
+
+    /**
+     * show a fragment
+     *
+     * @param fragment fragment to show
+     */
+    public static void showFragment(Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+        String fragmentTag = backStateName;
+
+        FragmentManager manager = getFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null) {
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.nav_host_fragment, fragment, fragmentTag);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
     }
 }

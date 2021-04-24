@@ -20,7 +20,7 @@ import cs309.sr2.chirrupfrontend.utils.AppController;
  * A UI element that will show the contents of a user for the purpose of listing with other users. Can be added with:
  * <br>
  * <code>UserFragment fragment = new UserFragment(userID);
- * AppController.getFragmentManager().beginTransaction().add(R.id.container, fragment).commit();</code>
+ * AppController.showFragment(fragment);</code>
  *
  * @author Jeremy Noesen
  */
@@ -61,12 +61,10 @@ public class UserFragment extends Fragment {
         root.setOnClickListener(v -> {
             if(userID == Session.getUser()) {
                 PersonalProfileFragment profile = new PersonalProfileFragment();
-                AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
-                        .addToBackStack(null).commit();
+                AppController.showFragment(profile);
             } else {
                 OtherProfileFragment profile = new OtherProfileFragment(userID);
-                AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
-                        .addToBackStack(null).commit();
+                AppController.showFragment(profile);
             }
         });
 
