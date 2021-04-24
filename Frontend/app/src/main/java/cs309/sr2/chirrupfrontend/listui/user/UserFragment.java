@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
+import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
@@ -58,9 +59,15 @@ public class UserFragment extends Fragment {
                 + "user/" + userID + "/profilePicture");
 
         root.setOnClickListener(v -> {
-            OtherProfileFragment profile = new OtherProfileFragment(userID);
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
-                    .addToBackStack(null).commit();
+            if(userID == Session.getUser()) {
+                PersonalProfileFragment profile = new PersonalProfileFragment();
+                AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
+                        .addToBackStack(null).commit();
+            } else {
+                OtherProfileFragment profile = new OtherProfileFragment(userID);
+                AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
+                        .addToBackStack(null).commit();
+            }
         });
 
         return root;
