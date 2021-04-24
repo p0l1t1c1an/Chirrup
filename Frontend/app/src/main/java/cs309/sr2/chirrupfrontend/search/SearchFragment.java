@@ -34,7 +34,7 @@ public class SearchFragment extends Fragment {
 
         SearchPresenter searchPresenter = new SearchPresenter(root);
         searchPresenter.loadData(AppController.getInstance().getString(R.string.base_url)
-                + "search/user/fuzzyOr/?user=#&first=#&last=#");
+                + "search/user/fuzzyOr?user=#&first=#&last=#");
 
         root.findViewById(R.id.search_button).setOnClickListener(v -> searchPresenter.search());
 

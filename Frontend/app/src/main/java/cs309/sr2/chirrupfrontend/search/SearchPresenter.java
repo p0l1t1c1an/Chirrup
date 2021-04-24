@@ -59,9 +59,7 @@ public class SearchPresenter implements VolleyListener {
      */
     public void search() {
         LinearLayout layout = view.findViewById(R.id.search_feed_layout);
-        for (View view1 : layout.getTouchables()) {
-            view1.setVisibility(View.GONE);
-        }
+        layout.removeAllViews();
         String query = ((EditText) view.findViewById(R.id.search_textbox)).getText().toString();
         volleyRequester.getArray(searchURL.replace("#", query));
     }
