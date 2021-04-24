@@ -1,6 +1,7 @@
 package cs309.sr2.chirrupfrontend.mainfeed;
 
 import android.view.View;
+import android.widget.LinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,11 @@ public class MainFeedPresenter implements VolleyListener {
     private View view;
 
     /**
+     * url for feed
+     */
+    private String feedURL;
+
+    /**
      * create a new presenter for main feed
      *
      * @param view fragment view
@@ -44,7 +50,17 @@ public class MainFeedPresenter implements VolleyListener {
      * @param feedURL url for the user feed
      */
     public void loadData(String feedURL) {
+        this.feedURL = feedURL;
         volleyRequester = new VolleyRequester(this);
+        volleyRequester.getArray(feedURL);
+    }
+
+    /**
+     * reload the feed, looking for new posts and adding them to the layout
+     */
+    public void reload() {
+        LinearLayout layout = view.findViewById(R.id.main_feed_layout);
+        layout.removeAllViews();
         volleyRequester.getArray(feedURL);
     }
 

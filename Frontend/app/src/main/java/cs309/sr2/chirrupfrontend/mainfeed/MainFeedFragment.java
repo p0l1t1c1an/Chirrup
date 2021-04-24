@@ -59,6 +59,8 @@ public class MainFeedFragment extends Fragment {
         MainFeedPresenter mainFeedPresenter = new MainFeedPresenter(root);
         mainFeedPresenter.loadData(AppController.getInstance().getString(R.string.base_url) + "feed/" + userID);
 
+        root.findViewById(R.id.main_feed_reload).setOnClickListener(v -> mainFeedPresenter.reload());
+
         return root;
     }
 

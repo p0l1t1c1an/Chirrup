@@ -17,8 +17,8 @@
     <string name="report">Report</string>
     <string name="like">Like</string>
     <string name="comment">Comment</string>
-    <string name="newpost">New Post</string>
-    <string name="mainfeed">Main Feed</string>
+    <string name="newpost">Compose</string>
+    <string name="mainfeed">Feed</string>
     <string name="menu_profile">Profile</string>
     <string name="search">Search</string>
     <string name="base_url">http://coms-309-016.cs.iastate.edu:8080/api/</string>
