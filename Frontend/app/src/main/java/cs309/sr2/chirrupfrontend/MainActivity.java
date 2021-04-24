@@ -68,14 +68,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * navigate back when pressing back button
+     * override back button to disable it
      */
     @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStackImmediate();
-        } else {
-            finish();
-        }
-    }
+    public void onBackPressed() {}
 }
