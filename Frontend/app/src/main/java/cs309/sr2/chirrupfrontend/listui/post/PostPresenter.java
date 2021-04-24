@@ -40,6 +40,11 @@ public class PostPresenter implements VolleyListener {
     private View view;
 
     /**
+     * url for post object
+     */
+    private String postURL;
+
+    /**
      * url for the user json object with id replaced with #
      */
     private String userURL;
@@ -101,14 +106,15 @@ public class PostPresenter implements VolleyListener {
     /**
      * load the data for the post
      *
-     * @param postURL url for the post json object
-     * @param userURL url for the user json object with id replaced with #
-     * @param imageURL url for user avatar with user id replaced with #
+     * @param postURL    url for the post json object
+     * @param userURL    url for the user json object with id replaced with #
+     * @param imageURL   url for user avatar with user id replaced with #
      * @param likeUserID id of user viewing post
      */
     public void loadData(String postURL, String userURL, String imageURL, int likeUserID) {
         volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(postURL);
+        this.postURL = postURL;
         this.userURL = userURL;
         this.imageURL = imageURL;
         this.likeUserID = likeUserID;
@@ -160,7 +166,7 @@ public class PostPresenter implements VolleyListener {
      */
     public void likePostLocal() {
         Button like = view.findViewById(R.id.post_like);
-        if(liked) {
+        if (liked) {
             like.setText("Like (" + (likes - 1) + ")");
             likes--;
             liked = false;
@@ -177,7 +183,7 @@ public class PostPresenter implements VolleyListener {
      * @param url url for like request
      */
     public void likePostRemote(String url) {
-        if(liked) {
+        if (liked) {
             volleyRequester.setString(url, null, Request.Method.POST);
         } else {
             volleyRequester.setString(url, null, Request.Method.DELETE);
@@ -224,14 +230,15 @@ public class PostPresenter implements VolleyListener {
             } else {
                 ((Button) view.findViewById(R.id.post_like)).setText("Like (" + likes + ")");
             }
-        } catch (NullPointerException ignored) {}
+        } catch (NullPointerException ignored) {
+        }
     }
 
     /**
      * show the profile of the post creator
      */
     public void showProfile() {
-        if(creatorID == likeUserID) {
+        if (creatorID == likeUserID) {
             PersonalProfileFragment profile = new PersonalProfileFragment();
             AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
                     .addToBackStack(null).commit();
@@ -289,6 +296,9 @@ public class PostPresenter implements VolleyListener {
         creatorID = postData.getInt("creator");
         volleyRequester.getObject(userURL.replace("#", String.valueOf(creatorID)));
         volleyRequester.getImage(imageURL.replace("#", String.valueOf(creatorID)));
+
+        if (creatorID == likeUserID)
+            ((Button) view.findViewById(R.id.post_report_delete)).setText("Delete");
     }
 
     /**
@@ -320,5 +330,20 @@ public class PostPresenter implements VolleyListener {
      */
     public void setView(View view) {
         this.view = view;
+    }
+
+    /**
+     * report or delete a post, depending on who is viewing the post
+     *
+     * @param reportURL url for reporting
+     * @param deleteURL url for deleting
+     */
+    public void reportOrDelete(String reportURL, String deleteURL) {
+        if (creatorID == likeUserID) {
+            volleyRequester.setString(deleteURL, null, Request.Method.DELETE);
+        } else {
+            volleyRequester.setString(reportURL, null, Request.Method.POST);
+        }
+        view.setVisibility(View.GONE);
     }
 }

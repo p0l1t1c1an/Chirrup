@@ -61,15 +61,15 @@ public class PostFragment extends Fragment {
         loadData(root);
 
         Button like = root.findViewById(R.id.post_like);
-        Button share = root.findViewById(R.id.post_report_delete);
+        Button report = root.findViewById(R.id.post_report_delete);
         Button comment = root.findViewById(R.id.post_comment);
 
         like.setOnClickListener(v -> {
             likePost();
         });
 
-        share.setOnClickListener(v -> {
-            //show ui to send as a message
+        report.setOnClickListener(v -> {
+            reportOrDelete();
         });
 
         comment.setOnClickListener(v -> {
@@ -95,9 +95,9 @@ public class PostFragment extends Fragment {
     public void loadData(View view) {
         if (postPresenter == null) postPresenter = new PostPresenter(view);
         postPresenter.loadData(AppController.getInstance().getString(R.string.base_url) +
-                        "posts/" + postID, AppController.getInstance().getString(R.string.base_url) +
-                        "user/#", AppController.getInstance().getString(R.string.base_url) +
-                        "user/#/profilePicture", Session.getUser());
+                "posts/" + postID, AppController.getInstance().getString(R.string.base_url) +
+                "user/#", AppController.getInstance().getString(R.string.base_url) +
+                "user/#/profilePicture", Session.getUser());
     }
 
     /**
@@ -149,5 +149,15 @@ public class PostFragment extends Fragment {
      */
     public int getPostID() {
         return postID;
+    }
+
+    /**
+     * report or delete post. if the viewer is the creator, it will delete, otherwise, it will report.
+     */
+    public void reportOrDelete() {
+        postPresenter.reportOrDelete(AppController.getInstance().getString(R.string.base_url)
+                        + "posts/report/" + Session.getUser() + "/" + postID,
+                AppController.getInstance().getString(R.string.base_url) +
+                        "posts/" + postID);
     }
 }
