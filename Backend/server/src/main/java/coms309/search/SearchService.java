@@ -96,7 +96,7 @@ public class SearchService {
         }
     }
 
-    public List<User> searchUser(int id, Map<String, String> params, boolean isExact) {
+    public List<Integer> searchUser(int id, Map<String, String> params, boolean isExact) {
         if(params != null && !params.isEmpty()) {
             List<User> users = userService.getAllUser();
            
@@ -114,13 +114,13 @@ public class SearchService {
                         .filter(x -> compareUser(x, iFinal, params.get(USER_TAGS[iFinal]), isExact, false))
                         .collect(Collectors.toList());
             }
-            return users; 
+            return users.stream().map(x -> x.getId()).collect(Collectors.toList()); 
         }
 
-        return new ArrayList<User>();
+        return new ArrayList<Integer>();
     }
     
-    public Set<User> searchUserOr(int id, Map<String, String> params, boolean isExact) {
+    public Set<Integer> searchUserOr(int id, Map<String, String> params, boolean isExact) {
          if(params != null && !params.isEmpty()) {
             List<User> users = userService.getAllUser();
             Set<User> matched = new HashSet<User>();
@@ -139,10 +139,10 @@ public class SearchService {
                         .filter(x -> compareUser(x, iFinal, params.get(USER_TAGS[iFinal]), isExact, true))
                         .collect(Collectors.toSet()));
             }
-            return matched; 
+            return matched.stream().map(x -> x.getId()).collect(Collectors.toSet()); 
         }
 
-        return new HashSet<User>();
+        return new HashSet<Integer>();
     }
 
 }
