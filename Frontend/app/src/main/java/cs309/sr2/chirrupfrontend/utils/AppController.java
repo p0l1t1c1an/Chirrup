@@ -150,18 +150,9 @@ public class AppController extends Application {
      * @param fragment fragment to show
      */
     public static void showFragment(Fragment fragment) {
-        String backStateName = fragment.getClass().getName();
-        String fragmentTag = backStateName;
-
-        FragmentManager manager = getFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-
-        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null) {
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.nav_host_fragment, fragment, fragmentTag);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.addToBackStack(backStateName);
-            ft.commit();
-        }
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.nav_host_fragment, fragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
     }
 }
