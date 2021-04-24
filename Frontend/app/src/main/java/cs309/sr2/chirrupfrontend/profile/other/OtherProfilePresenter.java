@@ -51,6 +51,11 @@ public class OtherProfilePresenter implements VolleyListener {
     private int followers;
 
     /**
+     * whether the current user has the user blocked or not
+     */
+    private boolean blocked;
+
+    /**
      * create a new presenter for the profile page
      *
      * @param view fragment view
@@ -111,6 +116,20 @@ public class OtherProfilePresenter implements VolleyListener {
                 ((Button) view.findViewById(R.id.otherprofile_follow)).setText("Follow (" + followers + ")");
             }
 
+            JSONArray blockedArray = response.getJSONArray("blockers");
+            for (int i = 0; i < blockedArray.length(); i++) {
+                if (blockedArray.getInt(i) == viewerID) {
+                    blocked = true;
+                    break;
+                }
+            }
+
+            if (blocked) {
+                ((Button) view.findViewById(R.id.otherprofile_block)).setText("Unblock");
+            } else {
+                ((Button) view.findViewById(R.id.otherprofile_block)).setText("Block");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -143,6 +162,24 @@ public class OtherProfilePresenter implements VolleyListener {
             follow.setText("Unfollow (" + (followers + 1) + ")");
             followers++;
             followed = true;
+        }
+    }
+
+    /**
+     * block the user whose profile is being displayed
+     *
+     * @param url url used for blocking a user
+     */
+    public void blockUser(String url) {
+        Button blockButton = view.findViewById(R.id.otherprofile_block);
+        if (blocked) {
+            volleyRequester.setString(url, null, Request.Method.DELETE);
+            blockButton.setText("Block");
+            blocked = false;
+        } else {
+            volleyRequester.setString(url, null, Request.Method.POST);
+            blockButton.setText("Unblock");
+            blocked = true;
         }
     }
 }

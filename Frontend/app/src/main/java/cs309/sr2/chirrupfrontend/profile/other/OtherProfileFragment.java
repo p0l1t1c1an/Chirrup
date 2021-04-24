@@ -53,11 +53,18 @@ public class OtherProfileFragment extends Fragment {
                         + "/profilePicture", Session.getUser());
 
         Button follow = root.findViewById(R.id.otherprofile_follow);
+        Button block = root.findViewById(R.id.otherprofile_block);
 
         follow.setOnClickListener(v -> {
             if (userID != Session.getUser())
                 otherProfilePresenter.followUser(getString(R.string.base_url) + "user/" +
                         Session.getUser() + "/following/" + userID);
+        });
+
+        block.setOnClickListener(v -> {
+            if (userID != Session.getUser())
+                otherProfilePresenter.blockUser(getString(R.string.base_url) + "user/" +
+                        Session.getUser() + "/blocking/" + userID);
         });
 
         return root;
