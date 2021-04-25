@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.listui.user.UserFragment;
@@ -16,7 +15,7 @@ import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
- * class to handle visual changes for followers list
+ * class to handle visual changes for children list
  *
  * @author Jeremy Noesen
  */
@@ -33,9 +32,9 @@ public class ChildListPresenter implements VolleyListener {
     private View view;
 
     /**
-     * url for user
+     * url for child list
      */
-    private String userURL;
+    private String listURL;
 
     /**
      * create a new presenter for fragment
@@ -49,12 +48,12 @@ public class ChildListPresenter implements VolleyListener {
     /**
      * load the data for the list
      *
-     * @param userURL url for the user json object
+     * @param listURL url for children list
      */
-    public void loadData(String userURL) {
+    public void loadData(String listURL) {
         volleyRequester = new VolleyRequester(this);
-        volleyRequester.getObject(userURL);
-        this.userURL = userURL;
+        volleyRequester.getArray(listURL);
+        this.listURL = listURL;
     }
 
     /**
@@ -63,12 +62,11 @@ public class ChildListPresenter implements VolleyListener {
      * @param response response from request
      */
     @Override
-    public void onObjectResponse(JSONObject response) {
+    public void onArrayResponse(JSONArray response) {
         try {
-            JSONArray followers = response.getJSONArray("followers");
-            for (int i = followers.length() - 1; i >= 0; i--) {
-                UserFragment fragment = new UserFragment(followers.getInt(i));
-                AppController.getFragmentManager().beginTransaction().add(R.id.follow_feed_layout, fragment)
+            for (int i = response.length() - 1; i >= 0; i--) {
+                UserFragment fragment = new UserFragment(response.getInt(i));
+                AppController.getFragmentManager().beginTransaction().add(R.id.child_list_layout, fragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
         } catch (JSONException e) {
@@ -80,8 +78,8 @@ public class ChildListPresenter implements VolleyListener {
      * reload followers list
      */
     public void reload() {
-        LinearLayout layout = view.findViewById(R.id.follow_feed_layout);
+        LinearLayout layout = view.findViewById(R.id.child_list_layout);
         layout.removeAllViews();
-        volleyRequester.getObject(userURL);
+        volleyRequester.getArray(listURL);
     }
 }
