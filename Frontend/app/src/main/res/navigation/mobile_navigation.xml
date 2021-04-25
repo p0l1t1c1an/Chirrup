@@ -38,5 +38,9 @@
         android:id="@+id/nav_search"
         android:name="cs309.sr2.chirrupfrontend.search.SearchFragment"
         android:label="@string/search" />
+    <fragment
+        android:id="@+id/nav_adminFeed"
+        android:name="cs309.sr2.chirrupfrontend.adminfeed.AdminFeedFragment"
+        android:label="@string/reports" />
 
 </navigation>

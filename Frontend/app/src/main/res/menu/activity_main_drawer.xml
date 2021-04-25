@@ -37,5 +37,9 @@
             android:id="@+id/nav_newProfile"
             android:icon="@android:drawable/ic_menu_save"
             android:title="New Profile" />
+        <item
+            android:id="@+id/nav_adminFeed"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="@string/reports" />
     </group>
 </menu>
