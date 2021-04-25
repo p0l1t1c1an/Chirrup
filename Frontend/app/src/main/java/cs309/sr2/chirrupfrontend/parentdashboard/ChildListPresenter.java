@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.listui.user.UserFragment;
+import cs309.sr2.chirrupfrontend.parentdashboard.childuser.ChildUserFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
@@ -65,7 +65,7 @@ public class ChildListPresenter implements VolleyListener {
     public void onArrayResponse(JSONArray response) {
         try {
             for (int i = response.length() - 1; i >= 0; i--) {
-                UserFragment fragment = new UserFragment(response.getInt(i));
+                ChildUserFragment fragment = new ChildUserFragment(response.getInt(i));
                 AppController.getFragmentManager().beginTransaction().add(R.id.child_list_layout, fragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
