@@ -1,6 +1,7 @@
 package cs309.sr2.chirrupfrontend.listui.post.comments;
 
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,6 +33,11 @@ public class CommentsPresenter implements VolleyListener {
     private View view;
 
     /**
+     * url of post
+     */
+    private String postURL;
+
+    /**
      * create a new presenter for comment thread
      *
      * @param view fragment view
@@ -48,6 +54,7 @@ public class CommentsPresenter implements VolleyListener {
     public void loadData(String postURL) {
         volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(postURL);
+        this.postURL = postURL;
     }
 
     /**
@@ -71,5 +78,14 @@ public class CommentsPresenter implements VolleyListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * reload comments
+     */
+    public void reload() {
+        LinearLayout layout = view.findViewById(R.id.comments_feed_layout);
+        layout.removeAllViews();
+        volleyRequester.getObject(postURL);
     }
 }

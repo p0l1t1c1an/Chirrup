@@ -61,6 +61,8 @@ public class CommentsFragment extends Fragment {
 
         });
 
+        root.findViewById(R.id.comments_reload).setOnClickListener(v -> commentsPresenter.reload());
+
         return root;
     }
 

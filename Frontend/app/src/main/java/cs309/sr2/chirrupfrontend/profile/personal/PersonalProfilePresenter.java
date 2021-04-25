@@ -3,6 +3,7 @@ package cs309.sr2.chirrupfrontend.profile.personal;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
@@ -32,6 +33,21 @@ public class PersonalProfilePresenter implements VolleyListener {
     private View view;
 
     /**
+     * volley requester for class
+     */
+    private VolleyRequester volleyRequester;
+
+    /**
+     * url for user json object
+     */
+    private String userURL;
+
+    /**
+     * url for user avatar
+     */
+    private String imageURL;
+
+    /**
      * create a new presenter for the profile page
      *
      * @param view fragment view
@@ -47,9 +63,11 @@ public class PersonalProfilePresenter implements VolleyListener {
      * @param imageURL url for user avatar
      */
     public void loadData(String userURL, String imageURL) {
-        VolleyRequester volleyRequester = new VolleyRequester(this);
+        volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(userURL);
         volleyRequester.getImage(imageURL);
+        this.userURL = userURL;
+        this.imageURL = imageURL;
     }
 
     /**
@@ -95,5 +113,15 @@ public class PersonalProfilePresenter implements VolleyListener {
     @Override
     public void onImageResponse(ImageLoader.ImageContainer response) {
         ((ImageView) view.findViewById(R.id.personalprofile_avatar)).setImageBitmap(response.getBitmap());
+    }
+
+    /**
+     * reload the page and all posts
+     */
+    public void reload() {
+        LinearLayout layout = view.findViewById(R.id.personalprofile_feed_layout);
+        layout.removeAllViews();
+        volleyRequester.getObject(userURL);
+        volleyRequester.getImage(imageURL);
     }
 }

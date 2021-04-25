@@ -51,6 +51,9 @@ public class PersonalProfileFragment extends Fragment {
             AppController.showFragment(followingFragment);
         });
 
+        root.findViewById(R.id.personal_profile_reload).setOnClickListener(v -> personalProfilePresenter.reload());
+
+
         return root;
     }
 }

@@ -46,6 +46,8 @@ public class FollowingFragment extends Fragment {
         FollowingPresenter followingPresenter = new FollowingPresenter(root);
         followingPresenter.loadData(getString(R.string.base_url) + "user/" + userID);
 
+        root.findViewById(R.id.follow_list_reload).setOnClickListener(v -> followingPresenter.reload());
+
         return root;
     }
 }
