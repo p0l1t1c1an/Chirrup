@@ -1,6 +1,7 @@
 package cs309.sr2.chirrupfrontend.profile.personal.following;
 
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,6 +33,11 @@ public class FollowingPresenter implements VolleyListener {
     private View view;
 
     /**
+     * url for user
+     */
+    private String userURL;
+
+    /**
      * create a new presenter for fragment
      *
      * @param view fragment view
@@ -48,6 +54,7 @@ public class FollowingPresenter implements VolleyListener {
     public void loadData(String userURL) {
         volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(userURL);
+        this.userURL = userURL;
     }
 
     /**
@@ -67,5 +74,14 @@ public class FollowingPresenter implements VolleyListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * reload following list
+     */
+    public void reload() {
+        LinearLayout layout = view.findViewById(R.id.follow_feed_layout);
+        layout.removeAllViews();
+        volleyRequester.getObject(userURL);
     }
 }

@@ -67,6 +67,8 @@ public class OtherProfileFragment extends Fragment {
                         Session.getUser() + "/blocking/" + userID);
         });
 
+        root.findViewById(R.id.other_profile_reload).setOnClickListener(v -> otherProfilePresenter.reload());
+
         return root;
     }
 }

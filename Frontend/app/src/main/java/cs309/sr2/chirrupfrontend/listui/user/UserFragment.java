@@ -59,10 +59,7 @@ public class UserFragment extends Fragment {
                 + "user/" + userID + "/profilePicture");
 
         root.setOnClickListener(v -> {
-            if(userID == Session.getUser()) {
-                PersonalProfileFragment profile = new PersonalProfileFragment();
-                AppController.showFragment(profile);
-            } else {
+            if(userID != Session.getUser()) {
                 OtherProfileFragment profile = new OtherProfileFragment(userID);
                 AppController.showFragment(profile);
             }

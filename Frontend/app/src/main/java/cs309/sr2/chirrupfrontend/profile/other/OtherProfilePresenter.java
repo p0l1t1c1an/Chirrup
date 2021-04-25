@@ -3,6 +3,7 @@ package cs309.sr2.chirrupfrontend.profile.other;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
@@ -58,6 +59,16 @@ public class OtherProfilePresenter implements VolleyListener {
     private boolean blocked;
 
     /**
+     * url for user json object
+     */
+    private String userURL;
+
+    /**
+     * url for user avatar
+     */
+    private String imageURL;
+
+    /**
      * create a new presenter for the profile page
      *
      * @param view fragment view
@@ -77,6 +88,8 @@ public class OtherProfilePresenter implements VolleyListener {
         volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(userURL);
         volleyRequester.getImage(imageURL);
+        this.userURL = userURL;
+        this.imageURL = imageURL;
         this.viewerID = viewerID;
     }
 
@@ -184,5 +197,15 @@ public class OtherProfilePresenter implements VolleyListener {
             blockButton.setText("Unblock");
             blocked = true;
         }
+    }
+
+    /**
+     * reload the page and all posts
+     */
+    public void reload() {
+        LinearLayout layout = view.findViewById(R.id.otherprofile_feed_layout);
+        layout.removeAllViews();
+        volleyRequester.getObject(userURL);
+        volleyRequester.getImage(imageURL);
     }
 }
