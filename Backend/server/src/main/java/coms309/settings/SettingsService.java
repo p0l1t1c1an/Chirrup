@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;
 
@@ -70,12 +72,13 @@ public class SettingsService {
         userSettingsRepository.save(s);
     }
 
+    @Transactional
     public void addChildToParent(int id, int child) {
         UserSettings parentSettings = userSettingsRepository.findById(id).get();
-        User parentAccount = userRepository.findById(id).get();
+        User parentAccount = userRepository.getUserById(id);
         
         UserSettings childSettings = userSettingsRepository.findById(child).get();
-        User childAccount = userRepository.findById(child).get();
+        User childAccount = userRepository.getUserById(child);
 
         parentSettings.addChild(childSettings);
         childSettings.addParent(parentSettings);
@@ -83,17 +86,17 @@ public class SettingsService {
         childAccount.setRole(User.CHILD);
         parentAccount.setRole(User.PARENT);
 
-        userRepository.save(childAccount);
-        userRepository.save(parentAccount);
+        userRepository.saveAndFlush(childAccount);
+        userRepository.saveAndFlush(parentAccount);
         
         userSettingsRepository.save(childSettings);
         userSettingsRepository.save(parentSettings);
     }
 
-    
+   @Transactional 
     public void createChildOfParent(int id, User childAccount) {
         UserSettings parentSettings = userSettingsRepository.findById(id).get();
-        User parentAccount = userRepository.findById(id).get();
+        User parentAccount = userRepository.getUserById(id);
          
         UserSettings childSettings = new UserSettings(childAccount);
 
@@ -111,13 +114,13 @@ public class SettingsService {
         userSettingsRepository.save(parentSettings);
     }
 
-
+    @Transactional
     public void removeChildFromParent(int id, int child) {
         UserSettings parentSettings = userSettingsRepository.findById(id).get();
-        User parentAccount = userRepository.findById(id).get();
+        User parentAccount = userRepository.getUserById(id);
         
         UserSettings childSettings = userSettingsRepository.findById(child).get();
-        User childAccount = userRepository.findById(child).get();
+        User childAccount = userRepository.getUserById(child);
 
         parentSettings.removeChild(childSettings);
         childSettings.removeParent(parentSettings);
@@ -128,8 +131,8 @@ public class SettingsService {
         if(parentSettings.getChildren().isEmpty())
             parentAccount.setRole(User.STANDARD);
 
-        userRepository.save(childAccount);
-        userRepository.save(parentAccount);
+        userRepository.saveAndFlush(childAccount);
+        userRepository.saveAndFlush(parentAccount);
         
         userSettingsRepository.save(childSettings);
         userSettingsRepository.save(parentSettings);

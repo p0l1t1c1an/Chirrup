@@ -184,12 +184,16 @@ public class UserController {
     @ApiOperation(value = "block a user", response = String.class, tags = "blockUser")
     @PostMapping("/user/{id}/blocking/{blocking}")
     private String blockUser(@PathVariable("id") int id, @PathVariable("blocking") int block) {
+        System.out.println("Start Blocking");
         if(id != block) {
             User blocker = userService.getUserById(id);
             User blocking = userService.getUserById(block);
+            logger.info("Get user");
             blocker.addBlocking(blocking);
+            logger.info("Add Block");
             blocker.removeFollowing(blocking);
             blocking.removeFollower(blocker);
+            logger.info("Remove Follow");
             userService.saveOrUpdate(blocker);
             userService.saveOrUpdate(blocking);
             logger.info("blocked a user");

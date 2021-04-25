@@ -127,9 +127,9 @@ public class SettingsServiceTest {
         parent.setSettings(parentSettings);
 
         when(settingsRepo.findById(1)).thenReturn(Optional.of(parentSettings)); 
-        when(userRepo.findById(1)).thenReturn(Optional.of(parent));
+        when(userRepo.getUserById(1)).thenReturn(parent);
 
-        when(userRepo.save((User)any(User.class))).thenAnswer(x -> { return (User) x.getArgument(0); });
+        when(userRepo.saveAndFlush((User)any(User.class))).thenAnswer(x -> { return (User) x.getArgument(0); });
         when(settingsRepo.save((UserSettings)any(UserSettings.class)))
             .thenAnswer(x -> {return (UserSettings) x.getArgument(0); });
 
