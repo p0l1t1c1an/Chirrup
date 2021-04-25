@@ -134,6 +134,8 @@ public class PostPresenter implements VolleyListener {
                 status = 2;
             } else {
                 setPostData(response);
+                loadLikeData(response);
+                loadCommentsData(response);
                 status = 1;
             }
         } catch (JSONException e) {
@@ -281,17 +283,23 @@ public class PostPresenter implements VolleyListener {
         ((TextView) view.findViewById(R.id.post_body)).setText(postData.getString("content"));
         ((TextView) view.findViewById(R.id.post_timestamp)).setText(postData.getString("dateCreated"));
 
-        loadLikeData(postData);
-
-        int comments = postData.getJSONArray("comments").length();
-        ((Button) view.findViewById(R.id.post_comment)).setText("Comment (" + comments + ")");
-
         creatorID = postData.getInt("creator");
         volleyRequester.getObject(userURL.replace("#", String.valueOf(creatorID)));
         volleyRequester.getImage(imageURL.replace("#", String.valueOf(creatorID)));
 
         if (creatorID == likeUserID)
             ((Button) view.findViewById(R.id.post_report_delete)).setText("Delete");
+    }
+
+    /**
+     * load comments data
+     *
+     * @param postData post data json object
+     * @throws JSONException
+     */
+    public void loadCommentsData(JSONObject postData) throws JSONException {
+        int comments = postData.getJSONArray("comments").length();
+        ((Button) view.findViewById(R.id.post_comment)).setText("Comment (" + comments + ")");
     }
 
     /**

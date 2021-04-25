@@ -1,6 +1,5 @@
 package cs309.sr2.chirrupfrontend;
 
-import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,10 +44,6 @@ public class PostFragmentTest {
 
     /**
      * test adding a like to a post with no likes initially
-     * <p>
-     * note: current class structure prevents me from completing this properly
-     *
-     * @throws JSONException
      */
     @Test
     public void addLikeTest() {
@@ -114,6 +109,4 @@ public class PostFragmentTest {
         assertEquals(456, new PostFragment(456).getPostID());
         assertEquals(5, new PostFragment(5).getPostID());
     }
-
-
 }
