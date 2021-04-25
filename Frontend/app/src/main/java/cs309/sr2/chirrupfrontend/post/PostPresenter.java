@@ -238,10 +238,8 @@ public class PostPresenter implements VolleyListener {
      * show the profile of the post creator
      */
     public void showProfile() {
-        if (creatorID != likeUserID) {
-            OtherProfileFragment profile = new OtherProfileFragment(creatorID);
-            AppController.showFragment(profile);
-        }
+        OtherProfileFragment profile = new OtherProfileFragment(creatorID);
+        AppController.showFragment(profile);
     }
 
     /**
