@@ -3,6 +3,8 @@ package cs309.sr2.chirrupfrontend.mainfeed;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,7 +76,8 @@ public class MainFeedPresenter implements VolleyListener {
         try {
             for (int i = 0; i < response.length(); i++) {
                 PostFragment post = new PostFragment(response.getInt(i));
-                AppController.getFragmentManager().beginTransaction().add(R.id.main_feed_layout, post).commit();
+                AppController.getFragmentManager().beginTransaction().add(R.id.main_feed_layout, post)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
         } catch (JSONException e) {
             e.printStackTrace();

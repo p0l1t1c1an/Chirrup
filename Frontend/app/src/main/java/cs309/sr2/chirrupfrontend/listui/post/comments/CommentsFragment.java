@@ -57,8 +57,7 @@ public class CommentsFragment extends Fragment {
         reply.setOnClickListener(v -> {
 
             NewPostFragment newPostFragment = new NewPostFragment(postID);
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, newPostFragment)
-                    .addToBackStack(null).commit();
+            AppController.showFragment(newPostFragment);
 
         });
 

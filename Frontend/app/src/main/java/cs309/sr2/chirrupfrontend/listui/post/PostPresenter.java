@@ -240,12 +240,10 @@ public class PostPresenter implements VolleyListener {
     public void showProfile() {
         if (creatorID == likeUserID) {
             PersonalProfileFragment profile = new PersonalProfileFragment();
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
-                    .addToBackStack(null).commit();
+            AppController.showFragment(profile);
         } else {
             OtherProfileFragment profile = new OtherProfileFragment(creatorID);
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, profile)
-                    .addToBackStack(null).commit();
+            AppController.showFragment(profile);
         }
     }
 

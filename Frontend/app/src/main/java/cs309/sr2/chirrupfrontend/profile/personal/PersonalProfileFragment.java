@@ -43,14 +43,12 @@ public class PersonalProfileFragment extends Fragment {
 
         followers.setOnClickListener(v -> {
             FollowersFragment followersFragment = new FollowersFragment(Session.getUser());
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, followersFragment)
-                    .addToBackStack(null).commit();
+            AppController.showFragment(followersFragment);
         });
 
         following.setOnClickListener(v -> {
             FollowingFragment followingFragment = new FollowingFragment(Session.getUser());
-            AppController.getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, followingFragment)
-                    .addToBackStack(null).commit();
+            AppController.showFragment(followingFragment);
         });
 
         return root;
