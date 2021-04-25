@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
@@ -141,13 +142,8 @@ public class ReportPostPresenter implements VolleyListener {
      * show the profile of the post creator
      */
     public void showProfile() {
-        if (creatorID == likeUserID) {
-            PersonalProfileFragment profile = new PersonalProfileFragment();
-            AppController.showFragment(profile);
-        } else {
-            OtherProfileFragment profile = new OtherProfileFragment(creatorID);
-            AppController.showFragment(profile);
-        }
+        OtherProfileFragment profile = new OtherProfileFragment(creatorID);
+        AppController.showFragment(profile);
     }
 
     /**
@@ -233,6 +229,7 @@ public class ReportPostPresenter implements VolleyListener {
     public void delete(String url) {
         volleyRequester.setString(url, null, Request.Method.DELETE);
         view.setVisibility(View.GONE);
+        Toast.makeText(AppController.getInstance(), "Post deleted!", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -243,5 +240,6 @@ public class ReportPostPresenter implements VolleyListener {
     public void dismiss(String url) {
         volleyRequester.setString(url, null, Request.Method.PUT);
         view.setVisibility(View.GONE);
+        Toast.makeText(AppController.getInstance(), "Post dismissed!", Toast.LENGTH_SHORT).show();
     }
 }

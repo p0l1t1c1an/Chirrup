@@ -1,7 +1,6 @@
-package cs309.sr2.chirrupfrontend.search;
+package cs309.sr2.chirrupfrontend.parentdashboard.childfeed;
 
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.FragmentTransaction;
@@ -10,17 +9,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.user.UserFragment;
+import cs309.sr2.chirrupfrontend.post.PostFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
- * presenter for search page
+ * presenter for the main feed
  *
  * @author Jeremy Noesen
  */
-public class SearchPresenter implements VolleyListener {
+public class ChildFeedPresenter implements VolleyListener {
 
     /**
      * volley requester for the fragment
@@ -33,37 +32,37 @@ public class SearchPresenter implements VolleyListener {
     private View view;
 
     /**
-     * url for searching
+     * url for feed
      */
-    private String searchURL;
+    private String feedURL;
 
     /**
-     * create a new presenter for searching
+     * create a new presenter for main feed
      *
      * @param view fragment view
      */
-    public SearchPresenter(View view) {
+    public ChildFeedPresenter(View view) {
         this.view = view;
     }
 
     /**
      * load the data for the fragment
      *
-     * @param searchURL url for the user feed
+     * @param feedURL url for the user feed
      */
-    public void loadData(String searchURL) {
+    public void loadData(String feedURL) {
+        this.feedURL = feedURL;
         volleyRequester = new VolleyRequester(this);
-        this.searchURL = searchURL;
+        volleyRequester.getArray(feedURL);
     }
 
     /**
-     * search based on input from the search box
+     * reload the feed, looking for new posts and adding them to the layout
      */
-    public void search() {
-        LinearLayout layout = view.findViewById(R.id.search_feed_layout);
+    public void reload() {
+        LinearLayout layout = view.findViewById(R.id.child_feed_layout);
         layout.removeAllViews();
-        String query = ((EditText) view.findViewById(R.id.search_textbox)).getText().toString();
-        volleyRequester.getArray(searchURL.replace("#", query));
+        volleyRequester.getArray(feedURL);
     }
 
     /**
@@ -75,8 +74,8 @@ public class SearchPresenter implements VolleyListener {
     public void onArrayResponse(JSONArray response) {
         try {
             for (int i = 0; i < response.length(); i++) {
-                UserFragment user = new UserFragment(response.getInt(i));
-                AppController.getFragmentManager().beginTransaction().add(R.id.search_feed_layout, user)
+                PostFragment post = new PostFragment(response.getInt(i));
+                AppController.getFragmentManager().beginTransaction().add(R.id.child_feed_layout, post)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
         } catch (JSONException e) {

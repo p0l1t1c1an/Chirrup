@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.profile.personal.following;
+package cs309.sr2.chirrupfrontend.parentdashboard;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -7,20 +7,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.user.UserFragment;
+import cs309.sr2.chirrupfrontend.parentdashboard.childuser.ChildUserFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
 /**
- * class to handle visual changes for following list
+ * class to handle visual changes for children list
  *
  * @author Jeremy Noesen
  */
-public class FollowingPresenter implements VolleyListener {
+public class ChildListPresenter implements VolleyListener {
 
     /**
      * volley requester for the fragment
@@ -33,28 +32,28 @@ public class FollowingPresenter implements VolleyListener {
     private View view;
 
     /**
-     * url for user
+     * url for child list
      */
-    private String userURL;
+    private String listURL;
 
     /**
      * create a new presenter for fragment
      *
      * @param view fragment view
      */
-    public FollowingPresenter(View view) {
+    public ChildListPresenter(View view) {
         this.view = view;
     }
 
     /**
      * load the data for the list
      *
-     * @param userURL url for the user json object
+     * @param listURL url for children list
      */
-    public void loadData(String userURL) {
+    public void loadData(String listURL) {
         volleyRequester = new VolleyRequester(this);
-        volleyRequester.getObject(userURL);
-        this.userURL = userURL;
+        volleyRequester.getArray(listURL);
+        this.listURL = listURL;
     }
 
     /**
@@ -63,12 +62,11 @@ public class FollowingPresenter implements VolleyListener {
      * @param response response from request
      */
     @Override
-    public void onObjectResponse(JSONObject response) {
+    public void onArrayResponse(JSONArray response) {
         try {
-            JSONArray following = response.getJSONArray("following");
-            for (int i = following.length() - 1; i >= 0; i--) {
-                UserFragment fragment = new UserFragment(following.getInt(i));
-                AppController.getFragmentManager().beginTransaction().add(R.id.follow_feed_layout, fragment)
+            for (int i = response.length() - 1; i >= 0; i--) {
+                ChildUserFragment fragment = new ChildUserFragment(response.getInt(i));
+                AppController.getFragmentManager().beginTransaction().add(R.id.child_list_layout, fragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
         } catch (JSONException e) {
@@ -77,11 +75,11 @@ public class FollowingPresenter implements VolleyListener {
     }
 
     /**
-     * reload following list
+     * reload followers list
      */
     public void reload() {
-        LinearLayout layout = view.findViewById(R.id.follow_feed_layout);
+        LinearLayout layout = view.findViewById(R.id.child_list_layout);
         layout.removeAllViews();
-        volleyRequester.getObject(userURL);
+        volleyRequester.getArray(listURL);
     }
 }

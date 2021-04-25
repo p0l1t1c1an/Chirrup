@@ -1,8 +1,6 @@
 package cs309.sr2.chirrupfrontend;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +8,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import cs309.sr2.chirrupfrontend.listui.post.PostFragment;
-import cs309.sr2.chirrupfrontend.listui.post.PostPresenter;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.post.PostFragment;
+import cs309.sr2.chirrupfrontend.post.PostPresenter;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

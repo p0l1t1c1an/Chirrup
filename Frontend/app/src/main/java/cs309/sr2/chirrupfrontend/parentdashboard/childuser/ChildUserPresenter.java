@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.listui.user;
+package cs309.sr2.chirrupfrontend.parentdashboard.childuser;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +18,7 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
  *
  * @author Jeremy Noesen
  */
-public class UserPresenter implements VolleyListener {
+public class ChildUserPresenter implements VolleyListener {
 
     /**
      * volley requester for the user card
@@ -35,7 +35,7 @@ public class UserPresenter implements VolleyListener {
      *
      * @param view fragment view
      */
-    public UserPresenter(View view) {
+    public ChildUserPresenter(View view) {
         this.view = view;
     }
 
