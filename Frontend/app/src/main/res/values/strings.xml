@@ -24,5 +24,6 @@
     <string name="reports">Reports</string>
     <string name="delete">Delete</string>
     <string name="dismiss">Dismiss</string>
+    <string name="children">Children</string>
     <string name="base_url">http://coms-309-016.cs.iastate.edu:8080/api/</string>
 </resources>

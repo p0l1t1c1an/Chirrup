@@ -42,5 +42,9 @@
         android:id="@+id/nav_adminFeed"
         android:name="cs309.sr2.chirrupfrontend.adminfeed.AdminFeedFragment"
         android:label="@string/reports" />
+    <fragment
+        android:id="@+id/nav_childList"
+        android:name="cs309.sr2.chirrupfrontend.parentdashboard.ChildListFragment"
+        android:label="@string/children" />
 
 </navigation>
