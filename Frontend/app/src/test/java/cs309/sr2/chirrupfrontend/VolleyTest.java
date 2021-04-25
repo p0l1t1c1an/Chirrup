@@ -131,12 +131,10 @@ public class VolleyTest {
         array.put("5");
         array.put("3252");
 
-        String toString = array.toString();
-
         VolleyListener volleyListener = new VolleyListener() {
             @Override
             public void onArrayResponse(JSONArray response) {
-                assertEquals(response.toString(), toString);
+                assertEquals(response, array);
             }
         };
 
@@ -163,7 +161,7 @@ public class VolleyTest {
         VolleyListener volleyListener = new VolleyListener() {
             @Override
             public void onArrayResponse(JSONArray response) {
-                assertNotEquals(response.toString(), "other string");
+                assertNotEquals(response, new JSONArray());
             }
         };
 
@@ -187,12 +185,10 @@ public class VolleyTest {
         array.put("5");
         array.put("3252");
 
-        String toString = array.toString();
-
         VolleyListener volleyListener = new VolleyListener() {
             @Override
             public void onArrayResponse(JSONArray response) {
-                assertEquals(response.toString(), toString);
+                assertEquals(response, array);
             }
         };
 
@@ -219,7 +215,7 @@ public class VolleyTest {
         VolleyListener volleyListener = new VolleyListener() {
             @Override
             public void onArrayResponse(JSONArray response) {
-                assertNotEquals(response.toString(), "other string");
+                assertNotEquals(response.toString(), new JSONArray());
             }
         };
 

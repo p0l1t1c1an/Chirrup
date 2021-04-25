@@ -112,7 +112,7 @@ public class PostPresenter implements VolleyListener {
      * @param likeUserID id of user viewing post
      */
     public void loadData(String postURL, String userURL, String imageURL, int likeUserID) {
-        volleyRequester = new VolleyRequester(this);
+        if(volleyRequester == null) volleyRequester = new VolleyRequester(this);
         volleyRequester.getObject(postURL);
         this.postURL = postURL;
         this.userURL = userURL;
@@ -340,5 +340,50 @@ public class PostPresenter implements VolleyListener {
             Toast.makeText(AppController.getInstance(), "Post reported!", Toast.LENGTH_SHORT).show();
         }
         view.setVisibility(View.GONE);
+    }
+
+    /**
+     * set the volley requester used for the presenter
+     *
+     * @param volleyRequester volley requester instance
+     */
+    public void setVolleyRequester(VolleyRequester volleyRequester) {
+        this.volleyRequester = volleyRequester;
+    }
+
+    /**
+     * get the url for the post object
+     *
+     * @return post url
+     */
+    public String getPostURL() {
+        return  postURL;
+    }
+
+    /**
+     * get the url for the user object
+     *
+     * @return user url
+     */
+    public String getUserURL() {
+        return userURL;
+    }
+
+    /**
+     * url for avatar image
+     *
+     * @return image url
+     */
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    /**
+     * get id of viewer of post
+     *
+     * @return id of viewer
+     */
+    public int getLikeUserID() {
+        return likeUserID;
     }
 }
