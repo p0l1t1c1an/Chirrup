@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -336,8 +337,10 @@ public class PostPresenter implements VolleyListener {
     public void reportOrDelete(String reportURL, String deleteURL) {
         if (creatorID == likeUserID) {
             volleyRequester.setString(deleteURL, null, Request.Method.DELETE);
+            Toast.makeText(AppController.getInstance(), "Post deleted!", Toast.LENGTH_SHORT).show();
         } else {
             volleyRequester.setString(reportURL, null, Request.Method.POST);
+            Toast.makeText(AppController.getInstance(), "Post reported!", Toast.LENGTH_SHORT).show();
         }
         view.setVisibility(View.GONE);
     }

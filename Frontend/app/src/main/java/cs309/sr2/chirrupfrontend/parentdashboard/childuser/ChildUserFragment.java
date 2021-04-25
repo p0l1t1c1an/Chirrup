@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.mainfeed.MainFeedFragment;
+import cs309.sr2.chirrupfrontend.parentdashboard.childfeed.ChildFeedFragment;
 import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
@@ -63,8 +64,8 @@ public class ChildUserFragment extends Fragment {
         Button profile = root.findViewById(R.id.child_profile_button);
 
         feed.setOnClickListener(v -> {
-            MainFeedFragment mainFeedFragment = new MainFeedFragment(userID);
-            AppController.showFragment(mainFeedFragment);
+            ChildFeedFragment childFeedFragment = new ChildFeedFragment(userID);
+            AppController.showFragment(childFeedFragment);
         });
 
         profile.setOnClickListener(v -> {
