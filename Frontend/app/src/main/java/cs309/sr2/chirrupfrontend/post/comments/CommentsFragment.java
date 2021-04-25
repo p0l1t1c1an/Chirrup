@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.listui.post.comments;
+package cs309.sr2.chirrupfrontend.post.comments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

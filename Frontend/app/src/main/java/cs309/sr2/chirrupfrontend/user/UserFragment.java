@@ -1,10 +1,9 @@
-package cs309.sr2.chirrupfrontend.listui.user;
+package cs309.sr2.chirrupfrontend.user;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
-import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**

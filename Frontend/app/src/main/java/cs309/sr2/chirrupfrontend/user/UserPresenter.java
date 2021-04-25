@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.listui.user;
+package cs309.sr2.chirrupfrontend.user;
 
 import android.view.View;
 import android.widget.ImageView;

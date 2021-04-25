@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.listui.post;
+package cs309.sr2.chirrupfrontend.post;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
-import cs309.sr2.chirrupfrontend.listui.post.comments.CommentsFragment;
+import cs309.sr2.chirrupfrontend.post.comments.CommentsFragment;
 import cs309.sr2.chirrupfrontend.utils.AppController;
 
 /**
