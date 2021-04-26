@@ -37,12 +37,12 @@ public class PostControllerTest {
 
 	@Test
 	public void savePostTest() throws Exception {
-        User user = new User(1, "test@email.com", "password", "username", "firstname", "lastname", 1, "111111", null, null, "biography");
+        User user = new User(0, "test@email.com", "password", "username", "firstname", "lastname", 1, "111111", null, null, "biography");
         uService.saveOrUpdate(user);
-        Post p = new Post(2, uService.getUserById(1), null, "testing controller");
+        Post p = new Post(0, user, null, "testing controller");
         service.saveOrUpdate(p);
 
-		String post = this.restTemplate.getForObject("http://localhost:" + port + "/api/posts/2", String.class);
+		String post = this.restTemplate.getForObject("http://localhost:" + port + "/api/posts/" + p.getId(), String.class);
         JSONObject postObj = new JSONObject(post);
 
         assertEquals(p.getContent(), postObj.getString("content"));
