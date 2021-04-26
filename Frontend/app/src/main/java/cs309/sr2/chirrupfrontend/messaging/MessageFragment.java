@@ -4,45 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+import java.net.URI;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.utils.AppController;
 
-import androidx.annotation.NonNull;
-
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
-import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.settings.CurrentUserData;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
+
+import java.util.ArrayList;
 
 /**
  * This class represents the direct messaging fragment for our app.
@@ -57,12 +35,16 @@ public class MessageFragment extends Fragment implements VolleyListener {
     private MessageThread userConversation;
     //search text box
     private EditText searchText;
-    //status text box
-    private TextView status;
+    //person currently messaging
+    private TextView personMessaging;
     //message view text
     private TextView messageView;
     //message composer box
     private EditText createMessage;
+    //websocket
+    private WebSocketClient cc;
+    //messages
+    private ArrayList<String> messages;
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
@@ -77,13 +59,37 @@ public class MessageFragment extends Fragment implements VolleyListener {
         View root = inflater.inflate(R.layout.fragment_messaging, container, false);
 
         searchText = root.findViewById(R.id.searchUser);
-        status = root.findViewById(R.id.MessageErrorBox);
+        personMessaging = root.findViewById(R.id.UserCurrentlyMessaging);
         messageView = root.findViewById(R.id.MessageView);
         createMessage = root.findViewById(R.id.MessageComposer);
         VolleyRequester = new VolleyRequester(this);
 
-        root.findViewById(R.id.searchButton).setOnClickListener((v) -> {
 
+        root.findViewById(R.id.searchButton).setOnClickListener((v) -> {
+            try {
+                cc = new WebSocketClient(new URI("asf")) {
+                @Override
+                public void onOpen(ServerHandshake serverHandshake) {
+
+                }
+
+                @Override
+                public void onMessage(String s) {
+                    //add user's name
+                    messages.add(s);
+                }
+
+                @Override
+                public void onClose(int i, String s, boolean b) {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+                };
+            } catch (Exception e) {}
         });
 
         root.findViewById(R.id.sendMessageButton).setOnClickListener((v) -> {
@@ -91,85 +97,20 @@ public class MessageFragment extends Fragment implements VolleyListener {
             //get the message
             String messageToSend = createMessage.getText().toString();
             try {
-                WebSocketClient cc = new WebSocketClient() {
-                    @Override
-                    public void onOpen(ServerHandshake serverHandshake) {
-
-                    }
-
-                    @Override
-                    public void onMessage(String s) {
-
-                    }
-
-                    @Override
-                    public void onClose(int i, String s, boolean b) {
-
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                }
+                cc.send(messageToSend);
+                messages.add("Me: " + messageToSend);
             } catch (Exception e){}
         });
 
         return root;
     }
 
-    /**
-     * Runs when a string response is received
-     *
-     * @param response response from request
-     */
-    @Override
-    public void onStringResponse(String response) {
-        try {
-            //create a json from our response
-            JSONObject userMessage = new JSONObject(response);
-            //get the messages
-            //create message thread based on received information
-            userConversation = new SingleThread(Integer.parseInt(searchText.getText().toString()), (String[]) userMessage.get("messagesId"));
-            String toDisplay = "";
-            //put messages into a string to display
-            String[] messages = userConversation.getMessages();
-            for (int i = 0; i < messages.length; ++i) {
-                toDisplay += messages[i];
-                toDisplay += "\n";
-            }
-            messageView.setText(toDisplay);
-        } catch (Exception e) {}
-
-    }
-
-    /**
-     * Runs when a json object response is received
-     *
-     * @param response response from request
-     */
-    @Override
-    public void onObjectResponse(JSONObject response) {
-
-    }
-
-    /**
-     * Runs when an image response is received
-     *
-     * @param response response from request
-     */
-    @Override
-    public void onImageResponse(ImageLoader.ImageContainer response) {
-
-    }
-
-    /**
-     * Runs when an array response is received
-     *
-     * @param response response from request
-     */
-    @Override
-    public void onArrayResponse(JSONArray response) {
-
+    private void updatemessageBox() {
+        String message = "";
+        for (int i = 0; i < messages.size(); ++i) {
+            message += messages.get(i);
+            message += "\n";
+        }
+        messageView.setText(message);
     }
 }
