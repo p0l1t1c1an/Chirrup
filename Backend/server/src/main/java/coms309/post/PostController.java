@@ -1,10 +1,7 @@
 package coms309.post;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +19,7 @@ import coms309.user.User;
 import coms309.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
 
 @Api(value = "PostController", description = "REST APIs for post entity")
 @RequestMapping("/api")
@@ -37,11 +33,6 @@ public class PostController {
 
     //creating a get mapping for returning all posts in the db
     @ApiOperation(value = "lists all posts", response = Iterable.class, tags = "getAllPost")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/posts")
     private List<Post> getAllPost() {
         logger.info("got all posts");
@@ -50,11 +41,6 @@ public class PostController {
 
     //creating a get mapping for returning a specific post
     @ApiOperation(value = "gets a post by id", response = Post.class, tags = "getPost")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @GetMapping("/posts/{id}")
     private Post getPost(@PathVariable("id") int id) {
         logger.info("got post by id");
@@ -63,11 +49,6 @@ public class PostController {
 
     //creating a delete mapping for removing a post
     @ApiOperation(value = "deletes a post by id", response = String.class, tags = "deletePost")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @DeleteMapping("/posts/{id}")
     private String deletePost(@PathVariable("id") int id) {
         Post post = postService.getPostById(id);
@@ -92,11 +73,6 @@ public class PostController {
 
     //creating post mapping the creates a new post
     @ApiOperation(value = "creates a new post", response = String.class, tags = "savePost")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/posts/{userId}")
     private String savePost(@RequestBody Post post, @PathVariable(value = "userId") int id) {
         User creator = userService.getUserById(id);
@@ -113,11 +89,6 @@ public class PostController {
 
     //creating post mapping the creates a new comment
     @ApiOperation(value = "creates a new comment", response = String.class, tags = "saveComment")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/posts/{userId}/{postId}")
     private String saveComment(@RequestBody Post comment, @PathVariable(value = "userId") int id, @PathVariable(value = "postId") int postId) {
         User creator = userService.getUserById(id);
@@ -138,11 +109,6 @@ public class PostController {
 
     //creating post mapping the creates a new like
     @ApiOperation(value = "creates a new like", response = String.class, tags = "saveLike")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/posts/like/{userId}/{postId}")
     private String saveLike(@PathVariable(value = "userId") int id, @PathVariable(value = "postId") int postId) {
         User currentUser = userService.getUserById(id);
@@ -155,11 +121,6 @@ public class PostController {
 
     //creating a delete mapping for removing a post
     @ApiOperation(value = "deletes a like by id", response = String.class, tags = "deleteLike")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @DeleteMapping("/posts/like/{userId}/{postId}")
     private String deleteLike(@PathVariable(value = "userId") int id, @PathVariable(value = "postId") int postId) {
         User currentUser = userService.getUserById(id);
@@ -172,11 +133,6 @@ public class PostController {
 
     //creating an update mapping that edits an existing post/comment
     @ApiOperation(value = "updates a post by id", response = String.class, tags = "updatePost")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @PatchMapping("/posts/{postId}")
     private String updatePost(@PathVariable("postId") int id, @RequestBody Post post) {
         Post current = postService.getPostById(id);
@@ -192,11 +148,6 @@ public class PostController {
 
     //creating post mapping the creates a new report
     @ApiOperation(value = "creates a new report", response = String.class, tags = "saveReport")
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Suceess|OK"),
-        @ApiResponse(code = 401, message = "not authorized!"), 
-        @ApiResponse(code = 403, message = "forbidden!!!"),
-        @ApiResponse(code = 404, message = "not found!!!") })
     @PostMapping("/posts/report/{userId}/{postId}")
     private String saveReport(@PathVariable(value = "userId") int id, @PathVariable(value = "postId") int postId) {
         User currentUser = userService.getUserById(id);
