@@ -39,8 +39,8 @@ public class LoginFragment extends Fragment implements VolleyListener {
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
      *
-     * @param inflater Turns the corresponding XML file into a layout.
-     * @param container A group of views.
+     * @param inflater           Turns the corresponding XML file into a layout.
+     * @param container          A group of views.
      * @param savedInstanceState A map of string keys.
      * @return New view for this fragment.
      */
@@ -59,7 +59,8 @@ public class LoginFragment extends Fragment implements VolleyListener {
                 volleyRequester = new VolleyRequester(this);
                 volleyRequester.setString(getResources().getString(R.string.base_url) + "login?user={" +
                         username + "}&pass={" + password + "}", null, Request.Method.POST);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         });
 
         return root;
@@ -74,7 +75,7 @@ public class LoginFragment extends Fragment implements VolleyListener {
     public void onStringResponse(String response) {
         try {
             int userID = Integer.parseInt(response);
-            if(userID == -1) {
+            if (userID == -1) {
                 Toast.makeText(AppController.getInstance(), "Login failed!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(AppController.getInstance(), "Login succeeded! You may now " +

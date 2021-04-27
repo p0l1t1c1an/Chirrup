@@ -11,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
-import com.android.volley.toolbox.ImageLoader;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
@@ -25,35 +23,61 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 /**
  * This is the class that runs when a user creates a new profile
  *
- * @author William Zogg
+ * @author William Zogg, Jeremy Noesen
  */
 public class CreateNewProfile extends Fragment implements VolleyListener {
 
-    //VolleyRequester
+    /**
+     * volley requester for class
+     */
     private VolleyRequester VolleyRequester;
-    //email text
+
+    /**
+     * email text
+     */
     private EditText email;
-    //password text
+
+    /**
+     * password text
+     */
     private EditText password;
-    //username text
+
+    /**
+     * username text
+     */
     private EditText username;
-    //first name text
+
+    /**
+     * first name text
+     */
     private EditText firstname;
-    //last name text
+
+    /**
+     * last name text
+     */
     private EditText lastname;
-    //phone number text
+
+    /**
+     * phone number text
+     */
     private EditText phoneNumber;
-    //biography text
+
+    /**
+     * bio text
+     */
     private EditText bio;
-    //birthday text
+
+    /**
+     * birthday text
+     */
     private EditText birthday;
 
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
      *
-     * @param inflater Turns the corresponding XML file into a layout.
-     * @param container A group of views.
+     * @param inflater           Turns the corresponding XML file into a layout.
+     * @param container          A group of views.
      * @param savedInstanceState A map of string keys.
      * @return New view for this fragment.
      */
@@ -86,19 +110,11 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
                 toSend.put("birthday", birthday.getText().toString());
 
                 VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/", toSend, Request.Method.POST);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         });
 
         return root;
-    }
-
-    /**
-     * Runs when a string response is received
-     *
-     * @param response response from request
-     */
-    public void onStringResponse(String response) {
-
     }
 
     /**
@@ -110,25 +126,7 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
         try {
             CurrentUserData.currUser.setID(response.getInt("id"));
             Toast.makeText(AppController.getInstance(), "Profile created!", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
-
-    /**
-     * Runs when an image response is received
-     *
-     * @param response response from request
-     */
-    public void onImageResponse(ImageLoader.ImageContainer response) {
-
-    }
-
-    /**
-     * Runs when an array response is received
-     *
-     * @param response response from request
-     */
-    public void onArrayResponse(JSONArray response) {
-
-    }
-
 }
