@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONArray;
@@ -17,7 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
+import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.settings.CurrentUserData;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
@@ -25,13 +29,13 @@ import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
  * This class is what runs when the user enters the app, where they are prompted
  * to create a new profile or create a new one
  *
- * @author William Zogg
+ * @author William Zogg, Jeremy Noesen
  */
 public class LoginFragment extends Fragment implements VolleyListener {
 
-    //staus textfield
-    private TextView status;
-    //VolleyRequester
+    /**
+     * volley requester for class
+     */
     private VolleyRequester VolleyRequester;
 
     /**
@@ -50,13 +54,12 @@ public class LoginFragment extends Fragment implements VolleyListener {
         root.findViewById(R.id.loginSubmit).setOnClickListener((v) -> {
             //send login info to server and get user back (onResponse)
             try {
-                EditText usernameToGet = (EditText) root.findViewById(R.id.login_usernameText);
-
-                JSONObject toSend = new JSONObject();
+                String username = ((EditText) root.findViewById(R.id.login_usernameText)).getText().toString();
+                String password = ((EditText) root.findViewById(R.id.login_passwordText)).getText().toString();
 
                 VolleyRequester = new VolleyRequester(this);
-                VolleyRequester.getString(getResources().getString(R.string.base_url) + "user/?user={" +
-                        usernameToGet + "}&first={}&last={}");
+                VolleyRequester.setString(getResources().getString(R.string.base_url) + "login?user={" +
+                        username + "}&pass={" + password + "}", null, Request.Method.POST);
             } catch (Exception e) {}
         });
 
@@ -69,38 +72,16 @@ public class LoginFragment extends Fragment implements VolleyListener {
      * @param response response from request
      */
     public void onStringResponse(String response) {
-        status = getView().findViewById(R.id.loginStatusText);
         try {
-            JSONObject res = new JSONObject(response);
-            status.setText(res.getString("username"));
-        } catch (Exception e) {}
+            if(Integer.parseInt(response) == -1) {
+                Toast.makeText(AppController.getInstance(), "Login failed!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(AppController.getInstance(), "Login succeeded!", Toast.LENGTH_SHORT).show();
+                Session.setUser(Integer.parseInt(response));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(AppController.getInstance(), "Login failed!", Toast.LENGTH_SHORT).show();
+        }
     }
-
-    /**
-     * Runs when a json object response is received
-     *
-     * @param response response from request
-     */
-    public void onObjectResponse(JSONObject response) {
-
-    }
-
-    /**
-     * Runs when an image response is received
-     *
-     * @param response response from request
-     */
-    public void onImageResponse(ImageLoader.ImageContainer response) {
-
-    }
-
-    /**
-     * Runs when an array response is received
-     *
-     * @param response response from request
-     */
-    public void onArrayResponse(JSONArray response) {
-
-    }
-
 }

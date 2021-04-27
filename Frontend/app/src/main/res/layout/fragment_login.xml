@@ -52,13 +52,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_passwordText" />
 
-    <TextView
-        android:id="@+id/loginStatusText"
-        android:layout_width="191dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginSubmit" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
