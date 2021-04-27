@@ -19,8 +19,8 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @ApiOperation(value = "Login sending a username and password", response = int.class, tags = "login")
-    @PostMapping("/login/")
+    @ApiOperation(value = "Login sending a username and password", response = String.class, tags = "login")
+    @PostMapping("/login")
     private String login(@RequestParam String user, @RequestParam String pass) {
         return String.valueOf(loginService.login(user, pass));
     } 
