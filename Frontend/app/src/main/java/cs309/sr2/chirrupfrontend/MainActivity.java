@@ -2,6 +2,7 @@ package cs309.sr2.chirrupfrontend;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -43,14 +44,11 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_profile, R.id.nav_settings, R.id.nav_messaging, R.id.nav_login, R.id.nav_newProfile,
+                R.id.nav_login, R.id.nav_newProfile, R.id.nav_profile, R.id.nav_settings, R.id.nav_messaging,
                 R.id.nav_newPost, R.id.nav_mainFeed, R.id.nav_search, R.id.nav_adminFeed, R.id.nav_childList).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        Session.setUser(21); //temporary
-
         AppController.setFragmentManager(getSupportFragmentManager());
     }
 
