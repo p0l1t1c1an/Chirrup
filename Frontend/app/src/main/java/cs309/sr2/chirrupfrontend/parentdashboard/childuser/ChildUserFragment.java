@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.parentdashboard.childfeed.ChildFeedFragment;
 import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 
 /**
  * A UI element that will show the contents of a user for the purpose of listing with other users. Can be added with:

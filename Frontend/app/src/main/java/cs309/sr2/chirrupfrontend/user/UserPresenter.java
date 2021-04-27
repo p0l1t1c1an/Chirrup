@@ -1,10 +1,9 @@
 package cs309.sr2.chirrupfrontend.user;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,7 +72,7 @@ public class UserPresenter implements VolleyListener {
      * @param response response from request
      */
     @Override
-    public void onImageResponse(ImageLoader.ImageContainer response) {
-        ((ImageView) view.findViewById(R.id.user_avatar)).setImageBitmap(response.getBitmap());
+    public void onImageResponse(Bitmap response) {
+        ((ImageView) view.findViewById(R.id.user_avatar)).setImageBitmap(response);
     }
 }

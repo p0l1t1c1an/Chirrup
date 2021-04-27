@@ -13,7 +13,7 @@ import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
 import cs309.sr2.chirrupfrontend.profile.personal.followers.FollowersFragment;
 import cs309.sr2.chirrupfrontend.profile.personal.following.FollowingFragment;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 
 /**
  * personal profile page fragment

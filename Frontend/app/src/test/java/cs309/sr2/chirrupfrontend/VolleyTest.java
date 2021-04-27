@@ -1,5 +1,7 @@
 package cs309.sr2.chirrupfrontend;
 
+import android.graphics.Bitmap;
+
 import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONArray;
@@ -346,7 +348,7 @@ public class VolleyTest {
 
         VolleyListener volleyListener = new VolleyListener() {
             @Override
-            public void onImageResponse(ImageLoader.ImageContainer response) {
+            public void onImageResponse(Bitmap response) {
                 assertEquals(response, imageContainer);
             }
         };
@@ -354,7 +356,7 @@ public class VolleyTest {
         VolleyRequester volleyRequester = mock(VolleyRequester.class);
 
         doAnswer((invocation) -> {
-            volleyListener.onImageResponse(imageContainer);
+            volleyListener.onImageResponse(imageContainer.getBitmap());
             return null;
         }).when(volleyRequester).getImage(anyString());
 
@@ -370,7 +372,7 @@ public class VolleyTest {
 
         VolleyListener volleyListener = new VolleyListener() {
             @Override
-            public void onImageResponse(ImageLoader.ImageContainer response) {
+            public void onImageResponse(Bitmap response) {
                 assertNotEquals(response, null);
             }
         };
@@ -378,7 +380,7 @@ public class VolleyTest {
         VolleyRequester volleyRequester = mock(VolleyRequester.class);
 
         doAnswer((invocation) -> {
-            volleyListener.onImageResponse(imageContainer);
+            volleyListener.onImageResponse(imageContainer.getBitmap());
             return null;
         }).when(volleyRequester).getImage(anyString());
 

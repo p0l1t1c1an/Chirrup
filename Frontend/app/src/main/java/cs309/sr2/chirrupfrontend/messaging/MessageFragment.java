@@ -1,44 +1,24 @@
 package cs309.sr2.chirrupfrontend.messaging;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.utils.AppController;
 
-import androidx.annotation.NonNull;
-
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
-import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.settings.CurrentUserData;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
@@ -146,7 +126,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
      * @param response response from request
      */
     @Override
-    public void onImageResponse(ImageLoader.ImageContainer response) {
+    public void onImageResponse(Bitmap response) {
 
     }
 

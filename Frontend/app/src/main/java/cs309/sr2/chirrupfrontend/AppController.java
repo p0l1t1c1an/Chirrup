@@ -1,4 +1,4 @@
-package cs309.sr2.chirrupfrontend.utils;
+package cs309.sr2.chirrupfrontend;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -11,8 +11,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-
-import cs309.sr2.chirrupfrontend.R;
 
 /**
  * this class is from https://git.linux.iastate.edu/cs309/tutorials/blob/android_unit2_1_volley/AndroidVolley/app/src/main/java/com/example/sumon/androidvolley/app/AppController.java
@@ -75,20 +73,6 @@ public class AppController extends Application {
         }
 
         return requestQueue;
-    }
-
-    /**
-     * get the image loader, or create it if it doesn't exist
-     *
-     * @return image loader
-     */
-    public ImageLoader getImageLoader() {
-        getRequestQueue();
-        if (imageLoader == null) {
-            imageLoader = new ImageLoader(this.requestQueue,
-                    new LruBitmapCache());
-        }
-        return this.imageLoader;
     }
 
     /**

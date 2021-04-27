@@ -1,23 +1,20 @@
 package cs309.sr2.chirrupfrontend.settings;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
@@ -30,7 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 import cs309.sr2.chirrupfrontend.R;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
@@ -463,25 +460,5 @@ public class SettingsFragment extends Fragment implements VolleyListener {
             CurrentUserData.currUser.setRole(res.get("role").toString());
             CurrentUserData.currUser.setBio(res.getString("biography"));
         } catch(Exception e) {}
-    }
-
-    /**
-     * Dictates what the class should do upon receiving an object.
-     *
-     * @param response response from request
-     */
-    @Override
-    public void onObjectResponse(JSONObject response) {
-        //Nothing needed
-    }
-
-    /**
-     * Dictates what the class should do upon receiving an image.
-     *
-     * @param response response from request
-     */
-    @Override
-    public void onImageResponse(ImageLoader.ImageContainer response) {
-        //Nothing needed
     }
 }

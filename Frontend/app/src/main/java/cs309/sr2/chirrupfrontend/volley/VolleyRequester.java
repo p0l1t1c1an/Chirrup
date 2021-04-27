@@ -1,11 +1,11 @@
 package cs309.sr2.chirrupfrontend.volley;
 
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -15,8 +15,7 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 
-import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 
 /**
  * class to handle server calls across the app, this acts as the model class for multiple screens
@@ -43,21 +42,12 @@ public class VolleyRequester {
      * @param url request url
      */
     public void getImage(String url) {
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        imageLoader.get(url, new ImageLoader.ImageListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(PersonalProfileFragment.class.getSimpleName(), "Image get Error: "
-                        + error.getMessage());
-            }
+        ImageRequest imageRequest = new ImageRequest(url, response -> volleyListener.onImageResponse(response),
+                0, 0, ImageView.ScaleType.CENTER, Bitmap.Config.RGB_565, error ->
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "Image get error: "
+                + error.getMessage()));
 
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                if (response.getBitmap() != null) {
-                    volleyListener.onImageResponse(response);
-                }
-            }
-        });
+        AppController.getInstance().addToRequestQueue(imageRequest);
     }
 
     /**
