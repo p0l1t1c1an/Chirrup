@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,11 +14,11 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.settings.CurrentUserData;
+import cs309.sr2.chirrupfrontend.utils.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
@@ -47,8 +47,6 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
     private EditText bio;
     //birthday text
     private EditText birthday;
-    //message field
-    private TextView showResult;
 
 
     /**
@@ -110,8 +108,8 @@ public class CreateNewProfile extends Fragment implements VolleyListener {
      */
     public void onObjectResponse(JSONObject response) {
         try {
-            CurrentUserData.currUser.setID(response.getInt("userID"));
-            showResult.setText(CurrentUserData.currUser.getID());
+            CurrentUserData.currUser.setID(response.getInt("id"));
+            Toast.makeText(AppController.getInstance(), "Profile created!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {}
     }
 

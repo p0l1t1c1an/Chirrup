@@ -8,121 +8,117 @@
 
     <EditText
         android:id="@+id/newProfileBirthday"
-        android:layout_width="322dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:hint="Birthday"
         android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newProfileBio" />
 
     <EditText
         android:id="@+id/newProfileBio"
-        android:layout_width="322dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:hint="Biography"
         android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newProfilePhone" />
 
     <EditText
         android:id="@+id/newProfilePhone"
-        android:layout_width="322dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:hint="Phone Number"
         android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newProfileLast" />
 
     <EditText
         android:id="@+id/newProfileLast"
-        android:layout_width="322dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:hint="Last Name"
         android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newProfileFirst" />
 
     <EditText
         android:id="@+id/newProfileFirst"
-        android:layout_width="322dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:hint="First Name"
         android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newProfileUsername" />
 
     <EditText
         android:id="@+id/newProfileUsername"
-        android:layout_width="322dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:hint="Username"
         android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newProfilePassword" />
 
     <EditText
         android:id="@+id/newProfilePassword"
-        android:layout_width="322dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:hint="Password"
         android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newProfileEmail" />
 
-    <TextView
-        android:id="@+id/ProfileCreationHeader"
-        android:layout_width="322dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        android:text="New Profile:"
-        android:textSize="26dp"
-        android:textStyle="bold"
+    <EditText
+        android:id="@+id/newProfileEmail"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Email"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/newProfileEmail"
-        android:layout_width="322dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:hint="Email"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ProfileCreationHeader" />
-
-    <TextView
-        android:id="@+id/newProfileMessage"
-        android:layout_width="187dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="10dp"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newProfileBirthday" />
-
     <Button
         android:id="@+id/createNewProfileButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="149dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:text="Create"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newProfileMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/newProfileBirthday" />
 </androidx.constraintlayout.widget.ConstraintLayout>
