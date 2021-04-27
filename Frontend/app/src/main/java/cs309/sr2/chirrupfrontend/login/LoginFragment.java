@@ -57,8 +57,8 @@ public class LoginFragment extends Fragment implements VolleyListener {
                 String password = ((EditText) root.findViewById(R.id.login_passwordText)).getText().toString();
 
                 volleyRequester = new VolleyRequester(this);
-                volleyRequester.setString(getResources().getString(R.string.base_url) + "login?user={" +
-                        username + "}&pass={" + password + "}", null, Request.Method.POST);
+                volleyRequester.setString(getResources().getString(R.string.base_url) + "login?user=" +
+                        username + "&pass=" + password, null, Request.Method.POST);
             } catch (Exception e) {
             }
         });
