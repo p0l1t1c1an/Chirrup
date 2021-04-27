@@ -1,7 +1,6 @@
 package cs309.sr2.chirrupfrontend;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,30 +8,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
 /**
- * this class is from https://git.linux.iastate.edu/cs309/tutorials/blob/android_unit2_1_volley/AndroidVolley/app/src/main/java/com/example/sumon/androidvolley/app/AppController.java
- * and acts as a controller for request queues and image loading from the backend
+ * class used to keep track of all requests across the app, as well as manage showing of fragments
  */
 public class AppController extends Application {
-
-    /**
-     * name of this class
-     */
-    public static final String TAG = AppController.class.getSimpleName();
 
     /**
      * global http request queue
      */
     private RequestQueue requestQueue;
-
-
-    /**
-     * global image loader with LruBitmapCache
-     */
-    private ImageLoader imageLoader;
 
     /**
      * global instance of the app controller
@@ -76,38 +62,14 @@ public class AppController extends Application {
     }
 
     /**
-     * add a request to the request queue with a specific tag
-     *
-     * @param req request to send
-     * @param tag tag to request with
-     * @param <T> data type of request
-     */
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        // set the default tag if tag is empty
-        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue().add(req);
-    }
-
-    /**
      * add a request to the request queue
      *
      * @param req request to send
      * @param <T> data type of request
      */
     public <T> void addToRequestQueue(Request<T> req) {
-        req.setTag(TAG);
+        req.setTag(AppController.class.getSimpleName());
         getRequestQueue().add(req);
-    }
-
-    /**
-     * cancel all requests associated to the tag
-     *
-     * @param tag tag requests are referenced by
-     */
-    public void cancelPendingRequests(Object tag) {
-        if (requestQueue != null) {
-            requestQueue.cancelAll(tag);
-        }
     }
 
     /**
