@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         AppController.setFragmentManager(getSupportFragmentManager());
-        hideNavigation();
     }
 
     /**
@@ -71,21 +70,4 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {}
-
-    /**
-     * hide the navigation buttons not related to login
-     */
-    public void hideNavigation() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Menu nav_Menu = navigationView.getMenu();
-        nav_Menu.findItem(R.id.nav_mainFeed).setVisible(false);
-        nav_Menu.findItem(R.id.nav_adminFeed).setVisible(false);
-        nav_Menu.findItem(R.id.nav_childList).setVisible(false);
-        nav_Menu.findItem(R.id.nav_messaging).setVisible(false);
-        nav_Menu.findItem(R.id.nav_newPost).setVisible(false);
-        nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-        nav_Menu.findItem(R.id.nav_search).setVisible(false);
-        nav_Menu.findItem(R.id.nav_settings).setVisible(false);
-    }
-
 }

@@ -48,6 +48,7 @@ public class LoginFragment extends Fragment implements VolleyListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
 
+        hideNavigation();
 
         root.findViewById(R.id.loginSubmit).setOnClickListener((v) -> {
             //send login info to server and get user back (onResponse)
@@ -94,6 +95,22 @@ public class LoginFragment extends Fragment implements VolleyListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * hide the navigation buttons not related to login
+     */
+    public void hideNavigation() {
+        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_mainFeed).setVisible(false);
+        nav_Menu.findItem(R.id.nav_adminFeed).setVisible(false);
+        nav_Menu.findItem(R.id.nav_childList).setVisible(false);
+        nav_Menu.findItem(R.id.nav_messaging).setVisible(false);
+        nav_Menu.findItem(R.id.nav_newPost).setVisible(false);
+        nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+        nav_Menu.findItem(R.id.nav_search).setVisible(false);
+        nav_Menu.findItem(R.id.nav_settings).setVisible(false);
     }
 
     /**
