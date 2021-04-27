@@ -20,7 +20,7 @@ public class LoginController {
     LoginService loginService;
 
     @ApiOperation(value = "Login sending a username and password", response = int.class, tags = "login")
-    @GetMapping("/login/")
+    @PostMapping("/login/")
     private String login(@RequestParam String user, @RequestParam String pass) {
         return String.valueOf(loginService.login(user, pass));
     } 
