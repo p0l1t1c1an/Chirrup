@@ -2,6 +2,7 @@ package cs309.sr2.chirrupfrontend;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -43,15 +44,13 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_profile, R.id.nav_settings, R.id.nav_messaging, R.id.nav_login, R.id.nav_newProfile,
+                R.id.nav_login, R.id.nav_newProfile, R.id.nav_profile, R.id.nav_settings, R.id.nav_messaging,
                 R.id.nav_newPost, R.id.nav_mainFeed, R.id.nav_search, R.id.nav_adminFeed, R.id.nav_childList).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        Session.setUser(21); //temporary
-
         AppController.setFragmentManager(getSupportFragmentManager());
+        hideNavigation();
     }
 
     /**
@@ -72,4 +71,21 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {}
+
+    /**
+     * hide the navigation buttons not related to login
+     */
+    public void hideNavigation() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_mainFeed).setVisible(false);
+        nav_Menu.findItem(R.id.nav_adminFeed).setVisible(false);
+        nav_Menu.findItem(R.id.nav_childList).setVisible(false);
+        nav_Menu.findItem(R.id.nav_messaging).setVisible(false);
+        nav_Menu.findItem(R.id.nav_newPost).setVisible(false);
+        nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+        nav_Menu.findItem(R.id.nav_search).setVisible(false);
+        nav_Menu.findItem(R.id.nav_settings).setVisible(false);
+    }
+
 }
