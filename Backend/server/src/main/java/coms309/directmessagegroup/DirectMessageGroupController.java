@@ -1,5 +1,7 @@
 package coms309.directmessagegroup;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import coms309.directmessage.DirectMessageService;
 import coms309.user.User;
 import coms309.user.UserService;
 
@@ -31,6 +34,9 @@ public class DirectMessageGroupController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    DirectMessageService dmService;
 
     Logger logger = LoggerFactory.getLogger(DirectMessageGroupController.class);
 
@@ -58,15 +64,17 @@ public class DirectMessageGroupController {
     private String deleteGroup(@PathVariable("groupId") int id) {
         logger.info("deleting group");
         DirectMessageGroup group = groupService.getGroupById(id);
+        // List<User> members = new ArrayList<User>();
+        
         if(group != null) {
-            Set<User> usersInGroup = group.getMembers();
 
-            for (User user : usersInGroup) {
-                user.removeFromGroup(group);
-                userService.saveOrUpdate(user);
-            }
 
             group.dismissMembers();
+            group.dismissMessages();
+            group.getMembers().forEach(member -> userService.saveOrUpdate(member));
+            group.clearMembers();
+            //group.getMessages().forEach(message -> dmService.saveOrUpdate(message));
+            groupService.saveOrUpdate(group);
             groupService.delete(id);
             return "deleted group: " + id;
         }

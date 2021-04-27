@@ -8,16 +8,19 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+
 public class DirectMessage {
     @ApiModelProperty(notes = "Id of the message",name="id",required=true)
     @Id
@@ -29,8 +32,9 @@ public class DirectMessage {
     @JoinColumn(name = "from_id")
     private User from;
 
-    @ApiModelProperty(notes = "User who recieved the dm",name="to",required=true)
+    @ApiModelProperty(notes = "Group who recieved the dm",name="to",required=true)
     @ManyToOne
+    @JoinColumn(name = "group_id")
     private DirectMessageGroup to;
 
     @ApiModelProperty(notes = "Content of the message",name="message",required=true)
@@ -58,8 +62,6 @@ public class DirectMessage {
         this.message = message;
         this.dateSent = dateSent;
     }
-
-
 
     //id
     public int getId() {
@@ -92,6 +94,9 @@ public class DirectMessage {
 
     public void setTo(DirectMessageGroup to) {
         this.to = to;
+        if(to != null) {
+            to.addMessage(this);
+        }
     }
 
     @JsonGetter("to")

@@ -3,7 +3,6 @@ package coms309.directmessagegroup;
 import coms309.directmessage.DirectMessage;
 import coms309.user.User;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,11 +32,10 @@ public class DirectMessageGroup {
 
     private String name;
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<User> members = new HashSet<User>();
 
-    @PrimaryKeyJoinColumn
-    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "to", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
     public DirectMessageGroup() {
@@ -85,11 +82,13 @@ public class DirectMessageGroup {
     }
 
     public void addMemberToGroup(User user) {
+        user.addGroup(this);
         this.members.add(user);
     }
 
     public void removeMemberFromGroup(User user) {
         this.members.remove(user);
+        user.removeFromGroup(this);
     }
 
     //messages
@@ -116,8 +115,12 @@ public class DirectMessageGroup {
             .append("name", this.getName()).toString();
     }
 
-    public void dismissMembers() {
+    public void clearMembers() {
         this.members.clear();
+    }
+
+    public void dismissMembers() {
+        this.members.forEach(member -> member.removeFromGroup(this));
     }
 
     @Override
@@ -128,5 +131,9 @@ public class DirectMessageGroup {
     @Override
     public int hashCode() {
         return this.group_id;
+    }
+
+    public void dismissMessages() {
+        this.messages.clear();
     }
 }

@@ -3,6 +3,7 @@ package coms309.user;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.web.multipart.MultipartFile;
 
+import coms309.directmessage.DirectMessage;
 import coms309.directmessagegroup.DirectMessageGroup;
 import coms309.post.Post;
 import coms309.settings.Settings;
@@ -83,7 +84,7 @@ public class User {
     @PrimaryKeyJoinColumn
     private Set<Post> posts = new HashSet<Post>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
       name = "group_user",
       joinColumns = @JoinColumn(name = "user_id"), 
@@ -91,9 +92,8 @@ public class User {
     )
     private Set<DirectMessageGroup> groups = new HashSet<DirectMessageGroup>();
 
-    // @OneToMany(mappedBy = "from", fetch= FetchType.EAGER)
-    // @PrimaryKeyJoinColumn
-    // private Set<DirectMessage> messages = new HashSet<DirectMessage>();
+    @ManyToMany(mappedBy = "from", fetch= FetchType.EAGER)
+    private Set<DirectMessage> messages = new HashSet<DirectMessage>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> blocking = new HashSet<User>();
@@ -472,5 +472,9 @@ public class User {
 
     public void removeFromGroup(DirectMessageGroup group) {
         this.groups.remove(group);
+    }
+
+    public void removeMessage(int id) {
+        this.messages.removeIf(message -> message.getId() == id);
     }
 }

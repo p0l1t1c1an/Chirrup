@@ -59,9 +59,21 @@ public class DirectMessageController {
     @ApiOperation(value = "deletes a dm by id", response = String.class, tags = "deleteDirectMessage")
     @DeleteMapping("/{id}")
     private String deleteDirectMessage(@PathVariable("id") int id) {
-        dmService.delete(id);
-        logger.info("deleted dm by id");
-        return "DM deleted: " + id; 
+        DirectMessage dm = dmService.getDirectMessageById(id);
+        if(dm != null) {
+            DirectMessageGroup dMessageGroup = dm.getTo();
+            dMessageGroup.removeMessage(id);
+            
+            User from = dm.getFrom();
+            from.removeMessage(id);
+            
+            dm.setTo(null);
+            dmService.saveOrUpdate(dm);
+            dmService.delete(id);
+            logger.info("deleted dm by id");
+            return "DM deleted: " + id;
+        }
+        return "Dm not found";
     }
 
     //creating post mapping the creates a new post
@@ -75,7 +87,28 @@ public class DirectMessageController {
         dm.setFrom(from);
         dm.setTo(to);
         dmService.saveOrUpdate(dm);
+        groupService.saveOrUpdate(to);
         logger.info("created a new dm");
         return "dm created: " + dm.getId();
+    }
+
+    @PostMapping
+    private String createTestThings() {
+        User user1 = new User();
+        User user2 = new User();
+        userService.saveOrUpdate(user1);
+        userService.saveOrUpdate(user2);
+
+        DirectMessageGroup dmG = new DirectMessageGroup("name");        
+        groupService.saveOrUpdate(dmG);
+        dmG.addMemberToGroup(user1);
+        dmG.addMemberToGroup(user2);
+        groupService.saveOrUpdate(dmG);
+
+        DirectMessage dm = new DirectMessage(0, user1, dmG, LocalDateTime.now(), "message");
+        dmG.addMessage(dm);
+        dmService.saveOrUpdate(dm);
+
+        return "test data made";
     }
 }

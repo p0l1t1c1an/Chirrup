@@ -54,7 +54,7 @@ public class Post {
     @JoinColumn(name = "parent_id")
     private Post parent;
 
-    @OneToMany(cascade = CascadeType.ALL,  mappedBy = "parent", fetch= FetchType.EAGER)
+    @ManyToMany(mappedBy = "parent", fetch= FetchType.EAGER)
     private Set<Post> comments = new HashSet<Post>();
 
     @ManyToMany(fetch= FetchType.EAGER)
