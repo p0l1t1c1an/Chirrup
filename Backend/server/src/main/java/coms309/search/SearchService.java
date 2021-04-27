@@ -16,8 +16,6 @@ import org.hibernate.query.criteria.internal.path.SetAttributeJoin;
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;  
 
-import org.springframework.util.MultiValueMap;
-
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
 @Service  
@@ -34,22 +32,22 @@ public class SearchService {
     // Adding to this means that compareUser function must also be modified
     private static final String[] USER_TAGS = {"user", "first", "last", "role", "phone"};
 
-    private double percentSimilar(String stored, String searched, boolean isOr) {
+    private boolean percentSimilar(String stored, String searched, boolean isOr) {
         LevenshteinDistance dist = LevenshteinDistance.getDefaultInstance();
-      
-        if(stored == null || stored.equals("")) {
-            return 0;
+        if(searched == null || searched.equals("")) {
+            return !isOr;
         }
 
-        if(searched == null || searched.equals("")) {
-            return isOr ? 0 : 100;
+        if(stored == null || stored.equals("")) {
+            return false;
         }
+
 
         // Percent Similar = # of characters that don't have to change / total chars 
         // Can be negative in case of searched > stored with many cahracters to change
         // Plus one is for small length words to be easier to find (bit of a hack)
 
-        return 100.0 * (stored.length() + 1 - dist.apply(stored, searched)) / stored.length();
+        return 100.0 * (stored.length() + 1 - dist.apply(stored, searched)) / stored.length() >= MIN_DIFF; 
     }
     
     private boolean exactSearch(String stored, String searched, boolean isOr) { 
@@ -76,15 +74,15 @@ public class SearchService {
             case 0:
                 return isExact ? 
                     exactSearch(u.getUsername(),  param, isOr) : 
-                    percentSimilar(u.getUsername(),  param, isOr) >= MIN_DIFF; 
+                    percentSimilar(u.getUsername(),  param, isOr); 
             case 1:
                 return isExact ? 
                     exactSearch(u.getFirstname(), param, isOr) : 
-                    percentSimilar(u.getFirstname(), param, isOr) >= MIN_DIFF; 
+                    percentSimilar(u.getFirstname(), param, isOr); 
             case 2:
                 return isExact ? 
                     exactSearch(u.getLastname(),  param, isOr) : 
-                    percentSimilar(u.getLastname(),  param, isOr) >= MIN_DIFF; 
+                    percentSimilar(u.getLastname(),  param, isOr); 
 
             // The rest are always exact
             case 3:

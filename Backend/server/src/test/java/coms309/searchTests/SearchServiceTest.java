@@ -97,13 +97,13 @@ public class SearchServiceTest {
         
         Map<String, String> map = new HashMap<String, String>();
         map.put("user", "Test_Us");
-
-		when(userService.getAllUser()).thenReturn(new ArrayList<User>(userList));
-
+  
+    	when(userService.getAllUser()).thenReturn(new ArrayList<User>(userList));
+  
         List<Integer> search = searchService.searchUser(-1, map, false);
-
+  
         assertEquals(1, search.size());
-
+  
         // Order for search should just be the first user in list
         assertEquals(Integer.valueOf(1), search.get(0));
     }
