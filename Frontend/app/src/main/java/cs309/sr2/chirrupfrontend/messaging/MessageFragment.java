@@ -19,13 +19,14 @@ import com.android.volley.Request;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
 
 import cs309.sr2.chirrupfrontend.R;
 
-import cs309.sr2.chirrupfrontend.settings.CurrentUserData;
+import cs309.sr2.chirrupfrontend.account.Session;
 
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
@@ -38,7 +39,7 @@ import java.util.List;
 /**
  * This class represents the direct messaging fragment for our app.
  *
- * @author William Zogg, Jeremy Noesen
+ * @author William Zogg
  */
 public class MessageFragment extends Fragment implements VolleyListener {
 
@@ -60,6 +61,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
     private ArrayList<MessageInfo> messages = new ArrayList<>();
     //server response
     private String volleyResponse;
+    List<Integer> memberIDs;
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
@@ -80,90 +82,97 @@ public class MessageFragment extends Fragment implements VolleyListener {
         createMessage = root.findViewById(R.id.MessageComposer);
         VolleyRequester = new VolleyRequester(this);
         volleyResponse = "";
+        memberIDs = new ArrayList<>();
 
 
         root.findViewById(R.id.searchButton).setOnClickListener((v) -> {
             try {
                 messages.clear();
                 updateMessageBox();
-                personMessaging.setText("Chatting with group " + searchText.getText());
+                personMessaging.setText(searchText.getText());
                 cc.close();
             } catch (Exception e) {}
 
             try {
-                String uri = "ws://coms-309-016.cs.iastate.edu:8080/api/dm/" + CurrentUserData.currUser.getID();
+                String uri = "ws://coms-309-016.cs.iastate.edu:8080/api/dm/" + Session.getUser();
+
+                VolleyRequester.getString(getResources().getString(R.string.base_url) + "groups/" + personMessaging.getText().toString());
+                JSONObject group = null;
+                try {
+                    SystemClock.sleep(500);
+                    group = new JSONObject(volleyResponse);
+
+                    memberIDs.clear();
+                    String members = group.getString("members");
+                    JSONArray memberArray = new JSONArray(members);
+                    for (int i = 0; i < memberArray.length(); ++i) {
+                        if (Integer.parseInt(memberArray.get(i).toString()) != Session.getUser()) {
+                            memberIDs.add(Integer.parseInt(memberArray.get(i).toString()));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 cc = new WebSocketClient(new URI(uri)) {
 
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void onOpen(ServerHandshake serverHandshake) {
-                    //set messages
-                    /*
-                     *baseurl/api/group/groupID
-                     * Group gives list of poeple in the group and a list of messages which includes sender, date, and content
-                     */
-                    VolleyRequester.getString(getResources().getString(R.string.base_url) + "groups/" + searchText.getText());
-                    SystemClock.sleep(100);
-                    try {
-                        //JSONArray toParseArray = new JSONArray(volleyResponse);
-                        JSONObject serverResponse = new JSONObject(volleyResponse);
-                        String messagesR = serverResponse.getString("messages");
-                        JSONArray toParseArray = new JSONArray(messagesR);
-                        for (int i = 0; i < toParseArray.length(); ++i) {
-                            JSONObject toParse = new JSONObject(toParseArray.getString(i));
-                            LocalDateTime time = LocalDateTime.parse(toParse.getString("dateSent"));
-                            MessageInfo toAdd = new MessageInfo(toParse.getString("message"), time, toParse.getString("from"));
-                            messages.add(toAdd);
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onOpen(ServerHandshake serverHandshake) {
+                        //set messages
+                        /*
+                         *baseurl/api/group/groupID
+                         * Group gives list of poeple in the group and a list of messages which includes sender, date, and content
+                         */
+                        VolleyRequester.getString(getResources().getString(R.string.base_url) + "groups/" + searchText.getText());
+                        SystemClock.sleep(100);
+                        try {
+                            //JSONArray toParseArray = new JSONArray(volleyResponse);
+                            JSONObject serverResponse = new JSONObject(volleyResponse);
+                            String messagesR = serverResponse.getString("messages");
+                            JSONArray toParseArray = new JSONArray(messagesR);
+                            for (int i = 0; i < toParseArray.length(); ++i) {
+                                JSONObject toParse = new JSONObject(toParseArray.getString(i));
+                                LocalDateTime time = LocalDateTime.parse(toParse.getString("dateSent"));
+                                MessageInfo toAdd = new MessageInfo(toParse.getString("message"), time, toParse.getString("from"));
+                                messages.add(toAdd);
+                            }
+                        } catch (Exception e) {
+                            personMessaging.setText(e.getMessage());
                         }
-                    } catch (Exception e) {
-                        personMessaging.setText(e.getMessage());
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                personMessaging.setText(searchText.getText());
+                                SystemClock.sleep(100);
+                                updateMessageBox();
+                            }
+                        });
                     }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            personMessaging.setText("Chatting with group " + searchText.getText());
-                            SystemClock.sleep(100);
-                            updateMessageBox();
-                        }
-                    });
-                }
 
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void onMessage(String s) {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onMessage(String s) {
                     /*
                     On recieve:
                         Getting a single message of an ID in the database
                         GET request to get content of the message at /api/directmessages/ID
                      */
 
-                    //add user's name
-                    VolleyRequester.getString(getResources().getString(R.string.base_url) + "directmessages/" + s);
-                    try {
-                        JSONObject toParse = new JSONObject(volleyResponse);
-                        LocalDateTime time = LocalDateTime.parse(toParse.getString("dateSent"));
-                        MessageInfo toAdd = new MessageInfo(toParse.getString("message"), time, toParse.getString("from"));
-                        messages.add(toAdd);
-                    } catch (Exception e) {}
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SystemClock.sleep(100);
-                            updateMessageBox();
-                        }
-                    });
-                }
+                        //add user's name
+                        VolleyRequester.getString(getResources().getString(R.string.base_url) + "directmessages/" + s);
 
-                @Override
-                public void onClose(int i, String s, boolean b) {
+                    }
 
-                }
+                    @Override
+                    public void onClose(int i, String s, boolean b) {
 
-                @Override
-                public void onError(Exception e) {
+                    }
 
-                }
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
                 };
             } catch (Exception e) {}
 
@@ -175,7 +184,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                 JSONObject messageToSend = new JSONObject();
                 messageToSend.put("message", createMessage.getText().toString());
                 VolleyRequester.setObject(getResources().getString(R.string.base_url) + "directmessages/" +
-                                CurrentUserData.currUser.getID() + "/" + searchText.getText(), messageToSend, Request.Method.POST);
+                        Session.getUser() + "/" + searchText.getText(), messageToSend, Request.Method.POST);
 //                JSONArray peopleMessaging = new JSONArray();
 //                peopleMessaging.put(Integer.valueOf(personMessaging.getText().toString()));
 //                JSONObject toSend = new JSONObject();
@@ -183,7 +192,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
 //                toSend.put("to", peopleMessaging);
 //                toSend.put("message", createMessage.getText().toString());
                 LocalDateTime time = LocalDateTime.now();
-                MessageInfo toAdd = new MessageInfo(createMessage.getText().toString(), time, String.valueOf(CurrentUserData.currUser.getID()));
+                MessageInfo toAdd = new MessageInfo(createMessage.getText().toString(), time, String.valueOf(Session.getUser()));
                 messages.add(toAdd);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -216,7 +225,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
      * Updates the messaging box on the messages page
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void updateMessageBox() {
+    private void updateMessageBox() {
         SystemClock.sleep(100);
         for (int i = 0; i < messages.size(); ++i) {
             int low = i;
@@ -236,6 +245,8 @@ public class MessageFragment extends Fragment implements VolleyListener {
             message += "\n";
         }
         messageView.setText(message);
+
+        createMessage.setText("");
     }
 
     /**
@@ -243,8 +254,24 @@ public class MessageFragment extends Fragment implements VolleyListener {
      *
      * @param response response from request
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onStringResponse(String response) {
         volleyResponse = response;
+        try {
+            SystemClock.sleep(1000);
+            JSONObject toParse = new JSONObject(volleyResponse);
+            LocalDateTime time = LocalDateTime.parse(toParse.getString("dateSent"));
+            MessageInfo toAdd = new MessageInfo(toParse.getString("message"), time, toParse.getString("from"));
+            messages.add(toAdd);
+        } catch (Exception e) {}
+        getActivity().runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void run() {
+                SystemClock.sleep(100);
+                updateMessageBox();
+            }
+        });
     }
 
     /**
@@ -255,22 +282,14 @@ public class MessageFragment extends Fragment implements VolleyListener {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onObjectResponse(JSONObject response) {
         try {
-            VolleyRequester.getString(getResources().getString(R.string.base_url) + "groups/" + personMessaging.getText().toString());
-            JSONObject group = new JSONObject(volleyResponse);
-            String members = group.getString("members");
-            JSONArray memberArray = new JSONArray(members);
-            List<Integer> memberIDs = new ArrayList<>();
-            for (int i = 0; i < memberArray.length(); ++i) {
-                if (Integer.parseInt(memberArray.get(i).toString()) != CurrentUserData.currUser.getID()) {
-                    memberIDs.add(Integer.parseInt(memberArray.get(i).toString()));
-                }
-            }
             JSONArray membersToSend = new JSONArray(memberIDs.toArray());
             JSONObject toSend = new JSONObject();
-            toSend.put("from", CurrentUserData.currUser.getID());
+            toSend.put("from", Session.getUser());
             toSend.put("to", membersToSend);
             toSend.put("message", response.getInt("id"));
-            cc.send(toSend.toString());
+            String sendMessage = toSend.toString();
+
+            cc.send(sendMessage);
         } catch(Exception e) {}
     }
 
