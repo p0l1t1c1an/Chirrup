@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +16,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -59,6 +58,8 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     //response string volley gives
     private String response;
 
+    private View root;
+
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
      *
@@ -70,6 +71,7 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        this.root = root;
 //        Switch themeSwitch = (Switch) root.findViewById(R.id.themeSwitch);
 //        Switch textSwitch = (Switch) root.findViewById(R.id.textSizeSwitch);
 //        Switch updateSwitch = (Switch) root.findViewById(R.id.updateSwitch);
@@ -228,6 +230,9 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 //            }
 //        });
 
+        VolleyRequester.getImage(AppController.getInstance().getString(R.string.base_url)
+                + "user/" + CurrentUserData.currUser.getID() + "/profilePicture");
+
         return root;
     }
 
@@ -275,14 +280,14 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 //        bio.setText("");
         JSONObject toSend = new JSONObject();
         toSend.put("email", CurrentUserData.currUser.getEmail());
-        toSend.put("username", username.getText().toString());
-        toSend.put("firstname", firstname.getText().toString());
-        toSend.put("lastname", lastname.getText().toString());
+        toSend.put("username", CurrentUserData.currUser.getUserName());
+        toSend.put("firstname", CurrentUserData.currUser.getFirstName());
+        toSend.put("lastname", CurrentUserData.currUser.getLastName());
         toSend.put("password", CurrentUserData.currUser.getPassword());
         toSend.put("telephone", CurrentUserData.currUser.getTelephone());
         toSend.put("role", CurrentUserData.currUser.getRole());
         toSend.put("birthday", CurrentUserData.currUser.getBirthday());
-        toSend.put("biography", bio.getText().toString());
+        toSend.put("biography", CurrentUserData.currUser.getBio());
         String jsonString = toSend.toString();
         VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID(), toSend, Request.Method.PUT);
 
@@ -460,5 +465,15 @@ public class SettingsFragment extends Fragment implements VolleyListener {
             CurrentUserData.currUser.setRole(res.get("role").toString());
             CurrentUserData.currUser.setBio(res.getString("biography"));
         } catch(Exception e) {}
+    }
+
+    /**
+     * set the profile picture
+     *
+     * @param response response from request
+     */
+    @Override
+    public void onImageResponse(Bitmap response) {
+        ((ImageView) root.findViewById(R.id.settings_avatar)).setImageBitmap(response);
     }
 }

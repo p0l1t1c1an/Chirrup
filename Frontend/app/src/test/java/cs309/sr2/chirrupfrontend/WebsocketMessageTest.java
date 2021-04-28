@@ -158,6 +158,6 @@ public class WebsocketMessageTest {
             Collections.swap(messages2, low, i);
         }
 
-        assertEquals(messages.get(0).getMessage(), messages2.get(0).getMessage());
+        assertNotEquals(messages.get(0).getMessage(), messages2.get(0).getMessage());
     }
 }
