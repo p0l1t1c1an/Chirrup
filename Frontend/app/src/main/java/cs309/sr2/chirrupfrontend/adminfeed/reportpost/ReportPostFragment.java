@@ -63,11 +63,11 @@ public class ReportPostFragment extends Fragment {
         Button dismiss = root.findViewById(R.id.report_post_dismiss);
 
         delete.setOnClickListener(v -> {
-            reportPostPresenter.delete(AppController.getInstance().getString(R.string.base_url) + "/admin/solve/" + postID);
+            reportPostPresenter.delete(AppController.getInstance().getString(R.string.base_url) + "posts/" + postID);
         });
 
         dismiss.setOnClickListener(v -> {
-            reportPostPresenter.dismiss(AppController.getInstance().getString(R.string.base_url) + "/admin/solve/" + postID);
+            reportPostPresenter.dismiss(AppController.getInstance().getString(R.string.base_url) + "admin/solve/" + postID);
         });
 
         View.OnClickListener clickListener = v -> {
