@@ -1,6 +1,7 @@
 package coms309.user;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,7 +9,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.FormParam;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +49,7 @@ public class UserController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);    
 
-    private static String profilePicturePath = "/files/profilepictures/";
+    private static String profilePicturePath = "/files/profilepictures/"; // "D:/Desktop/"; //
     private static String defaultPic = "default_picture.png";
 
     //creating a get mapping to retrieve all the users in the db
@@ -225,40 +228,37 @@ public class UserController {
     //create a mapping for uploading an image for a profile picture
     @ApiOperation(value = "upload profile picture", response = String.class, tags = "uploadProfilePicture")
     @PostMapping("/user/{userId}/profilePicture")
-    private String uploadProfilePicture(@PathVariable("userId") int id, @RequestParam("profile_picture") MultipartFile pfp) throws IOException {
+    private String uploadProfilePicture(@PathVariable("userId") int id, @FormParam("image") String image) throws IOException {
         User user = userService.getUserById(id);
+        String result = "picture not changed";
 
-        if(pfp.isEmpty()) {
+        if(image == null) {
             return "profile picture not given";
-        }
-
-        String[] parts = pfp.getOriginalFilename().toString().split("\\.");
-        String ext = "im";
-
-        if(parts.length >= 2) {
-            ext = parts[parts.length-1];
         }
 
         String serverFilePath = profilePicturePath;
 
-        serverFilePath += ("profile_pic_" +  id + "." + ext);
+        serverFilePath += ("profile_pic_" +  id + ".png");
 
         if (serverFilePath != null){        
-            File currentPfp = new File(serverFilePath);
-            if(currentPfp.exists()) {
-                currentPfp.delete();
+            //decode Base64 String to image
+            try{
+                FileOutputStream fos = new FileOutputStream(serverFilePath);
+
+                byte byteArray[] = Base64.decodeBase64(image);
+                fos.write(byteArray);
+                 
+                result = "picture changed";
+                fos.close();
+                logger.info("saving profile picture at: " + serverFilePath);
+                user.setProfilePicturePath(serverFilePath);
+                userService.saveOrUpdate(user);
+            }
+            catch(Exception e){
+                e.printStackTrace();
             }
         }
-
-        logger.info("saving profile picture at: " + serverFilePath);
-
-        File toSave = new File(serverFilePath);
-        toSave.createNewFile();
-
-        pfp.transferTo(toSave);
-        user.setProfilePicturePath(serverFilePath);
-        userService.saveOrUpdate(user);
-        return "profile picture changed";
+        return result;
     }
 
     @ApiOperation(value = "get profile picture", response = String.class, tags = "getProfilePicture")
@@ -266,7 +266,6 @@ public class UserController {
     ResponseEntity<Resource> getProfilePicture(@PathVariable int id) throws IOException {
         User user = userService.getUserById(id);
 
-        // if laptop id not found it cannot have an invoice associated with it
         if(user == null) {
             return null;
         }
