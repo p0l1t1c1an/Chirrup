@@ -282,17 +282,11 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 //        lastname.setText("");
 //        bio.setText("");
         JSONObject toSend = new JSONObject();
-        toSend.put("email", CurrentUserData.currUser.getEmail());
-        toSend.put("username", CurrentUserData.currUser.getUserName());
-        toSend.put("firstname", CurrentUserData.currUser.getFirstName());
-        toSend.put("lastname", CurrentUserData.currUser.getLastName());
-        toSend.put("password", CurrentUserData.currUser.getPassword());
-        toSend.put("telephone", CurrentUserData.currUser.getTelephone());
-        toSend.put("role", CurrentUserData.currUser.getRole());
-        toSend.put("birthday", CurrentUserData.currUser.getBirthday());
-        toSend.put("biography", CurrentUserData.currUser.getBio());
-        String jsonString = toSend.toString();
-        VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID(), toSend, Request.Method.PUT);
+        toSend.put("username", username.getText().toString());
+        toSend.put("firstname", firstname.getText().toString());
+        toSend.put("lastname", lastname.getText().toString());
+        toSend.put("biography", bio.getText().toString());
+        VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID(), toSend, Request.Method.PATCH);
 
         //update current user screen
         //wait 100 milliseconds
