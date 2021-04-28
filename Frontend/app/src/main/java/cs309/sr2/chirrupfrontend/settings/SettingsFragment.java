@@ -446,10 +446,10 @@ public class SettingsFragment extends Fragment implements VolleyListener {
             long currTime = System.currentTimeMillis();
             while (currTime + 50 > System.currentTimeMillis()) {}
 
-            username.setHint(res.getString("username"));
-            firstname.setHint(res.getString("firstname"));
-            lastname.setHint(res.getString("lastname"));
-            bio.setHint(res.getString("biography"));
+            username.setHint("Username: " + res.getString("username"));
+            firstname.setHint("First Name: " + res.getString("firstname"));
+            lastname.setHint("Last Name: " + res.getString("lastname"));
+            bio.setHint("Bio: " + res.getString("biography"));
 
             //set user fields
             CurrentUserData.currUser.setUserName(res.getString("username"));
