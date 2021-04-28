@@ -73,8 +73,21 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     private String deleteUser(@PathVariable("id") int id) {
         logger.info("deleted user");
-        userService.delete(id);
-        return "User deleted: " + id;
+        User user = userService.getUserById(id);
+        if(user != null) {
+            user.getFollowers().forEach(follower -> follower.removeFollowing(user));
+            UserSettings us = (UserSettings) user.getSettings();
+            if(us != null) {
+                us.getParents().forEach(parent -> parent.removeChild(us));
+                us.getChildren().forEach(child -> {
+                    child.removeParent(us);
+                });
+                userService.delete(id);
+            }
+            return "User deleted: " + id;
+        }
+
+        return "User not found";
     }
 
     // creating post mapping that edits an existing user
@@ -83,9 +96,13 @@ public class UserController {
     private String editUser(@PathVariable("id") int id, @RequestBody User user) {
         logger.info("edited user");
         User found = userService.getUserById(id);
-        found.updateInfo(user);
-        userService.saveOrUpdate(found);
-        return "User edited: " + found.getUsername();
+        if(found != null) {
+            found.updateInfo(user);
+            userService.saveOrUpdate(found);
+            return "User edited: " + found.getUsername();
+        }
+
+        return "User not found";
     }
 
     // creating post mapping that partially edits an existing user
@@ -94,25 +111,39 @@ public class UserController {
     private String editPartialUser(@PathVariable("id") int id, @RequestBody User user) {
         logger.info("edited user");
         User found = userService.getUserById(id);
-        found.updatePartialInfo(user);
-        userService.saveOrUpdate(found);
-        return "User edited: " + found.getUsername();
+        if(found != null) {
+            found.updatePartialInfo(user);
+            userService.saveOrUpdate(found);
+            return "User edited: " + found.getUsername();
+        }
+
+        return "User not found";
     }
 
     // creating get mapping that returns who a user is following
     @ApiOperation(value = "get users following user by id", response = Iterable.class, tags = "getFollowing")
     @GetMapping("/user/{id}/following")
     private List<Integer> getFollowing(@PathVariable("id") int id) {
-        logger.info("returned followed users");
-        return userService.getFollowingById(id);
+        User found = userService.getUserById(id);
+        if(found != null) {
+            logger.info("returned followed users");
+            return userService.getFollowingById(id);
+        }
+
+        return null;
     }
 
     // creating get mapping that returns who a user is being followed by
     @ApiOperation(value = "get users followers by id", response = Iterable.class, tags = "getFollowers")
     @GetMapping("/user/{id}/followers")
     private List<Integer> getFollowers(@PathVariable("id") int id) {
-        logger.info("returned followers");
-        return userService.getFollowersById(id);
+        User found = userService.getUserById(id);
+        if(found != null) {
+            logger.info("returned followers");
+            return userService.getFollowersById(id);
+        }
+
+        return null;
     }
 
     // creating post mapping that creates a new user
@@ -130,8 +161,12 @@ public class UserController {
     @GetMapping("/user/{userId}/posts")
     private List<Integer> getAllPostByUserId(@PathVariable("userId") int userId) {
         User user = userService.getUserById(userId);
-        logger.info("got all posts from user");
-        return user.getPostsId();
+        if(user != null) {
+            logger.info("got all posts from user");
+            return user.getPostsId();
+        }
+
+        return null;
     }
 
     // creating post mapping that follows a user
@@ -158,13 +193,19 @@ public class UserController {
     private String unfollowUser(@PathVariable("id") int id, @PathVariable("unfollowing") int unfollow) {
         User follower = userService.getUserById(id);
         User following = userService.getUserById(unfollow);
-        follower.removeFollowing(following);
-        following.removeFollower(follower);
-        userService.saveOrUpdate(follower);
-        userService.saveOrUpdate(following);
-        logger.info("unfollowed a user");
 
-        return "User is now unfollowing: " + following.getUsername();
+        if(follower != null && following != null) {
+
+            follower.removeFollowing(following);
+            following.removeFollower(follower);
+            userService.saveOrUpdate(follower);
+            userService.saveOrUpdate(following);
+            logger.info("unfollowed a user");
+
+            return "User is now unfollowing: " + following.getUsername();
+        }
+
+        return "User(s) not found";
     }
 
     // creating get mapping that returns who a user is blocking
