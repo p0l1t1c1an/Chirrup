@@ -216,7 +216,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
      * Updates the messaging box on the messages page
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void updateMessageBox() {
+    public void updateMessageBox() {
         SystemClock.sleep(100);
         for (int i = 0; i < messages.size(); ++i) {
             int low = i;
