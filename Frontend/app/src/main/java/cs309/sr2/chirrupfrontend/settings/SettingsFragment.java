@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -119,6 +120,7 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
             try {
                 readyUserToUpdate();
+                Toast.makeText(AppController.getInstance(), "Profile updated!", Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -126,6 +128,7 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 
         root.findViewById(R.id.cancelButton).setOnClickListener((v) -> {
             clearUserText();
+            Toast.makeText(AppController.getInstance(), "Update cancelled!", Toast.LENGTH_SHORT).show();
         });
 
 //        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
