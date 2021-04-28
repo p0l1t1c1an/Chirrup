@@ -62,12 +62,13 @@ public class MessageFragment extends Fragment implements VolleyListener {
     //server response
     private String volleyResponse;
     List<Integer> memberIDs;
+    int status = 0;
 
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
      *
-     * @param inflater Turns the corresponding XML file into a layout.
-     * @param container A group of views.
+     * @param inflater           Turns the corresponding XML file into a layout.
+     * @param container          A group of views.
      * @param savedInstanceState A map of string keys.
      * @return New view for this fragment.
      */
@@ -89,30 +90,16 @@ public class MessageFragment extends Fragment implements VolleyListener {
             try {
                 messages.clear();
                 updateMessageBox();
-                personMessaging.setText(searchText.getText());
+                personMessaging.setText("Group " + searchText.getText());
                 cc.close();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
 
             try {
                 String uri = "ws://coms-309-016.cs.iastate.edu:8080/api/dm/" + Session.getUser();
 
-                VolleyRequester.getString(getResources().getString(R.string.base_url) + "groups/" + personMessaging.getText().toString());
-                JSONObject group = null;
-                try {
-                    SystemClock.sleep(500);
-                    group = new JSONObject(volleyResponse);
-
-                    memberIDs.clear();
-                    String members = group.getString("members");
-                    JSONArray memberArray = new JSONArray(members);
-                    for (int i = 0; i < memberArray.length(); ++i) {
-                        if (Integer.parseInt(memberArray.get(i).toString()) != Session.getUser()) {
-                            memberIDs.add(Integer.parseInt(memberArray.get(i).toString()));
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                status = 1;
+                VolleyRequester.getObject(getResources().getString(R.string.base_url) + "groups/" + personMessaging.getText().toString());
 
                 cc = new WebSocketClient(new URI(uri)) {
 
@@ -143,7 +130,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                personMessaging.setText(searchText.getText());
+                                personMessaging.setText("Group " + searchText.getText());
                                 SystemClock.sleep(100);
                                 updateMessageBox();
                             }
@@ -174,7 +161,8 @@ public class MessageFragment extends Fragment implements VolleyListener {
 
                     }
                 };
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
 
             cc.connect();
         });
@@ -183,6 +171,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
             try {
                 JSONObject messageToSend = new JSONObject();
                 messageToSend.put("message", createMessage.getText().toString());
+                status = 0;
                 VolleyRequester.setObject(getResources().getString(R.string.base_url) + "directmessages/" +
                         Session.getUser() + "/" + searchText.getText(), messageToSend, Request.Method.POST);
 //                JSONArray peopleMessaging = new JSONArray();
@@ -203,7 +192,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                     }
                 });
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 messageView.setText("error sending message: " + e.getMessage());
             }
             /*
@@ -245,8 +234,6 @@ public class MessageFragment extends Fragment implements VolleyListener {
             message += "\n";
         }
         messageView.setText(message);
-
-        createMessage.setText("");
     }
 
     /**
@@ -263,7 +250,8 @@ public class MessageFragment extends Fragment implements VolleyListener {
             LocalDateTime time = LocalDateTime.parse(toParse.getString("dateSent"));
             MessageInfo toAdd = new MessageInfo(toParse.getString("message"), time, toParse.getString("from"));
             messages.add(toAdd);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         getActivity().runOnUiThread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -282,15 +270,27 @@ public class MessageFragment extends Fragment implements VolleyListener {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onObjectResponse(JSONObject response) {
         try {
-            JSONArray membersToSend = new JSONArray(memberIDs.toArray());
-            JSONObject toSend = new JSONObject();
-            toSend.put("from", Session.getUser());
-            toSend.put("to", membersToSend);
-            toSend.put("message", response.getInt("id"));
-            String sendMessage = toSend.toString();
+            if (status == 0) {
+                JSONArray membersToSend = new JSONArray(memberIDs.toArray());
+                JSONObject toSend = new JSONObject();
+                toSend.put("from", Session.getUser());
+                toSend.put("to", membersToSend);
+                toSend.put("message", response.getInt("id"));
+                String sendMessage = toSend.toString();
 
-            cc.send(sendMessage);
-        } catch(Exception e) {}
+                cc.send(sendMessage);
+            } else if (status == 1) {
+                memberIDs.clear();
+                String members = response.getString("members");
+                JSONArray memberArray = new JSONArray(members);
+                for (int i = 0; i < memberArray.length(); ++i) {
+                    if (memberArray.getInt(i) != Session.getUser()) {
+                        memberIDs.add(Integer.parseInt(memberArray.get(i).toString()));
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 
     /**
