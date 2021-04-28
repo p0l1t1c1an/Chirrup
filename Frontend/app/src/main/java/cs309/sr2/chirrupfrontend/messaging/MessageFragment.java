@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * This class represents the direct messaging fragment for our app.
  *
- * @author William Zogg
+ * @author William Zogg, Jeremy Noesen
  */
 public class MessageFragment extends Fragment implements VolleyListener {
 
@@ -86,7 +86,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
             try {
                 messages.clear();
                 updateMessageBox();
-                personMessaging.setText(searchText.getText());
+                personMessaging.setText("Chatting with group " + searchText.getText());
                 cc.close();
             } catch (Exception e) {}
 
@@ -122,7 +122,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            personMessaging.setText(searchText.getText());
+                            personMessaging.setText("Chatting with group " + searchText.getText());
                             SystemClock.sleep(100);
                             updateMessageBox();
                         }

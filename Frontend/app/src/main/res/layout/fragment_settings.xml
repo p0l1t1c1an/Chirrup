@@ -9,34 +9,40 @@
 
     <EditText
         android:id="@+id/bioField"
-        android:layout_width="345dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:hint="Bio"
         android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastNameField" />
 
     <EditText
         android:id="@+id/lastNameField"
-        android:layout_width="263dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:hint="Last Name"
         android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstNameField" />
 
     <EditText
         android:id="@+id/firstNameField"
-        android:layout_width="263dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:hint="First Name"
         android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameField" />
 
@@ -44,105 +50,106 @@
         android:id="@+id/settings_avatar"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
         android:id="@+id/usernameField"
-        android:layout_width="263dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         android:hint="Username"
         android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_avatar" />
 
     <Button
-        android:id="@+id/select_avatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="84dp"
-        android:text="+"
-        android:textSize="10pt"
-        app:layout_constraintStart_toEndOf="@+id/settings_avatar"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/sendButton"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
         android:text="Save"
-        android:textSize="4pt"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cancelButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/cancelButton"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Cancel"
-        android:textSize="4pt"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sendButton" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/PermissionText"-->
-<!--        android:layout_width="207dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:text="Permissions: "-->
-<!--        android:textStyle="bold"-->
-<!--        android:textSize="20dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/bioField" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/PermissionText"-->
+    <!--        android:layout_width="207dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:text="Permissions: "-->
+    <!--        android:textStyle="bold"-->
+    <!--        android:textSize="20dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/bioField" />-->
 
     <TextView
         android:id="@+id/testView"
-        android:layout_width="158dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toEndOf="@+id/settings_avatar"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bioField" />
 
-<!--    <Switch-->
-<!--        android:id="@+id/themeSwitch"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="80dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:text="Switch"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/PermissionText" />-->
+    <!--    <Switch-->
+    <!--        android:id="@+id/themeSwitch"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="80dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:text="Switch"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/PermissionText" />-->
 
-<!--    <Switch-->
-<!--        android:id="@+id/textSizeSwitch"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="80dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:text="Switch"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/themeSwitch" />-->
+    <!--    <Switch-->
+    <!--        android:id="@+id/textSizeSwitch"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="80dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:text="Switch"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/themeSwitch" />-->
 
-<!--    <Switch-->
-<!--        android:id="@+id/updateSwitch"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="80dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:text="Switch"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textSizeSwitch" />-->
+    <!--    <Switch-->
+    <!--        android:id="@+id/updateSwitch"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="80dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:text="Switch"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textSizeSwitch" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

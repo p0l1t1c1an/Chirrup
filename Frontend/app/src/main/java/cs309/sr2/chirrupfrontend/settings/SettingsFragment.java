@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,7 +17,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -59,6 +59,8 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     //response string volley gives
     private String response;
 
+    private View root;
+
     /**
      * This is the method that runs when opening the page. The parameters are given to it by program that calls it.
      *
@@ -70,6 +72,7 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        this.root = root;
 //        Switch themeSwitch = (Switch) root.findViewById(R.id.themeSwitch);
 //        Switch textSwitch = (Switch) root.findViewById(R.id.textSizeSwitch);
 //        Switch updateSwitch = (Switch) root.findViewById(R.id.updateSwitch);
@@ -117,6 +120,7 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
             try {
                 readyUserToUpdate();
+                Toast.makeText(AppController.getInstance(), "Profile updated!", Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -124,6 +128,7 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 
         root.findViewById(R.id.cancelButton).setOnClickListener((v) -> {
             clearUserText();
+            Toast.makeText(AppController.getInstance(), "Update cancelled!", Toast.LENGTH_SHORT).show();
         });
 
 //        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -228,6 +233,9 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 //            }
 //        });
 
+        VolleyRequester.getImage(AppController.getInstance().getString(R.string.base_url)
+                + "user/" + CurrentUserData.currUser.getID() + "/profilePicture");
+
         return root;
     }
 
@@ -274,17 +282,11 @@ public class SettingsFragment extends Fragment implements VolleyListener {
 //        lastname.setText("");
 //        bio.setText("");
         JSONObject toSend = new JSONObject();
-        toSend.put("email", CurrentUserData.currUser.getEmail());
         toSend.put("username", username.getText().toString());
         toSend.put("firstname", firstname.getText().toString());
         toSend.put("lastname", lastname.getText().toString());
-        toSend.put("password", CurrentUserData.currUser.getPassword());
-        toSend.put("telephone", CurrentUserData.currUser.getTelephone());
-        toSend.put("role", CurrentUserData.currUser.getRole());
-        toSend.put("birthday", CurrentUserData.currUser.getBirthday());
         toSend.put("biography", bio.getText().toString());
-        String jsonString = toSend.toString();
-        VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID(), toSend, Request.Method.PUT);
+        VolleyRequester.setObject(getResources().getString(R.string.base_url) + "user/" + CurrentUserData.currUser.getID(), toSend, Request.Method.PATCH);
 
         //update current user screen
         //wait 100 milliseconds
@@ -444,10 +446,10 @@ public class SettingsFragment extends Fragment implements VolleyListener {
             long currTime = System.currentTimeMillis();
             while (currTime + 50 > System.currentTimeMillis()) {}
 
-            username.setHint(res.getString("username"));
-            firstname.setHint(res.getString("firstname"));
-            lastname.setHint(res.getString("lastname"));
-            bio.setHint(res.getString("biography"));
+            username.setHint("Username: " + res.getString("username"));
+            firstname.setHint("First Name: " + res.getString("firstname"));
+            lastname.setHint("Last Name: " + res.getString("lastname"));
+            bio.setHint("Bio: " + res.getString("biography"));
 
             //set user fields
             CurrentUserData.currUser.setUserName(res.getString("username"));
@@ -460,5 +462,15 @@ public class SettingsFragment extends Fragment implements VolleyListener {
             CurrentUserData.currUser.setRole(res.get("role").toString());
             CurrentUserData.currUser.setBio(res.getString("biography"));
         } catch(Exception e) {}
+    }
+
+    /**
+     * set the profile picture
+     *
+     * @param response response from request
+     */
+    @Override
+    public void onImageResponse(Bitmap response) {
+        ((ImageView) root.findViewById(R.id.settings_avatar)).setImageBitmap(response);
     }
 }

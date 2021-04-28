@@ -78,8 +78,7 @@ public class LoginFragment extends Fragment implements VolleyListener {
             if (userID == -1) {
                 Toast.makeText(AppController.getInstance(), "Login failed!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(AppController.getInstance(), "Login succeeded! You may now " +
-                        "navigate to other parts of the app.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppController.getInstance(), "Login successful!", Toast.LENGTH_SHORT).show();
                 Session.setUser(userID);
                 volleyRequester.getObject(getResources().getString(R.string.base_url) + "user/" + userID);
             }
