@@ -1,11 +1,12 @@
 package cs309.sr2.chirrupfrontend.volley;
 
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.util.Base64;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -13,10 +14,12 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
-import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 
 /**
  * class to handle server calls across the app, this acts as the model class for multiple screens
@@ -43,21 +46,12 @@ public class VolleyRequester {
      * @param url request url
      */
     public void getImage(String url) {
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        imageLoader.get(url, new ImageLoader.ImageListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(PersonalProfileFragment.class.getSimpleName(), "Image get Error: "
-                        + error.getMessage());
-            }
+        ImageRequest imageRequest = new ImageRequest(url, response -> volleyListener.onImageResponse(response),
+                0, 0, ImageView.ScaleType.CENTER, Bitmap.Config.RGB_565, error ->
+                VolleyLog.d(VolleyRequester.class.getSimpleName(), "Image get error: "
+                        + error.getMessage()));
 
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                if (response.getBitmap() != null) {
-                    volleyListener.onImageResponse(response);
-                }
-            }
-        });
+        AppController.getInstance().addToRequestQueue(imageRequest);
     }
 
     /**
@@ -103,9 +97,36 @@ public class VolleyRequester {
     }
 
     /**
+     * set a image in the database
+     *
+     * @param url    request url
+     * @param image  image to set
+     * @param method method to use for setting, Request.Method.
+     */
+    public void setImage(String url, Bitmap image, int method) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        final String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+        StringRequest request = new StringRequest(method, url, null,
+                error -> VolleyLog.d(VolleyRequester.class.getSimpleName(), "Image set error: "
+                        + error.getMessage())) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> parameters = new HashMap<>();
+                parameters.put("image", imageString);
+                return parameters;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
+    /**
      * set a string in the database
      *
-     * @param url request url
+     * @param url    request url
      * @param string string to set
      * @param method method to use for setting, Request.Method.
      */
@@ -131,9 +152,9 @@ public class VolleyRequester {
     /**
      * set an array in the database
      *
-     * @param url request url
+     * @param url       request url
      * @param jsonArray json array to set
-     * @param method method to use for setting, Request.Method.
+     * @param method    method to use for setting, Request.Method.
      */
     public void setArray(String url, JSONArray jsonArray, int method) {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(method, url,
@@ -157,9 +178,9 @@ public class VolleyRequester {
     /**
      * set an object in the database
      *
-     * @param url request url
+     * @param url        request url
      * @param jsonObject json object to set
-     * @param method method to use for setting, Request.Method.
+     * @param method     method to use for setting, Request.Method.
      */
     public void setObject(String url, JSONObject jsonObject, int method) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url,

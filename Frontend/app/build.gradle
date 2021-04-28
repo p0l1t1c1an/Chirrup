@@ -55,4 +55,5 @@ dependencies {
     androidTestImplementation 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
     testImplementation 'org.json:json:20180813'
 
+    implementation files('lib/Client_Android_SocketExample_app_libs_java_websocket.jar')
 }

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.newpost.NewPostFragment;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 
 /**
  * screen used to display a thread of comments linked to a post
