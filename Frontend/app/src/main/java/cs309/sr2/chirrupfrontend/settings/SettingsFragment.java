@@ -70,9 +70,9 @@ public class SettingsFragment extends Fragment implements VolleyListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
-        Switch themeSwitch = (Switch) root.findViewById(R.id.themeSwitch);
-        Switch textSwitch = (Switch) root.findViewById(R.id.textSizeSwitch);
-        Switch updateSwitch = (Switch) root.findViewById(R.id.updateSwitch);
+//        Switch themeSwitch = (Switch) root.findViewById(R.id.themeSwitch);
+//        Switch textSwitch = (Switch) root.findViewById(R.id.textSizeSwitch);
+//        Switch updateSwitch = (Switch) root.findViewById(R.id.updateSwitch);
         username = (TextView) root.findViewById(R.id.usernameField);
         firstname = (TextView) root.findViewById(R.id.firstNameField);
         lastname = (TextView) root.findViewById(R.id.lastNameField);
@@ -87,32 +87,32 @@ public class SettingsFragment extends Fragment implements VolleyListener {
         VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
                 CurrentUserData.currUser.getID());
         //create a JSON object to parse settings from
-        try {
-            JSONObject toParse = new JSONObject(response);
-            darktheme = toParse.getBoolean("darkMode");
-            textSize = toParse.getInt("textSize");
-            updateTime = toParse.getInt("updateTime");
-
-            //set Fields
-            if (darktheme == true) {
-                themeSwitch.setText("Dark Mode");
-            }
-            else {
-                themeSwitch.setText("Light Mode");
-            }
-            if (textSize == 12) {
-                textSwitch.setText("Small Text");
-            }
-            else {
-                textSwitch.setText("Big Text");
-            }
-            if (updateTime == 5) {
-                updateSwitch.setText("Short Wait");
-            }
-            else {
-                updateSwitch.setText("Long Wait");
-            }
-        } catch(Exception e) {}
+//        try {
+//            JSONObject toParse = new JSONObject(response);
+//            darktheme = toParse.getBoolean("darkMode");
+//            textSize = toParse.getInt("textSize");
+//            updateTime = toParse.getInt("updateTime");
+//
+//            //set Fields
+//            if (darktheme == true) {
+//                themeSwitch.setText("Dark Mode");
+//            }
+//            else {
+//                themeSwitch.setText("Light Mode");
+//            }
+//            if (textSize == 12) {
+//                textSwitch.setText("Small Text");
+//            }
+//            else {
+//                textSwitch.setText("Big Text");
+//            }
+//            if (updateTime == 5) {
+//                updateSwitch.setText("Short Wait");
+//            }
+//            else {
+//                updateSwitch.setText("Long Wait");
+//            }
+//        } catch(Exception e) {}
 
         root.findViewById(R.id.sendButton).setOnClickListener((v) -> {
             try {
@@ -126,107 +126,107 @@ public class SettingsFragment extends Fragment implements VolleyListener {
             clearUserText();
         });
 
-        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //get settings
-            VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
-                    CurrentUserData.currUser.getID());
-            //create a JSON object to parse settings from
-            try {
-                JSONObject toParse = new JSONObject(response);
-                darktheme = toParse.getBoolean("darkMode");
-            } catch(Exception e) {}
-
-            if (buttonView.isChecked()) {
-                if (darktheme == true) {
-                    //dark theme is already enabled and needs to be disabled
-                    darktheme = false;
-                    themeSwitch.setText("Light Mode");
-                }
-                else {
-                    //dark theme needs to be enabled
-                    darktheme = true;
-                    themeSwitch.setText("Dark Mode");
-                }
-            }
-            else {
-                if (darktheme == true) {
-                    //dark theme is already enabled and needs to be disabled
-                    darktheme = false;
-                    themeSwitch.setText("Light Mode");
-                }
-                else {
-                    //dark theme needs to be enabled
-                    darktheme = true;
-                    themeSwitch.setText("Dark Mode");
-                }
-            }
-        });
-
-        textSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //get settings
-            VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
-                    CurrentUserData.currUser.getID());
-            //create a JSON object to parse settings from
-            try {
-                JSONObject toParse = new JSONObject(response);
-                textSize = toParse.getInt("textSize");
-            } catch(Exception e) {}
-            if (buttonView.isChecked()) {
-                if (textSize == 12) {
-                    //text size is 12 right now and needs to be increased to 15
-                    textSize = 15;
-                    textSwitch.setText("Big Text");
-                }
-                else {
-                    //text size is not 12 and needs to become 12
-                    textSize = 12;
-                    textSwitch.setText("Small Text");
-                }
-            }
-            else {
-                if (textSize == 12) {
-                    //text size is 12 right now and needs to be increased to 15
-                    textSize = 15;
-                    textSwitch.setText("Big Text");
-                }
-                else {
-                    //text size is not 12 and needs to become 12
-                    textSize = 12;
-                    textSwitch.setText("Small Text");
-                }
-            }
-        });
-
-        updateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            try {
-                JSONObject toParse = new JSONObject(response);
-                updateTime = toParse.getInt("updateTime");
-            } catch(Exception e) {}
-            if (buttonView.isChecked()) {
-                if (updateTime == 5) {
-                    //update time is 5 right now and should be increased to 8?
-                    updateTime = 8;
-                    updateSwitch.setText("Long Wait");
-                }
-                else {
-                    //update time is not 5 and should become 5
-                    updateTime = 5;
-                    updateSwitch.setText("Short Wait");
-                }
-            }
-            else {
-                if (updateTime == 5) {
-                    //update time is 5 right now and should be increased to 8?
-                    updateTime = 8;
-                    updateSwitch.setText("Long Wait");
-                }
-                else {
-                    //update time is not 5 and should become 5
-                    updateTime = 5;
-                    updateSwitch.setText("Short Wait");
-                }
-            }
-        });
+//        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            //get settings
+//            VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
+//                    CurrentUserData.currUser.getID());
+//            //create a JSON object to parse settings from
+//            try {
+//                JSONObject toParse = new JSONObject(response);
+//                darktheme = toParse.getBoolean("darkMode");
+//            } catch(Exception e) {}
+//
+//            if (buttonView.isChecked()) {
+//                if (darktheme == true) {
+//                    //dark theme is already enabled and needs to be disabled
+//                    darktheme = false;
+//                    themeSwitch.setText("Light Mode");
+//                }
+//                else {
+//                    //dark theme needs to be enabled
+//                    darktheme = true;
+//                    themeSwitch.setText("Dark Mode");
+//                }
+//            }
+//            else {
+//                if (darktheme == true) {
+//                    //dark theme is already enabled and needs to be disabled
+//                    darktheme = false;
+//                    themeSwitch.setText("Light Mode");
+//                }
+//                else {
+//                    //dark theme needs to be enabled
+//                    darktheme = true;
+//                    themeSwitch.setText("Dark Mode");
+//                }
+//            }
+//        });
+//
+//        textSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            //get settings
+//            VolleyRequester.getString(getResources().getString(R.string.base_url) + "settings/" +
+//                    CurrentUserData.currUser.getID());
+//            //create a JSON object to parse settings from
+//            try {
+//                JSONObject toParse = new JSONObject(response);
+//                textSize = toParse.getInt("textSize");
+//            } catch(Exception e) {}
+//            if (buttonView.isChecked()) {
+//                if (textSize == 12) {
+//                    //text size is 12 right now and needs to be increased to 15
+//                    textSize = 15;
+//                    textSwitch.setText("Big Text");
+//                }
+//                else {
+//                    //text size is not 12 and needs to become 12
+//                    textSize = 12;
+//                    textSwitch.setText("Small Text");
+//                }
+//            }
+//            else {
+//                if (textSize == 12) {
+//                    //text size is 12 right now and needs to be increased to 15
+//                    textSize = 15;
+//                    textSwitch.setText("Big Text");
+//                }
+//                else {
+//                    //text size is not 12 and needs to become 12
+//                    textSize = 12;
+//                    textSwitch.setText("Small Text");
+//                }
+//            }
+//        });
+//
+//        updateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            try {
+//                JSONObject toParse = new JSONObject(response);
+//                updateTime = toParse.getInt("updateTime");
+//            } catch(Exception e) {}
+//            if (buttonView.isChecked()) {
+//                if (updateTime == 5) {
+//                    //update time is 5 right now and should be increased to 8?
+//                    updateTime = 8;
+//                    updateSwitch.setText("Long Wait");
+//                }
+//                else {
+//                    //update time is not 5 and should become 5
+//                    updateTime = 5;
+//                    updateSwitch.setText("Short Wait");
+//                }
+//            }
+//            else {
+//                if (updateTime == 5) {
+//                    //update time is 5 right now and should be increased to 8?
+//                    updateTime = 8;
+//                    updateSwitch.setText("Long Wait");
+//                }
+//                else {
+//                    //update time is not 5 and should become 5
+//                    updateTime = 5;
+//                    updateSwitch.setText("Short Wait");
+//                }
+//            }
+//        });
 
         return root;
     }
