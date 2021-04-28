@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 
 /**
  * screen used to display the main feed

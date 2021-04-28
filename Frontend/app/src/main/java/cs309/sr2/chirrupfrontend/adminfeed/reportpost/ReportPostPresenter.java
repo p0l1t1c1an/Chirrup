@@ -7,15 +7,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.toolbox.ImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.profile.other.OtherProfileFragment;
-import cs309.sr2.chirrupfrontend.profile.personal.PersonalProfileFragment;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
@@ -134,8 +132,8 @@ public class ReportPostPresenter implements VolleyListener {
      * @param response response from request
      */
     @Override
-    public void onImageResponse(ImageLoader.ImageContainer response) {
-        setAvatar(response.getBitmap());
+    public void onImageResponse(Bitmap response) {
+        setAvatar(response);
     }
 
     /**

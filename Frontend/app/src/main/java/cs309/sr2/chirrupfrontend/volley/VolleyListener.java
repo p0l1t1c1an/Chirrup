@@ -1,6 +1,6 @@
 package cs309.sr2.chirrupfrontend.volley;
 
-import com.android.volley.toolbox.ImageLoader;
+import android.graphics.Bitmap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ public interface VolleyListener {
      *
      * @param response response from request
      */
-    default void onImageResponse(ImageLoader.ImageContainer response) {}
+    default void onImageResponse(Bitmap response) {}
 
     /**
      * Runs when an array response is received

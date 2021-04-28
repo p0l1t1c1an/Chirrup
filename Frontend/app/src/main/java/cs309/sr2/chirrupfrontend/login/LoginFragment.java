@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 import cs309.sr2.chirrupfrontend.R;
 import cs309.sr2.chirrupfrontend.account.Session;
-import cs309.sr2.chirrupfrontend.utils.AppController;
+import cs309.sr2.chirrupfrontend.AppController;
 import cs309.sr2.chirrupfrontend.volley.VolleyListener;
 import cs309.sr2.chirrupfrontend.volley.VolleyRequester;
 
