@@ -79,7 +79,7 @@ public class DirectMessageController {
     //creating post mapping the creates a new post
     @ApiOperation(value = "creates a new dm", response = String.class, tags = "saveDirectMessage")
     @PostMapping("/{fromId}/{toId}")
-    private int saveDirectMessage(@RequestBody DirectMessage dm, @PathVariable(value = "fromId") int fromId, @PathVariable(value = "toId") int toId) {
+    private DirectMessage saveDirectMessage(@RequestBody DirectMessage dm, @PathVariable(value = "fromId") int fromId, @PathVariable(value = "toId") int toId) {
         User from = userService.getUserById(fromId);
         DirectMessageGroup to = groupService.getGroupById(toId);
         LocalDateTime now = LocalDateTime.now();
@@ -89,7 +89,7 @@ public class DirectMessageController {
         dmService.saveOrUpdate(dm);
         groupService.saveOrUpdate(to);
         logger.info("created a new dm");
-        return dm.getId();
+        return dm;
     }
 
     @PostMapping
