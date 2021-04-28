@@ -99,7 +99,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                 String uri = "ws://coms-309-016.cs.iastate.edu:8080/api/dm/" + Session.getUser();
 
                 status = 1;
-                VolleyRequester.getObject(getResources().getString(R.string.base_url) + "groups/" + personMessaging.getText().toString());
+                VolleyRequester.getObject(getResources().getString(R.string.base_url) + "groups/" + searchText.getText().toString());
 
                 cc = new WebSocketClient(new URI(uri)) {
 
@@ -111,7 +111,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                          *baseurl/api/group/groupID
                          * Group gives list of poeple in the group and a list of messages which includes sender, date, and content
                          */
-                        VolleyRequester.getString(getResources().getString(R.string.base_url) + "groups/" + searchText.getText());
+                        VolleyRequester.getString(getResources().getString(R.string.base_url) + "groups/" + searchText.getText().toString());
                         SystemClock.sleep(100);
                         try {
                             //JSONArray toParseArray = new JSONArray(volleyResponse);
