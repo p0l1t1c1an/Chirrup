@@ -87,7 +87,7 @@ public class WebsocketMessageTest {
         messageFragment = mock(MessageFragment.class);
 
         messageFragment.onCreateView(inflate, container, bundle);
-        //verify(messageFragment, times(0)).updateMessageBox();
+        verify(messageFragment, times(0)).updateMessageBox();
     }
 
     @Test
@@ -115,7 +115,7 @@ public class WebsocketMessageTest {
             messageFragment.onObjectResponse(new JSONObject("test"));
         } catch (JSONException e) {}
 
-        //verify(messageFragment, times(0)).updateMessageBox();
+        verify(messageFragment, times(0)).updateMessageBox();
     }
 
     @Test
@@ -159,6 +159,5 @@ public class WebsocketMessageTest {
         }
 
         //assertNotEquals(messages.get(0).getMessage(), messages2.get(0).getMessage());
-        //commented because its broken
     }
 }
