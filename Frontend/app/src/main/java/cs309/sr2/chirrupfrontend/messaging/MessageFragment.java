@@ -189,6 +189,7 @@ public class MessageFragment extends Fragment implements VolleyListener {
                         messageView.setText("Loading...");
                         SystemClock.sleep(100);
                         updateMessageBox();
+                        createMessage.setText("");
                     }
                 });
 
