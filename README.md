@@ -11,8 +11,8 @@ You can find a full video demonstration of Chirrup [here](https://youtu.be/8_wk4
 
 ## Acknowledgements
 This project was done as a group project with four members: Tyler Green, Jacob Boicken, William Zogg, and myself. There was a recognition ceremony during the last lecture for the course where the following was announced:
-- **Best Coder:** This category highlighted the best coders in each group. For our group those people were: Tyler Green, Jacob Boicken, and myself.
-- **Best Manager:** This category highlighted someone who helped to manage the group and keep them on track. For this category, that person was myself.
+- **Best Coder:** This category highlighted the best coders in each group. For our group those people were: Tyler Green, Jacob Boicken, and Jeremy Noeson.
+- **Best Manager:** This category highlighted someone who helped to manage the group and keep them on track. For this category, that person was Jeremy Noeson.
 - **Best Project:** For this category, Chirrup got an honorable mention.
 
 ## Notice
